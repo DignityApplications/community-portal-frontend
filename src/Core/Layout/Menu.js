@@ -1,7 +1,16 @@
 import React from 'react'
-import { Typography } from 'material-ui'
+import { LoggedIn } from '../Components'
+import { Grid, Typography } from 'material-ui'
 
 export default props =>
-<Typography varient='headline'>
-    Menu.js
-</Typography>
+<Grid container>
+    <Grid item xs={10}>
+    <Typography varient='headline'>
+      Menu for selected Component
+    </Typography>
+    </Grid>
+    <Grid item xs={2}>
+        <LoggedIn />
+    </Grid>
+</Grid>
+
