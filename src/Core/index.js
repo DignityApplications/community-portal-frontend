@@ -31,13 +31,13 @@ export default class Core extends Component {
       return (
         <AuthorizationProvider>
             <Grid container>
-                <Grid item xs={2}>
+                <Grid item xl={2} lg={2} md={2} sm={12} xs={12}>
                     <Paper><Toolbar updateCurrentModule={this.updateCurrentModule} /></Paper>
                 </Grid>
-                <Grid item xs={10}>
+                <Grid item xl={2} lg={10} md={10} sm={12} xs={12}>
                     <Paper>
                         <Grid container>
-                            <Grid item xs={12}>
+                            <Grid item sm={12}>
                                 <Paper>
                                     <Navigation
                                         currentModule = {currentModule}
@@ -45,14 +45,14 @@ export default class Core extends Component {
                                 </Paper>
                             </Grid>
                             { disapbleMenu ? 
-                                <Grid item xs={2}>
+                                <Grid item sm={2}>
                                     <Paper><Menu 
                                                 currentModule = {currentModule}
                                             />
                                         </Paper>
                                 </Grid> : null
                             }
-                            <Grid item xs>
+                            <Grid item sm>
                                 <Paper>
                                     <Content
                                         currentModule = {currentModule}
@@ -60,7 +60,7 @@ export default class Core extends Component {
                                 </Paper> 
                             </Grid>
                             { displaySiedbar ? 
-                                <Grid item xs={2}>
+                                <Grid item sm={2}>
                                     <Paper><Sidebar/></Paper>
                                 </Grid> : null
                             }
