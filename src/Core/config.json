@@ -1,0 +1,8 @@
+{
+    "modules": [
+        { "name": "Directory", "enabled": true },
+        { "name": "Events", "enabled": false },
+        { "name": "Dining", "enabled": false },
+        { "name": "Forms", "enabled": false }
+    ]
+}

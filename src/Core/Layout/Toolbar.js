@@ -1,7 +1,12 @@
 import React from 'react'
-import { Typography } from 'material-ui'
+import { Button } from 'material-ui'
 
-export default props =>
-<Typography varient='headline'>
-    Toolbar.js
-</Typography>
+export default ({ updateCurrentModule }) =>
+<div>
+    <br/><br/>
+    <Button variant="raised" size="large" color="primary" onClick={(e) => updateCurrentModule('Home')}>Home</Button>
+    <br/><br/>
+    <Button variant="raised" size="large" color="primary" onClick={(e) => updateCurrentModule('Directory')}>Directory</Button>
+    <br/><br/>
+</div>
+
