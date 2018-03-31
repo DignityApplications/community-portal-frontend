@@ -2,7 +2,7 @@
 {
     "directoryData": {
         "enabled": true,
-        "navigationLinks": ["Navication Link 1", "Navigation Link 2"],
+        "navigationLinks": ["Navigation Link 1", "Navigation Link 2"],
         "menuLinks": ["Menu Link 1", "Menu Link 2", "Menu Link 3"],
         "users": [
                 {"name": "Garret","email": "garretrcorbett@gmail.com"}

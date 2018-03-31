@@ -1,18 +1,26 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { updateUserLoggedIn } from '../../ReduxStore/Actions'
 import { Button, Typography } from 'material-ui';
-import { AuthorizationContext } from '../Contexts'
 
-export default (props) =>
+const mapStateToProps = (state) => {
+    return { session: state.session }
+}
 
-<AuthorizationContext.Consumer>
-    {(context) => (
-        <Typography varient='headline'>
-            <Button variant="raised" 
-                    color={!context.state.loggedIn ? 'primary' : 'secondary'}
-                    onClick={() => context.toggleLoggedIn(context.state.loggedIn)}>
-                {!context.state.loggedIn ? 'Login' : 'Logout'}
-            </Button>
-        </Typography>
-    )}
-</AuthorizationContext.Consumer>
+class LoggedIn extends Component {
 
+    render() {
+        return (
+            <Typography varient='headline'>
+                <Button variant="raised" 
+                        color={!this.props.session.loggedIn ? 'primary' : 'secondary'}
+                        onClick={(e) => this.props.dispatch(updateUserLoggedIn(!this.props.session.loggedIn))}
+                        >
+                    {!this.props.session.loggedIn ? 'Login' : 'Logout'}
+                </Button>
+            </Typography>
+        )
+    }
+}
+
+export default connect(mapStateToProps)(LoggedIn)

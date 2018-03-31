@@ -1,26 +1,29 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { updateActiveView } from '../../ReduxStore/Actions'
 import { MenuItem, MenuList } from 'material-ui/Menu'
 
-//later need to get the info from somewhere
-const links = {
-    Home: [
-        {title: 'Home Menu Link 1', href: '/home1'},
-        {title: 'Home Menu Link 2', href: '/home2'},
-        {title: 'Home Menu Link 3', href: '/home3'}
-    ],
-    Directory: [
-        {title: 'Directory Menu Link 1', href: '/directory1'},
-        {title: 'Directory Menu Link 2', href: '/directory2'},
-        {title: 'Directory Menu Link 3', href: '/directory3'}
-    ],
+const mapStateToProps = (state) => {
+    return { module: state.module, menu: state.menu }
 }
 
-export default ({ currentModule }) =>
-<MenuList>
-    {
-        links[currentModule].map( (link) => {
-            return <MenuItem key={link.title}>{link.title}</MenuItem> 
-        })
-    }
-</MenuList>
+class Menu extends Component {
 
+    render() {
+        return (
+            <MenuList>
+                {console.log('Menu Reloaded')}
+                {
+                    this.props.menu[this.props.module.activeModule].map( (link) => {
+                        return <MenuItem key={link.title}
+                            onClick={(e) => this.props.dispatch(updateActiveView(this.props.module.activeModule, link.view))}>
+                                {link.title} 
+                                </MenuItem> 
+                    })
+                }
+            </MenuList>
+        )
+    }
+ } 
+ 
+export default connect(mapStateToProps)(Menu)

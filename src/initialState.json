@@ -1,7 +1,34 @@
 {
+    "session": {
+      "loggedIn": false,
+      "modalOpen": false,
+      "currentUserID": ""
+    },
     "user": {
       "username": "",
       "isLoggedIn": false,
-      "token": ""
+      "token": "",
+      "testing": "this Is a test"
+    },
+    "module": {
+      "activeModule": "Directory"
+    },
+    "menu": {
+      "Home": [
+          {"title": "Home Menu Link 1", "view": "TDB"},
+          {"title": "Home Menu Link 2", "view": "TBD"},
+          {"title": "Home Menu Link 3", "view": "TBD"}
+      ],
+      "Directory": [
+          {"title": "Add User", "view": "AddUser"},
+          {"title": "Profile", "view": "Profile"},
+          {"title": "Users", "view": "Users"}
+      ]
+    },
+    "view": {
+      "activeView": [
+        {"Module": "Home", "View": "Default"},
+        {"Module": "Directory", "View": "Users"}
+      ]
     }
 }  

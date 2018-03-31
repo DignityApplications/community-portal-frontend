@@ -16,18 +16,11 @@ export default class Content extends Component
         switch(module) {
             case 'Directory':
                 return <Directory />
-                break;
             case 'Events':
-                return 
-                    <Typography variant='headline'>
-                        Events.js
-                    </Typography>
-                break;
+                return <Typography variant='headline'>Events.js</Typography>
             default:
-                return <Typography variant='display2'>
-                        Default: Content.js
-                    </Typography>
-                break;
+                return <Typography variant='display2'>Default: Content.js</Typography>
+                
         }
     }
 

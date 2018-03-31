@@ -1,35 +1,30 @@
 import React, { Component } from 'react'
-import { AuthorizationProvider } from './Contexts/Providers'
+import { connect } from 'react-redux'
 import { Content, Menu, Navigation, Sidebar, Toolbar } from './Layout'
 import { Grid, Paper } from 'material-ui'
 // import coreData from './config.json'
 
-export default class Core extends Component {
+const mapStateToProps = (state) => {
+    return { module: state.module }
+}
+  
+
+class Core extends Component {
 
     constructor(props) {
         super(props);
     
         this.state = {
-            currentModule: 'Home',
-            disapbleMenu: true,
+            displayMenu: true,
             displaySiedbar: true,
         }
-        this.updateCurrentModule = this.updateCurrentModule.bind(this)
-    }
-
-    updateCurrentModule(value) { 
-        this.setState({currentModule: value}) 
-        value === 'Home' ? 
-            this.setState({displaySiedbar: true}) :
-            this.setState({displaySiedbar: false})
     }
 
     render() {
     
-      const { currentModule, disapbleMenu, displaySiedbar } = this.state 
+      const { displayMenu, displaySiedbar } = this.state 
 
       return (
-        <AuthorizationProvider>
             <Grid container>
                 <Grid item xl={2} lg={2} md={2} sm={12} xs={12}>
                     <Paper><Toolbar updateCurrentModule={this.updateCurrentModule} /></Paper>
@@ -40,22 +35,19 @@ export default class Core extends Component {
                             <Grid item sm={12}>
                                 <Paper>
                                     <Navigation
-                                        currentModule = {currentModule}
+                                        currentModule = {this.props.module.activeModule}
                                     />
                                 </Paper>
                             </Grid>
-                            { disapbleMenu ? 
+                            { displayMenu ? 
                                 <Grid item sm={2}>
-                                    <Paper><Menu 
-                                                currentModule = {currentModule}
-                                            />
-                                        </Paper>
+                                    <Paper><Menu/></Paper>
                                 </Grid> : null
                             }
                             <Grid item sm>
                                 <Paper>
                                     <Content
-                                        currentModule = {currentModule}
+                                        currentModule = {this.props.module.activeModule}
                                     />
                                 </Paper> 
                             </Grid>
@@ -68,7 +60,8 @@ export default class Core extends Component {
                     </Paper>
                 </Grid>
             </Grid>
-        </AuthorizationProvider>
       )
     }
 }
+
+export default connect(mapStateToProps)(Core)

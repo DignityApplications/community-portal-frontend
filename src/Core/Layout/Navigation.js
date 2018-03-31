@@ -1,6 +1,11 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { LoggedIn } from '../Components'
 import { Grid } from 'material-ui'
+
+const mapStateToProps = (state) => {
+    return { module: state.module }
+}
 
 //later need to get the info from somewhere
 const links = {
@@ -16,18 +21,26 @@ const links = {
     ],
 }
 
-export default ({ currentModule }) =>
-<Grid container>
+class Navigation extends Component {
 
-    <Grid item xs={10}>
-        {
-            links[currentModule].map( (link) => {
-                //Eventually the code below will return a custom Navigation Component
-                return <a href={link.href} key={link.title}>{link.title}</a> 
-            })
-        }
-    </Grid>
-    <Grid item xs={2}>
-        <LoggedIn />
-    </Grid>
-</Grid>
+    render() {
+        return (
+            <Grid container>
+                {console.log('Navigation Reloaded')}
+                <Grid item xs={10}>
+                    {
+                        links[this.props.module.activeModule].map( (link) => {
+                            //Eventually the code below will return a custom Navigation Component
+                            return <a href={link.href} key={link.title}>{link.title}</a> 
+                        })
+                    }
+                </Grid>
+                <Grid item xs={2}>
+                    <LoggedIn />
+                </Grid>
+            </Grid> 
+        )
+    }
+} 
+
+export default connect(mapStateToProps)(Navigation)
