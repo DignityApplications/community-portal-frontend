@@ -1,14 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { updateActiveModule, updateUserInfo, clearUserInfo } from '../../ReduxStore/Actions'
 import { AddUser, Profile, Users } from './Views'
 
 const mapStateToProps = (state) => {
-  return { menu: state.menu, user: state.user, view: state.view }
+  return { menu: state.menu, users: state.users, view: state.view }
 }
-
-const allUsers = [{avatar:'Garret.jpg',firstName:'Garret',lastName:'Corbett'}, 
-                  {avatar:'Elliot.jpg', firstName:'Elliot',lastName:'Simpson'}]
 
 class Directory extends Component 
 {
@@ -19,9 +15,9 @@ class Directory extends Component
             case 'Profile':
                 return <Profile/>
             case 'Users':
-                return <Users users={allUsers} />
+                return <Users users={this.props.users} updateActiveView={this.updateActiveView}/>
             default:
-                return <Users users={allUsers} />
+                return <Users users={this.props.users} updateActiveView={this.updateActiveView}/>
                 
         }
     }

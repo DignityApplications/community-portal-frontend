@@ -3,7 +3,7 @@ import { List } from 'material-ui'
 import { UserListItem } from '../Components'
 import { Typography } from 'material-ui'
 
-export default ({ users })=>
+export default ({ users }) =>
 <Fragment>
     <Typography variant="display2">
         Users
@@ -11,8 +11,8 @@ export default ({ users })=>
 
     <List>
         {users.map(data => (
-            <UserListItem key={data.firstName} 
-                            avatar={data.avatar} firstName={data.firstName} lastName={data.lastName} />
+            <UserListItem key={data.id} id={data.id}
+                    avatar={data.avatar} first_name={data.first_name} last_name={data.last_name} />
         ))}
     </List>
 </Fragment>

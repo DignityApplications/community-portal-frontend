@@ -4,21 +4,30 @@ import { combineReducers } from 'redux'
 export const session = (state=[], action ) => {
     switch(action.type) {
       case C.UPDATE_USER_LOGGEDIN:
-          return action.payload
+          state = {...state, loggedIn: action.payload.loggedIn }
+          return state
       case C.UPDATE_MODAL_OPEN:
           return action.payload
       case C.UPDATE_CURRENT_USER_ID:
           return action.payload
+      case C.UPDATE_USER_PROFILE_ID:
+          state = {...state, currentUserProfileID: action.payload.id }
+          return state
       default:
           return state
     }
 }
 
-export const user = (state=[], action ) => {
+export const users = (state=[], action ) => {
     switch(action.type) {
-      case C.UPDATE_USER_INFO:
+      case C.UPDATE_ALL_USERS:
           return action.payload
-      case C.CLEAR_USER_INFO:
+      case C.ADD_USER:
+          state = [ ...state.concat(action.payload.user) ]
+          return state
+      case C.EDIT_USER:
+          return action.payload
+      case C.DELETE_USER:
           return action.payload
       default:
           return state
@@ -46,7 +55,7 @@ export const menu = (state=[], action ) => {
 export const view = (state=[], action ) => {
     switch(action.type) {
       case C.UPDATE_ACTIVE_VIEW:
-          const newState = {
+          state = {
             //let's first get the current state (in this case it is just the activeView object in view)
             ...state,
             //now we map through and see if the view matches what we passed as the module
@@ -57,12 +66,12 @@ export const view = (state=[], action ) => {
                     view
                 ) 
             }
-          return newState
+          return state
       default:
           return state
     }
 }
 
 export default combineReducers({
-    session, user, module, menu, view
+    session, users, module, menu, view
 })
