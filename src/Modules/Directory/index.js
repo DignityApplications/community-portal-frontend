@@ -1,13 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { fetchUsersWithRedux } from '../../ReduxStore/Actions'
 import { AddUser, Profile, Users } from './Views'
 
 const mapStateToProps = (state) => {
   return { menu: state.menu, users: state.users, view: state.view }
 }
 
+
 class Directory extends Component 
 {
+    componentWillMount() {
+        this.props.dispatch(fetchUsersWithRedux())
+    }
+
     renderModule(view) {
         switch(view) {
             case 'AddUser':

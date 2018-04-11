@@ -7,7 +7,7 @@ export const updateCurrentUserID = currentUserID => { return { type: C.UPDATE_CU
 export const updateUserProfileID = id => { return { type: C.UPDATE_USER_PROFILE_ID, payload: {id} } }
 
 //ACTIONS FOR USER DATA
-export const updateAllUsers = users => { return { type: C.UPDATE_ALL_USERS, payload: {users} }}
+export const updateAllUsers = users => { return { type: C.UPDATE_ALL_USERS, payload: users }}
 export const getUserData = id => { return { type: C.GET_USER_DATA, payload: {id} }}
 export const addUser = user => { return { type: C.ADD_USER, payload: {user} }}
 
@@ -27,3 +27,26 @@ export const updateUserProfileID_and_ActiveView = (id, module, activeView) => (
     dispatch(updateActiveView(module, activeView))
   }
 )
+
+
+function fetchUsers() {
+  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/users/"
+  return fetch(URL, { method: 'GET' } )
+     .then( response => Promise.all([response, response.json()]))
+}
+
+export const fetchUsersWithRedux = () => {
+    return dispatch => {
+        dispatch(updateUserLoggedIn(true))
+      //dispatch(fetchPostsRequest()) Eventuall add this in
+      return fetchUsers().then(([response, users]) =>{
+          if(response.status === 200){
+            console.log(users.data)
+          dispatch(updateAllUsers(users.data))
+        }
+        else{
+          //dispatch(fetchPostsError())
+        }
+      })
+    }
+}
