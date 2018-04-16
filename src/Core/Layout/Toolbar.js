@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { updateActiveModule } from '../../ReduxStore/Actions'
-import { Button } from 'material-ui'
+import { Button, Icon, Grid } from 'material-ui'
 
 
 const mapStateToProps = (state) => {
@@ -12,15 +12,20 @@ class Toolbar extends Component {
 
     render() {
         return (
-            <div>
-                <br/><br/>
-                <Button variant="raised" size="large" color="primary" 
-                    onClick={(e) => this.props.dispatch(updateActiveModule("Home"))}>Home</Button>
-                <br/><br/>
-                <Button variant="raised" size="large" color="primary" 
-                    onClick={(e) => this.props.dispatch(updateActiveModule("Directory"))}>Directory</Button>
-                <br/><br/>
-            </div>
+            <Grid container style={{marginTop: 10}}>
+                <Grid item xl={12} lg={12} md={12} sm={4} xs={6} >
+                    <Button variant="raised" size="large" 
+                            onClick={(e) => this.props.dispatch(updateActiveModule("Home"))}>
+                        <Icon color="primary" style={{fontSize: 100}}>home</Icon>
+                    </Button>
+                </Grid>
+                <Grid item xl={12} lg={12} md={12} sm={4} xs={6}>
+                    <Button variant="raised" size="large" 
+                            onClick={(e) => this.props.dispatch(updateActiveModule("Directory"))}>
+                        <Icon color="primary" style={{fontSize: 100}}>account_circle</Icon>
+                    </Button>
+                </Grid>
+            </Grid>
         )
     }
 

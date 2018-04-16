@@ -1,14 +1,18 @@
 {
     "session": {
       "loggedIn": false,
-      "modalOpen": false,
+      "modal": {
+        "open": false,
+        "component": "login"
+      },
       "currentUserID": "",
-      "currentUserProfileID": 4
+      "currentUserProfileID": 2,
+      "currentUserDeleteID": 0
     },
     "users": [
         {
         "id": 4,
-        "avatar":"Elliot.jpg",
+        "avatar_path":"/images/avatars/Elliot.jpg",
         "email": "elliotsminion@gmail.com",
         "password": "test1234",
         "first_name": "Elliot",
@@ -23,7 +27,7 @@
         },
         {
         "id": 5,
-        "avatar":"Garret.jpg",
+        "avatar_path":"/images/avatars/Garret.jpg",
         "email": "garretrcorbett@gmail.com",
         "password": "test5432",
         "first_name": "Garret",
@@ -48,14 +52,13 @@
       ],
       "Directory": [
           {"title": "Add User", "view": "AddUser"},
-          {"title": "Profile", "view": "Profile"},
           {"title": "Users", "view": "Users"}
       ]
     },
     "view": {
       "activeView": [
         {"Module": "Home", "View": "Default"},
-        {"Module": "Directory", "View": "AddUser"}
+        {"Module": "Directory", "View": "Profile"}
       ]
     }
 }  

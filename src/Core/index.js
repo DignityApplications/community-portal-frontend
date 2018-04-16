@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Content, Menu, Navigation, Sidebar, Toolbar } from './Layout'
+import { SiteModal } from './Components'
 import { Grid, Paper } from 'material-ui'
 // import coreData from './config.json'
 
@@ -26,38 +27,37 @@ class Core extends Component {
 
       return (
             <Grid container>
+                <SiteModal />
                 <Grid item xl={2} lg={2} md={2} sm={12} xs={12}>
-                    <Paper><Toolbar updateCurrentModule={this.updateCurrentModule} /></Paper>
+                    <Toolbar updateCurrentModule={this.updateCurrentModule} />
                 </Grid>
-                <Grid item xl={2} lg={10} md={10} sm={12} xs={12}>
-                    <Paper>
-                        <Grid container>
-                            <Grid item sm={12}>
-                                <Paper>
-                                    <Navigation
-                                        currentModule = {this.props.module.activeModule}
-                                    />
-                                </Paper>
-                            </Grid>
-                            { displayMenu ? 
-                                <Grid item sm={2}>
-                                    <Paper><Menu/></Paper>
-                                </Grid> : null
-                            }
-                            <Grid item sm>
-                                <Paper>
-                                    <Content
-                                        currentModule = {this.props.module.activeModule}
-                                    />
-                                </Paper> 
-                            </Grid>
-                            { displaySiedbar ? 
-                                <Grid item sm={2}>
-                                    <Paper><Sidebar/></Paper>
-                                </Grid> : null
-                            }
+                <Grid item xl={10} lg={10} md={10} sm={12} xs={12}>
+                    <Grid container>
+                        <Grid item sm={12}>
+                            <Paper>
+                                <Navigation
+                                    currentModule = {this.props.module.activeModule}
+                                />
+                            </Paper>
                         </Grid>
-                    </Paper>
+                        { displayMenu ? 
+                            <Grid item sm={2}>
+                                <Paper><Menu/></Paper>
+                            </Grid> : null
+                        }
+                        <Grid item sm>
+                            <Paper>
+                                <Content
+                                    currentModule = {this.props.module.activeModule}
+                                />
+                            </Paper> 
+                        </Grid>
+                        { displaySiedbar ? 
+                            <Grid item sm={2}>
+                                <Paper><Sidebar/></Paper>
+                            </Grid> : null
+                        }
+                    </Grid>
                 </Grid>
             </Grid>
       )

@@ -12,7 +12,7 @@ export default ({ users }) =>
     <List>
         {users.map(data => (
             <UserListItem key={data.id} id={data.id}
-                    avatar={data.avatar} first_name={data.first_name} last_name={data.last_name} />
+                    avatar_path={data.avatar_path} first_name={data.first_name} last_name={data.last_name} />
         ))}
     </List>
 </Fragment>

@@ -7,11 +7,18 @@ export const session = (state=[], action ) => {
           state = {...state, loggedIn: action.payload.loggedIn }
           return state
       case C.UPDATE_MODAL_OPEN:
-          return action.payload
+          state = {...state, modal: { ...state.modal, open: action.payload} }
+          return state
+    case C.UPDATE_MODAL_COMPONENT:
+          state = {...state, modal: { ...state.modal, component: action.payload} }
+          return state
       case C.UPDATE_CURRENT_USER_ID:
           return action.payload
       case C.UPDATE_USER_PROFILE_ID:
           state = {...state, currentUserProfileID: action.payload.id }
+          return state
+      case C.UPDATE_USER_DELETE_ID:
+          state = {...state, currentUserDeleteID: action.payload.id }
           return state
       default:
           return state
@@ -28,7 +35,8 @@ export const users = (state=[], action ) => {
       case C.EDIT_USER:
           return action.payload
       case C.DELETE_USER:
-          return action.payload
+          state = state.filter(user => user.id !== action.payload.id) 
+          return state
       default:
           return state
     }

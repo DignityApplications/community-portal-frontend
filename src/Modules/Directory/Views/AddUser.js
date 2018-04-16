@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addUser } from '../../../ReduxStore/Actions'
+import { addUserWithRedux } from '../../../ReduxStore/Actions'
 
 import { Button, Grid, Select, TextField, Typography } from 'material-ui'
 import { MenuItem } from 'material-ui/Menu';
@@ -14,7 +14,7 @@ const mapStateToProps = (state) => {
 class AddUser extends Component {
 
     state = { first_name: '', last_name: '', email: '', date_of_birth: '', home_phone_number: "", cell_phone_number: "",
-              current_address: "", previous_address: "", role: "Member", open: false, }
+              current_address: "", previous_address: "", role_id: 1, open: false, }
 
     handleCheck = name => event => { this.setState({ [name]: event.target.checked }) }
     handleChange = name => event => { this.setState({ [name]: event.target.value }) }
@@ -23,16 +23,18 @@ class AddUser extends Component {
     handleClose = () => { this.setState({ open: false }) }
 
     handleSubmit = () => { 
-        const { first_name, last_name, email, date_of_birth, role } = this.state
-        let id = Math.floor(Math.random() * 10000);
+        const { first_name, last_name, email, date_of_birth, role_id } = this.state
         if (first_name && last_name && email) {
+            let password = 'tempPass'
 
-            const user = { id, first_name, last_name, email, date_of_birth, role }
 
-            this.props.dispatch(addUser(user))
+            const user = date_of_birth ? { email, password, first_name, last_name, role_id, date_of_birth } :
+                                         { email, password, first_name, last_name, role_id } 
+
+            this.props.dispatch(addUserWithRedux(user))
 
             this.setState({ first_name: '', last_name: '', email: '', date_of_birth: '', home_phone_number: "", cell_phone_number: "",
-                current_address: "", previous_address: "", role: "Member", open: false, }) 
+                current_address: "", previous_address: "", role_id: 1, open: false, }) 
         }
     }
 
@@ -62,11 +64,11 @@ class AddUser extends Component {
                                            onChange={this.handleChange("date_of_birth")} style={{marginTop: 20, marginBottom: 20}}/>
                                
                                 <Select open={this.state.open} onClose={this.handleClose} onOpen={this.handleOpen}
-                                        value={this.state.role} onChange={this.handleChange("role")}
-                                        inputProps={{ name: 'role', id: 'role', }}>
-                                    <MenuItem value={"Member"}>Member</MenuItem>
-                                    <MenuItem value={"AdministrativeStaff"}>Administrative Staff</MenuItem>
-                                    <MenuItem value={"Guest"}>Guest</MenuItem>
+                                        value={this.state.role_id} onChange={this.handleChange("role_id")}
+                                        inputProps={{ name: 'role_id', id: 'role_id', }}>
+                                    <MenuItem value={1}>Member</MenuItem>
+                                    <MenuItem value={2}>Administrative Staff</MenuItem>
+                                    <MenuItem value={3}>Guest</MenuItem>
                                 </Select>
                             </FormControl>
                         </form>
