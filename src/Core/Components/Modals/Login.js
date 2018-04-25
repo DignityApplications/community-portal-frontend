@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { updateUserLoggedIn } from '../../../ReduxStore/Actions'
-import { Button, Typography } from 'material-ui';
+import { loginUserWithRedux } from '../../../ReduxStore/Actions'
+import { Button, Icon, Input, TextField, Typography } from 'material-ui'
+import { FormControl } from 'material-ui/Form';
+import { InputLabel, InputAdornment } from 'material-ui/Input';
 
 const mapStateToProps = (state) => {
     return { session: state.session }
@@ -9,16 +11,55 @@ const mapStateToProps = (state) => {
 
 class LoggedIn extends Component {
 
+    state = { email: '', password: '', showPassword: false }
+
+    handleChange = name => event => { this.setState({ [name]: event.target.value }) }
+
+    handleClickShowPassword = () => { this.setState({ showPassword: !this.state.showPassword }) } 
+
+    handleSubmit = () => { 
+        const { email, password } = this.state
+        if (email && password) {
+
+            const formData = { email, password } 
+            this.props.dispatch(loginUserWithRedux(formData))
+            this.setState({ email: '', password: '', showPassword: false }) 
+        }
+    }
+
     render() {
         return (
-            <Typography varient='headline'>
-                <Button variant="raised" 
-                        color={!this.props.session.loggedIn ? 'primary' : 'secondary'}
-                        onClick={(e) => this.props.dispatch(updateUserLoggedIn(!this.props.session.loggedIn))}
-                        >
-                    {!this.props.session.loggedIn ? 'Login' : 'Logout'}
-                </Button>
-            </Typography>
+            <div>
+                <Typography variant="display2">
+                    Login
+                </Typography>
+                    <form>
+                        <FormControl fullWidth>
+                            <TextField required id="email" label="Email" margin="normal"
+                                    value={this.state.email} onChange={this.handleChange('email')}/>
+                        </FormControl>
+                        <FormControl fullWidth>
+                            <InputLabel htmlFor="adornment-password">Password *</InputLabel>
+                            <Input 
+                                id="adornment-password" required
+                                type={this.state.showPassword ? 'text' : 'password'}
+                                value={this.state.password} onChange={this.handleChange('password')}
+                                endAdornment={
+                                <InputAdornment position="end">
+                                    <Icon aria-label="Toggle password visibility" onClick={this.handleClickShowPassword}
+                                    onMouseDown={this.handleMouseDownPassword} >
+                                    {this.state.showPassword ? 'visibility_off' :  'visibility'} </Icon>
+                                </InputAdornment>
+                                } />
+                        </FormControl>
+                    </form>
+                    <Typography align='center' style={{marginTop:30}} >
+                        <Button variant="raised" color={!this.props.session.loggedIn ? 'primary' : 'secondary'}
+                                onClick={(e) => this.handleSubmit()}>
+                            {!this.props.session.loggedIn ? 'Login' : 'Logout'}
+                        </Button>
+                    </Typography>
+            </div>
         )
     }
 }

@@ -19,7 +19,7 @@ class Profile extends Component {
 
     componentWillMount() {
         const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/users/" + this.props.session.currentUserProfileID
-        return fetch(URL, { method: 'GET' } )
+        return fetch(URL, { method: 'GET', credentials: 'include' } )
             .then( response => response.json() )
             .then( data => this.setState({userData: data.data[0], userLoaded: true}) )
             .catch(
@@ -50,11 +50,12 @@ class Profile extends Component {
         switch (userLoaded) {
             case true:
             return <Grid container style={{marginTop:10}}>
-                        <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
+                        <Grid item xl={4} lg={4} md={4} sm={6} xs={12} align="center" >
                             { this.state.userData.avatar_path ? 
                                 <Avatar alt={this.state.userData.first_name} src={this.state.userData.avatar_path} 
-                                        style={{width:200, height:200, margin: 'auto'}}/> :
-                                <Icon color="primary" style={{fontSize: 200, margin: 'auto'}}>account_circle</Icon> }
+                                        style={{width:200, height:200}}/> :
+                                <Avatar alt='No Avatar' src='/images/avatars/no_avatar.png'
+                                        style={{width:200, height:200}} />}
                                 <Typography variant="title">
                                     {this.state.userData.role} <br/>
                                     {this.formatBirthday(this.state.userData.date_of_birth)}

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 
 import storeFactory from './ReduxStore'
-//import initialState from './initialState'
 import { Provider } from 'react-redux'
 import initialState from './initialState'
 

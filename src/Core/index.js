@@ -28,7 +28,9 @@ class Core extends Component {
       return (
             <Grid container>
                 <SiteModal />
-                <Grid item xl={2} lg={2} md={2} sm={12} xs={12}>
+                <Grid item xl={2} lg={2} md={2} sm={12} xs={12} 
+                      style={{display:'flex', flexDirection: 'column', height:'100vh', 
+                              backgroundSize:'cover', backgroundColor:'#FFAB91'}} >
                     <Toolbar updateCurrentModule={this.updateCurrentModule} />
                 </Grid>
                 <Grid item xl={10} lg={10} md={10} sm={12} xs={12}>
@@ -46,11 +48,9 @@ class Core extends Component {
                             </Grid> : null
                         }
                         <Grid item sm>
-                            <Paper>
-                                <Content
-                                    currentModule = {this.props.module.activeModule}
-                                />
-                            </Paper> 
+                            <Content
+                                currentModule = {this.props.module.activeModule}
+                            />
                         </Grid>
                         { displaySiedbar ? 
                             <Grid item sm={2}>

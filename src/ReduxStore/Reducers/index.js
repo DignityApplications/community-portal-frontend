@@ -9,11 +9,15 @@ export const session = (state=[], action ) => {
       case C.UPDATE_MODAL_OPEN:
           state = {...state, modal: { ...state.modal, open: action.payload} }
           return state
-    case C.UPDATE_MODAL_COMPONENT:
+      case C.UPDATE_MODAL_COMPONENT:
           state = {...state, modal: { ...state.modal, component: action.payload} }
           return state
       case C.UPDATE_CURRENT_USER_ID:
-          return action.payload
+          state = {...state, currentUserID: action.payload }
+          return state
+      case C.UPDATE_CURRENT_USER_PERMISSIONS:
+          state = {...state, currentUserPermissions: action.payload }
+          return state
       case C.UPDATE_USER_PROFILE_ID:
           state = {...state, currentUserProfileID: action.payload.id }
           return state
@@ -51,6 +55,15 @@ export const module = (state=[], action ) => {
     }
 }
 
+export const navigation = (state=[], action ) => {
+    switch(action.type) {
+      case C.UPDATE_ACTIVE_MENU:
+          return action.payload
+      default:
+          return state
+    }
+}
+
 export const menu = (state=[], action ) => {
     switch(action.type) {
       case C.UPDATE_ACTIVE_MENU:
@@ -81,5 +94,5 @@ export const view = (state=[], action ) => {
 }
 
 export default combineReducers({
-    session, users, module, menu, view
+    session, users, module, navigation, menu, view
 })

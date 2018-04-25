@@ -6,43 +6,25 @@
         "component": "login"
       },
       "currentUserID": "",
+      "currentUserPermissions": [],
       "currentUserProfileID": 2,
       "currentUserDeleteID": 0
     },
-    "users": [
-        {
-        "id": 4,
-        "avatar_path":"/images/avatars/Elliot.jpg",
-        "email": "elliotsminion@gmail.com",
-        "password": "test1234",
-        "first_name": "Elliot",
-        "last_name": "Simpson",
-        "date_of_birth": "1993-11-03T04:00:00.000Z",
-        "home_phone_number": "704-225-8792",
-        "cell_phone_number": "704-221-8792",
-        "current_address": "4536 Exuma Lane, Wilmington NC 28412",
-        "previous_address": "3714 Sincerity Rd., Monroe NC 28110",
-        "created_at": "2018-03-27T20:55:10.868Z",
-        "updated_at": "2018-03-27T20:55:10.868Z"
-        },
-        {
-        "id": 5,
-        "avatar_path":"/images/avatars/Garret.jpg",
-        "email": "garretrcorbett@gmail.com",
-        "password": "test5432",
-        "first_name": "Garret",
-        "last_name": "Corbett",
-        "date_of_birth": "1993-11-20T05:00:00.000Z",
-        "home_phone_number": "704-228-8799",
-        "cell_phone_number": "704-685-3016",
-        "current_address": "7281 Savannah Run Loop, Wilmington NC 28411",
-        "previous_address": "1422 Parkview Cir., Wilmington NC 28403",
-        "created_at": "2018-03-27T20:55:10.870Z",
-        "updated_at": "2018-03-27T20:55:10.870Z"
-        }
-    ],
+    "users": [],
     "module": {
-      "activeModule": "Directory"
+      "activeModule": "Home"
+    },
+    "navigation": {
+        "Home": [
+            {"title": "Home Nav Link 1", "view": "TDB"},
+            {"title": "Home Nav Link 2", "view": "TDB"},
+            {"title": "Home Nav Link 3", "view": "TDB"}
+        ],
+        "Directory": [
+            {"title": "Directory Nav Link 1", "view": "TDB"},
+            {"title": "Directory Nav Link 2", "view": "TDB"},
+            {"title": "Directory Nav Link 3", "view": "TDB"}
+        ]
     },
     "menu": {
       "Home": [
@@ -58,7 +40,7 @@
     "view": {
       "activeView": [
         {"Module": "Home", "View": "Default"},
-        {"Module": "Directory", "View": "Profile"}
+        {"Module": "Directory", "View": "Users"}
       ]
     }
 }  

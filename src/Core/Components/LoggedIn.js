@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { updateModalOpen_and_ModalComponent } from '../../ReduxStore/Actions'
+import { logoutUserWithRedux, updateModalOpen_and_ModalComponent } from '../../ReduxStore/Actions'
 import { Button, Typography } from 'material-ui';
 
 const mapStateToProps = (state) => {
@@ -12,12 +12,14 @@ class LoggedIn extends Component {
     render() {
         return (
             <Typography varient='headline'>
-                <Button variant="raised" 
-                        color={!this.props.session.loggedIn ? 'primary' : 'secondary'}
-                        onClick={(e) => this.props.dispatch(updateModalOpen_and_ModalComponent('login'))}
-                        >
-                    {!this.props.session.loggedIn ? 'Login' : 'Logout'}
-                </Button>
+                {this.props.session.loggedIn ? 
+                    <Button variant="raised" color='secondary' 
+                            onClick={(e) => this.props.dispatch(logoutUserWithRedux())} >
+                            Logout </Button> :
+                    <Button variant="raised" color='primary' 
+                    onClick={(e) => this.props.dispatch(updateModalOpen_and_ModalComponent('login'))} >
+                    Login </Button> 
+                }
             </Typography>
         )
     }
