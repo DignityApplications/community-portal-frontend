@@ -18,11 +18,20 @@ export const session = (state=[], action ) => {
       case C.UPDATE_CURRENT_USER_PERMISSIONS:
           state = {...state, currentUserPermissions: action.payload }
           return state
-      case C.UPDATE_USER_PROFILE_ID:
-          state = {...state, currentUserProfileID: action.payload.id }
+      case C.UPDATE_PROFILE_ID:
+          state = {...state, currentProfileID: action.payload.id }
           return state
-      case C.UPDATE_USER_DELETE_ID:
-          state = {...state, currentUserDeleteID: action.payload.id }
+      case C.UPDATE_PROFILE_DATA:
+          state = {...state, currentProfileData: action.payload.user }
+          return state
+      case C.UPDATE_PROFILE_DATA_ROLE:
+          state = {...state, currentProfileData: [ { ...state.currentProfileData[0], role: action.payload } ] }
+          return state
+      case C.UPDATE_PROFILE_DATA_LOADED:
+          state = {...state, currentProfileDataLoaded: action.payload }
+          return state
+      case C.UPDATE_DELETE_ID:
+          state = {...state, currentDeleteID: action.payload.id }
           return state
       default:
           return state
@@ -36,8 +45,9 @@ export const users = (state=[], action ) => {
       case C.ADD_USER:
           state = [ ...state.concat(action.payload.user) ]
           return state
-      case C.EDIT_USER:
-          return action.payload
+      case C.UPDATE_USER:
+          state = state.map(user => user.id == action.payload.user[0].id ? action.payload.user[0] : user) 
+          return state
       case C.DELETE_USER:
           state = state.filter(user => user.id !== action.payload.id) 
           return state

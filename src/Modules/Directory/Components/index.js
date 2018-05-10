@@ -1,5 +1,6 @@
 import UserListItem from './UserListItem'
+import EditTextField from './EditTextField'
 
 export {
-    UserListItem
+    EditTextField, UserListItem
 }

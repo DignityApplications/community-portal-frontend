@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { updateUserProfileID_and_ActiveView } from '../../../ReduxStore/Actions'
+import { updateProfileID_and_ActiveView } from '../../../ReduxStore/Actions'
 import { connect } from 'react-redux'
 
 import { Avatar, Button, Divider, Grid, Icon, Paper, Typography } from 'material-ui'
@@ -32,7 +32,7 @@ class UserListItem extends Component {
                             <Divider style={{marginTop:10, marginBottom:10, width:'90%'}} />
                             <Button color="primary" variant="raised" size="medium" style={{textTransform:"capitalize"}}
                                     onClick={(e) => 
-                                    this.props.dispatch(updateUserProfileID_and_ActiveView(this.props.id, 'Directory', 'Profile'))}>
+                                    this.props.dispatch(updateProfileID_and_ActiveView(this.props.id, 'Directory', 'Profile'))}>
                                     View Profile</Button>
                         </Grid>
                     </Grid>

@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Avatar, Grid, Icon, Paper, Typography } from 'material-ui'
+import { updateUserWithRedux, updateProfileData, updateProfileDataRole, updateProfileDataLoaded } from '../../../ReduxStore/Actions'
+import { Avatar, Grid, Icon, IconButton, Paper, Typography } from 'material-ui'
+import { EditTextField } from '../Components'
 
 const mapStateToProps = (state) => {
     return { session: state.session }
@@ -9,22 +11,31 @@ const mapStateToProps = (state) => {
 class Profile extends Component {
 
     constructor(props) {
-        super(props);
+        super(props)
     
         this.state = {
-            userData: { },
-            userLoaded: false
+            editingField: '',
         }
+        this.cancelEditingField = this.cancelEditingField.bind(this)
+        this.completeEditingField = this.completeEditingField.bind(this)
     }
 
     componentWillMount() {
-        const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/users/" + this.props.session.currentUserProfileID
+        const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/users/" + this.props.session.currentProfileID
         return fetch(URL, { method: 'GET', credentials: 'include' } )
             .then( response => response.json() )
-            .then( data => this.setState({userData: data.data[0], userLoaded: true}) )
-            .catch(
-                //NOTE: Need to add something like setState(error) to display if there is an error
-            )
+            .then( user => {
+                this.props.dispatch(updateProfileData(user.data)) 
+                const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/roles/" + this.props.session.currentProfileData[0].role_id
+                return fetch(URL, { method: 'GET', credentials: 'include' } )
+                    .then( response => response.json() )
+                    .then( permission => { 
+                        this.props.dispatch(updateProfileDataRole(permission.data[0].name )) 
+                        this.props.dispatch(updateProfileDataLoaded(true))
+                    })
+                    .catch( error => console.log(error) )
+            })
+            .catch( error => console.log(error) )
     }
 
     formatBirthday = birthday => {
@@ -46,33 +57,113 @@ class Profile extends Component {
         }
     }
 
-    renderContent = userLoaded => {
-        switch (userLoaded) {
-            case true:
+    toggleEditingField(fieldToEdit) {
+        this.setState({editingField: fieldToEdit})
+    }
+
+    cancelEditingField() {
+        this.setState({editingField: ''})
+    }
+
+    completeEditingField(fieldToEdit, fieldData) {
+        console.log(fieldToEdit)
+        let updateInfo = {[fieldToEdit]: fieldData}
+        console.log(updateInfo)
+        this.props.dispatch(updateUserWithRedux(this.props.session.currentProfileID, updateInfo))
+        this.setState({editingField: ''})
+    }
+
+    addEditButton(memberTypeEditPermission, field) {
+
+        if (this.state.editingField !== field && 
+            (this.props.session.currentUserPermissions.includes(memberTypeEditPermission) === true ||
+             (this.props.session.currentUserPermissions.includes('UpdateSelf') === true && 
+              this.props.session.currentUserID == this.props.session.currentProfileID))) {
+                return <IconButton color="secondary" aria-label="Edit" onClick={(e) => this.toggleEditingField(field)}>
+                        <Icon>edit</Icon>
+                       </IconButton>
+        } 
+    }
+
+    renderContent() {
+        if (this.props.session.currentProfileDataLoaded) {
+            let memberTypeEditPermission = 'UpdateAnyUser' + this.props.session.currentProfileData[0].role.replace(/\s/g, '')
             return <Grid container style={{marginTop:10}}>
                         <Grid item xl={4} lg={4} md={4} sm={6} xs={12} align="center" >
-                            { this.state.userData.avatar_path ? 
-                                <Avatar alt={this.state.userData.first_name} src={this.state.userData.avatar_path} 
+                            { this.props.session.currentProfileData[0].avatar_path ? 
+                                <Avatar alt={this.props.session.currentProfileData[0].first_name} src={this.props.session.currentProfileData[0].avatar_path} 
                                         style={{width:200, height:200}}/> :
                                 <Avatar alt='No Avatar' src='/images/avatars/no_avatar.png'
                                         style={{width:200, height:200}} />}
                                 <Typography variant="title">
-                                    {this.state.userData.role} <br/>
-                                    {this.formatBirthday(this.state.userData.date_of_birth)}
+                                    {this.props.session.currentProfileData[0].role} <br/>
+                                    {this.formatBirthday(this.props.session.currentProfileData[0].date_of_birth)}
                                 </Typography>
                         </Grid>
                     
                         <Grid item xl={8} lg={8} md={8} sm={6} xs={12} style={{textAlign: 'left'}}>
                             <Typography variant="display2" style={{textDecoration:'underline'}}>
-                                {this.state.userData.first_name} {this.state.userData.last_name}
+                                {this.props.session.currentProfileData[0].first_name} {this.props.session.currentProfileData[0].last_name}
                             </Typography>
                             <Typography variant="title" style={{marginTop:15}}>
-                                Cell: <a href={`tel:${this.state.userData.cell_phone_number}`}>{this.state.userData.cell_phone_number}</a><br/>
-                                Home: <a href={`tel:${this.state.userData.home_phone_number}`}>{this.state.userData.home_phone_number}</a><br/>
-                                Email: <a href={`mailto:${this.state.userData.email}`}>{this.state.userData.email}</a><br/><br/>
-                                
-                                Address: <a href={this.formatAddressURL(this.state.userData.current_address)} target="_blank">
-                                        {this.state.userData.current_address}</a>
+                                <span>Cell: </span>
+                                {(this.state.editingField === 'cell_phone_number') ? 
+                                    <EditTextField  
+                                        cancelEditingField={this.cancelEditingField}
+                                        completeEditingField={this.completeEditingField}
+                                        fieldToEdit='cell_phone_number' 
+                                        currentValue={this.props.session.currentProfileData[0].cell_phone_number} /> :
+                                    <a href={`tel:${this.props.session.currentProfileData[0].cell_phone_number}`}>{this.props.session.currentProfileData[0].cell_phone_number}</a>
+                                    
+                                }
+                                {this.addEditButton(memberTypeEditPermission, 'cell_phone_number')}
+                                <br/>
+                            </Typography>
+
+                            <Typography variant="title" style={{marginTop:15}}>
+                                <span>Home: </span>
+                                {(this.state.editingField === 'home_phone_number') ? 
+                                    <EditTextField  
+                                        cancelEditingField={this.cancelEditingField}
+                                        completeEditingField={this.completeEditingField}
+                                        fieldToEdit='home_phone_number' 
+                                        currentValue={this.props.session.currentProfileData[0].home_phone_number} /> :
+                                    <a href={`tel:${this.props.session.currentProfileData[0].home_phone_number}`}>{this.props.session.currentProfileData[0].home_phone_number}</a>
+                                    
+                                }
+                                {this.addEditButton(memberTypeEditPermission, 'home_phone_number')}
+                                <br/>
+                            </Typography>
+
+                            <Typography variant="title" style={{marginTop:15}}>
+                                <span>Email: </span>
+                                {(this.state.editingField === 'email') ? 
+                                    <EditTextField  
+                                        cancelEditingField={this.cancelEditingField}
+                                        completeEditingField={this.completeEditingField}
+                                        fieldToEdit='email' 
+                                        currentValue={this.props.session.currentProfileData[0].email} /> :
+                                    <a href={`mailto:${this.props.session.currentProfileData[0].email}`}>{this.props.session.currentProfileData[0].email}</a>
+                                    
+                                }
+                                {this.addEditButton(memberTypeEditPermission, 'email')}
+                                <br/>
+                            </Typography>
+
+                            <Typography variant="title" style={{marginTop:15}}>
+                                <span>Address: </span>
+                                {(this.state.editingField === 'current_address') ? 
+                                    <EditTextField  
+                                        cancelEditingField={this.cancelEditingField}
+                                        completeEditingField={this.completeEditingField}
+                                        fieldToEdit='current_address' 
+                                        currentValue={this.props.session.currentProfileData[0].current_address} /> :
+                                    <a href={this.formatAddressURL(this.props.session.currentProfileData[0].current_address)} target="_blank">
+                                        {this.props.session.currentProfileData[0].current_address}</a>
+                                    
+                                }
+                                {this.addEditButton(memberTypeEditPermission, 'current_address')}
+                                <br/>
                             </Typography>
                         </Grid>
 
@@ -80,16 +171,13 @@ class Profile extends Component {
                         <Grid item xl={8} lg={8} md={10} sm={12} xs={12}>
                             <Paper>
                                 <Typography variant="title" style={{marginTop:15}}>
-                                    About: {this.state.userData.bio}
+                                    About: {this.props.session.currentProfileData[0].bio}
                                 </Typography>
                             </Paper>
                         </Grid>
                         <Grid item xl={2} lg={2} md={1}></Grid>
 
                   </Grid>
-
-            default:
-                return <div></div>
         }
     }
 

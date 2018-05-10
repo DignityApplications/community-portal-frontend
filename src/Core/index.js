@@ -30,7 +30,7 @@ class Core extends Component {
                 <SiteModal />
                 <Grid item xl={2} lg={2} md={2} sm={12} xs={12} 
                       style={{display:'flex', flexDirection: 'column', height:'100vh', 
-                              backgroundSize:'cover', backgroundColor:'#FFAB91'}} >
+                              backgroundSize:'cover', backgroundColor:'#b3ffe6'}} >
                     <Toolbar updateCurrentModule={this.updateCurrentModule} />
                 </Grid>
                 <Grid item xl={10} lg={10} md={10} sm={12} xs={12}>

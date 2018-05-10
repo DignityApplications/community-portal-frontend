@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchUsersWithRedux } from '../../ReduxStore/Actions'
+import { fetchUsersWithRedux, updateAllUsers } from '../../ReduxStore/Actions'
 import { AddUser, Profile, Users } from './Views'
 
 const mapStateToProps = (state) => {
@@ -12,12 +12,18 @@ class Directory extends Component
 {
     renderModule(view) {
         switch(view) {
+            case 'Member':
+                return <Users updateActiveView={this.updateActiveView}/>
+            case 'Staff':
+                return <Users updateActiveView={this.updateActiveView}/>
+            case 'WebAdmin':
+                return <Users updateActiveView={this.updateActiveView}/>
+            case 'Guest':
+                return <Users updateActiveView={this.updateActiveView}/>
             case 'AddUser':
                 return <AddUser/>
             case 'Profile':
                 return <Profile/>
-            case 'Users':
-                return <Users updateActiveView={this.updateActiveView}/>
             default:
                 return <Users updateActiveView={this.updateActiveView}/>
                 

@@ -7,8 +7,10 @@
       },
       "currentUserID": "",
       "currentUserPermissions": [],
-      "currentUserProfileID": 2,
-      "currentUserDeleteID": 0
+      "currentProfileID": 0,
+      "currentProfileData": [],
+      "currentProfileDataLoaded": false,
+      "currentDeleteID": 0
     },
     "users": [],
     "module": {
@@ -33,14 +35,17 @@
           {"title": "Home Menu Link 3", "view": "TBD"}
       ],
       "Directory": [
-          {"title": "Add User", "view": "AddUser"},
-          {"title": "Users", "view": "Users"}
+          {"title": "Member", "view": "Member", "role_id": 1, "requiredPermission": "SeeAnyUserMember" },
+          {"title": "Staff", "view": "Staff", "role_id": 2, "requiredPermission": "SeeAnyUserAdministrativeStaff" },
+          {"title": "WebAdmin", "view": "WebAdmin", "role_id": 4, "requiredPermission": "SeeAnyUserWebAdmin" },
+          {"title": "Guest", "view": "Guest", "role_id": 3, "requiredPermission": "SeeAnyUserGuest" },
+          {"title": "Add User", "view": "AddUser"}
       ]
     },
     "view": {
       "activeView": [
         {"Module": "Home", "View": "Default"},
-        {"Module": "Directory", "View": "Users"}
+        {"Module": "Directory", "View": "Member"}
       ]
     }
 }  

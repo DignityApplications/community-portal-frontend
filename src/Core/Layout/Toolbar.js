@@ -14,7 +14,7 @@ class Toolbar extends Component {
         return (
             <Grid container style={{marginTop: 10}}>
                 <Grid item xl={12} lg={12} md={12} sm={4} xs={6} >
-                    <Typography variant='title' style={{color:"white"}}>
+                    <Typography variant='title' style={{color:"#ff6600"}}>
                         <Icon style={{fontSize: 50, marginBottom:-10, paddingRight:20}}>supervisor_account</Icon>
                         Community
                     </Typography>
@@ -23,14 +23,14 @@ class Toolbar extends Component {
                 <Grid item xl={12} lg={12} md={12} sm={4} xs={6} >
                     <Button variant="raised" size="large" 
                             onClick={(e) => this.props.dispatch(updateActiveModule("Home"))}>
-                        <Icon color="primary" style={{fontSize: 100}}>home</Icon>
+                        <Icon style={{fontSize: 100, color: "#ff6600"}}>home</Icon>
                     </Button>
                 </Grid>
                 {this.props.session.loggedIn ? 
                     <Grid item xl={12} lg={12} md={12} sm={4} xs={6}>
                         <Button variant="raised" size="large" 
                                 onClick={(e) => this.props.dispatch(updateActiveModule("Directory"))}>
-                            <Icon color="primary" style={{fontSize: 100}}>account_circle</Icon>
+                            <Icon style={{fontSize: 100, color: "#ff6600"}}>account_circle</Icon>
                         </Button>
                     </Grid> : 
                 null}

@@ -6,12 +6,16 @@ export const updateModalOpen = modalOpen => { return { type: C.UPDATE_MODAL_OPEN
 export const updateModalComponent = modalComponent => { return { type: C.UPDATE_MODAL_COMPONENT, payload: modalComponent }}
 export const updateCurrentUserID = currentUserID => { return { type: C.UPDATE_CURRENT_USER_ID, payload: currentUserID }}
 export const updateCurrentUserPermissions = currentUserPermissions => { return { type: C.UPDATE_CURRENT_USER_PERMISSIONS, payload: currentUserPermissions }}
-export const updateUserProfileID = id => { return { type: C.UPDATE_USER_PROFILE_ID, payload: {id} } }
-export const updateUserDeleteID = id => { return { type: C.UPDATE_USER_DELETE_ID, payload: {id} } }
+export const updateProfileID = id => { return { type: C.UPDATE_PROFILE_ID, payload: {id} } }
+export const updateProfileData = user => { return { type: C.UPDATE_PROFILE_DATA, payload: {user} } }
+export const updateProfileDataRole = roleName => { return { type: C.UPDATE_PROFILE_DATA_ROLE, payload: roleName } }
+export const updateProfileDataLoaded = loaded => { return { type: C.UPDATE_PROFILE_DATA_LOADED, payload: loaded } }
+export const updateDeleteID = id => { return { type: C.UPDATE_DELETE_ID, payload: {id} } }
 
 //ACTIONS FOR USER DATA
 export const updateAllUsers = users => { return { type: C.UPDATE_ALL_USERS, payload: users }}
 export const addUser = user => { return { type: C.ADD_USER, payload: {user} }}
+export const updateUser = user => { return { type: C.UPDATE_USER, payload: {user} }}
 export const deleteUser = id => { return { type: C.DELETE_USER, payload: {id} }}
 
 //ACTIONS FOR MODULE DATA
@@ -26,14 +30,14 @@ export const updateActiveView = (module, activeView) => { return { type: C.UPDAT
 //MULTI-ACTIONS
 export const updateModalOpen_and_ModalComponent = ( component, id ) => (
   dispatch => {
-    if ( id ) { dispatch(updateUserDeleteID(id))}
+    if ( id ) { dispatch(updateDeleteID(id))}
     dispatch(updateModalComponent(component))
     dispatch(updateModalOpen(true))
   }
 )
-export const updateUserProfileID_and_ActiveView = (id, module, activeView) => (
+export const updateProfileID_and_ActiveView = (id, module, activeView) => (
   dispatch => {
-    dispatch(updateUserProfileID(id))
+    dispatch(updateProfileID(id))
     dispatch(updateActiveView(module, activeView))
   }
 )
@@ -58,10 +62,17 @@ function fetchUserPermissions(role_id) {
   return fetch(URL, { method: 'GET', credentials: 'include' } )
      .then( response => Promise.all([response, response.json()]))
 }
+function fetchUserRoleName(role_id) {
+  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/roles/" + role_id
+  console.log(URL)
+  return fetch(URL, { method: 'GET', credentials: 'include' } )
+     .then( response => Promise.all([response, response.json()]))
+}
 
 function fetchUsers(role_id) {
   const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/roles/" + role_id + "/users"
-  return fetch(URL, { method: 'GET', credentials: 'include' } )
+  const URL_PARAMS = "?sortBy=first_name"
+  return fetch(URL + URL_PARAMS, { method: 'GET', credentials: 'include' } )
      .then( response => Promise.all([response, response.json()]))
 }
 function addUsers(user) {
@@ -70,6 +81,13 @@ function addUsers(user) {
                       credentials: 'include',
                       body: JSON.stringify(user) } )
      .then( response => Promise.all([response, response.json()]) )
+}
+function updateUserFetch(id, updateInfo) {
+  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/users/" + id
+  return fetch(URL, { method: 'PUT', headers: { 'Accept': 'application/json','Content-Type': 'application/json'},
+                      credentials: 'include',
+                      body: JSON.stringify(updateInfo) } )
+     .then( response => Promise.all([response, response.json()]))
 }
 function deleteUsers(id) {
   const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/users/" + id
@@ -109,9 +127,12 @@ export const logoutUserWithRedux = () => {
         if(response.status === 200){
         dispatch(updateCurrentUserPermissions([]))
         dispatch(updateCurrentUserID(''))
-        dispatch(updateUserProfileID(''))
-        dispatch(updateUserDeleteID(''))
+        dispatch(updateProfileID(''))
+        dispatch(updateProfileDataLoaded(false))
+        dispatch(updateProfileData([]))
+        dispatch(updateDeleteID(''))
         dispatch(updateUserLoggedIn(false))
+        dispatch(updateAllUsers([]))
         dispatch(updateActiveModule('Home'))
       }
       else {
@@ -121,12 +142,15 @@ export const logoutUserWithRedux = () => {
   }
 }
 
-export const fetchUsersWithRedux = role_id => {
+export const fetchUsersWithRedux = params => {
     return dispatch => {
+      let role_id = params.role_id ? params.role_id : params
+      console.log(role_id)
       //dispatch(fetchPostsRequest()) Eventuall add this in
       return fetchUsers(role_id).then(([response, users]) =>{
           if(response.status === 200){
           dispatch(updateAllUsers(users.data))
+          dispatch(updateActiveView(params.module, params.view))
         }
         else {
           //dispatch(fetchPostsError())
@@ -149,13 +173,40 @@ export const addUserWithRedux = user => {
   }
 }
 
+export const updateUserWithRedux = (id, updateInfo) => {
+  return dispatch => {
+    //dispatch(fetchPostsRequest()) Eventuall add this in
+    dispatch(updateProfileDataLoaded(false))
+    return updateUserFetch(id, updateInfo).then(([response, userData]) =>{
+        if(response.status === 200){
+          dispatch(updateProfileData(userData.data))
+          dispatch(updateUser(userData.data))
+          let role_id = userData.data[0].role_id
+          return fetchUserRoleName(role_id).then(([response, userData]) =>{
+            if(response.status === 200){
+              let roleName = userData.data[0].name
+              dispatch(updateProfileDataRole(roleName))
+              dispatch(updateProfileDataLoaded(true))
+            }
+            else {
+              //dispatch(fetchPermissionsError())
+            }
+          })
+      }
+      else{
+        //dispatch(fetchPostsError())
+      }
+    })
+  }
+}
+
 export const deleteUserWithRedux = user => {
   return dispatch => {
     //dispatch(fetchPostsRequest()) Eventuall add this in
     return deleteUsers(user).then(([response, userData]) =>{
         if(response.status === 200){
         dispatch(deleteUser(userData.data[0].id))
-        dispatch(updateUserDeleteID(0))
+        dispatch(updateDeleteID(0))
         dispatch(updateModalOpen(false))
       }
       else{
