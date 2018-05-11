@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { checkUserLoggedInWithRedux } from '../ReduxStore/Actions'
 import { Content, Menu, Navigation, Sidebar, Toolbar } from './Layout'
 import { SiteModal } from './Components'
 import { Grid, Paper } from 'material-ui'
@@ -11,6 +12,10 @@ const mapStateToProps = (state) => {
   
 
 class Core extends Component {
+
+    componentWillMount () {
+        this.props.dispatch(checkUserLoggedInWithRedux())
+    }
 
     constructor(props) {
         super(props);

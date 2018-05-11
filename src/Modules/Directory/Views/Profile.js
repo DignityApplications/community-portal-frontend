@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { updateUserWithRedux, updateProfileData, updateProfileDataRole, updateProfileDataLoaded } from '../../../ReduxStore/Actions'
 import { Avatar, Grid, Icon, IconButton, Paper, Typography } from 'material-ui'
-import { EditTextField } from '../Components'
+import { EditDateTextField, EditSelectField, EditTextArea, EditTextField } from '../Components'
 
 const mapStateToProps = (state) => {
     return { session: state.session }
@@ -77,7 +77,7 @@ class Profile extends Component {
 
         if (this.state.editingField !== field && 
             (this.props.session.currentUserPermissions.includes(memberTypeEditPermission) === true ||
-             (this.props.session.currentUserPermissions.includes('UpdateSelf') === true && 
+            (this.props.session.currentUserPermissions.includes('UpdateSelf') === true && 
               this.props.session.currentUserID == this.props.session.currentProfileID))) {
                 return <IconButton color="secondary" aria-label="Edit" onClick={(e) => this.toggleEditingField(field)}>
                         <Icon>edit</Icon>
@@ -95,9 +95,29 @@ class Profile extends Component {
                                         style={{width:200, height:200}}/> :
                                 <Avatar alt='No Avatar' src='/images/avatars/no_avatar.png'
                                         style={{width:200, height:200}} />}
-                                <Typography variant="title">
-                                    {this.props.session.currentProfileData[0].role} <br/>
-                                    {this.formatBirthday(this.props.session.currentProfileData[0].date_of_birth)}
+                                <Typography variant="title" style={{marginTop:15}}>
+                                    {(this.state.editingField === 'role_id') ? 
+                                        <EditSelectField
+                                            cancelEditingField={this.cancelEditingField}
+                                            completeEditingField={this.completeEditingField}
+                                            fieldToEdit='role_id' 
+                                            currentRole={this.props.session.currentProfileData[0].role}
+                                            currentValue={this.props.session.currentProfileData[0].role_id} /> :
+                                        <span>{this.props.session.currentProfileData[0].role}</span>
+                                    }
+                                    {this.addEditButton(memberTypeEditPermission, 'role_id')}
+                                    <br/>
+                                </Typography>
+                                <Typography variant="title" style={{marginTop:15}}>
+                                    {(this.state.editingField === 'date_of_birth') ? 
+                                        <EditDateTextField
+                                            cancelEditingField={this.cancelEditingField}
+                                            completeEditingField={this.completeEditingField}
+                                            fieldToEdit='date_of_birth' 
+                                            currentValue={this.props.session.currentProfileData[0].date_of_birth} /> :
+                                        <span>{this.formatBirthday(this.props.session.currentProfileData[0].date_of_birth)}</span>
+                                    }
+                                    {this.addEditButton(memberTypeEditPermission, 'date_of_birth')}
                                 </Typography>
                         </Grid>
                     
@@ -171,7 +191,17 @@ class Profile extends Component {
                         <Grid item xl={8} lg={8} md={10} sm={12} xs={12}>
                             <Paper>
                                 <Typography variant="title" style={{marginTop:15}}>
-                                    About: {this.props.session.currentProfileData[0].bio}
+                                    <span>About: </span>
+                                    {(this.state.editingField === 'bio') ? 
+                                        <EditTextArea
+                                            cancelEditingField={this.cancelEditingField}
+                                            completeEditingField={this.completeEditingField}
+                                            fieldToEdit='bio' 
+                                            currentValue={this.props.session.currentProfileData[0].bio} /> :
+                                        <span>{this.props.session.currentProfileData[0].bio}</span>
+                                        
+                                    }
+                                    {this.addEditButton(memberTypeEditPermission, 'bio')}
                                 </Typography>
                             </Paper>
                         </Grid>

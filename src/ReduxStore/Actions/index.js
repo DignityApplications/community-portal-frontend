@@ -10,7 +10,8 @@ export const updateProfileID = id => { return { type: C.UPDATE_PROFILE_ID, paylo
 export const updateProfileData = user => { return { type: C.UPDATE_PROFILE_DATA, payload: {user} } }
 export const updateProfileDataRole = roleName => { return { type: C.UPDATE_PROFILE_DATA_ROLE, payload: roleName } }
 export const updateProfileDataLoaded = loaded => { return { type: C.UPDATE_PROFILE_DATA_LOADED, payload: loaded } }
-export const updateDeleteID = id => { return { type: C.UPDATE_DELETE_ID, payload: {id} } }
+export const updateCurrentRoleID = id => { return { type: C.UPDATE_CURRENT_ROLE_ID, payload: id } }
+export const updateCurrentDeleteID = id => { return { type: C.UPDATE_CURRENT_DELETE_ID, payload: id } }
 
 //ACTIONS FOR USER DATA
 export const updateAllUsers = users => { return { type: C.UPDATE_ALL_USERS, payload: users }}
@@ -30,18 +31,23 @@ export const updateActiveView = (module, activeView) => { return { type: C.UPDAT
 //MULTI-ACTIONS
 export const updateModalOpen_and_ModalComponent = ( component, id ) => (
   dispatch => {
-    if ( id ) { dispatch(updateDeleteID(id))}
+    if ( id ) {dispatch(updateCurrentDeleteID(id))}
     dispatch(updateModalComponent(component))
     dispatch(updateModalOpen(true))
   }
 )
 export const updateProfileID_and_ActiveView = (id, module, activeView) => (
   dispatch => {
+    dispatch(updateProfileDataLoaded(false))
     dispatch(updateProfileID(id))
     dispatch(updateActiveView(module, activeView))
   }
 )
-
+function checkUserLoggedIn() {
+  const URL = "https://sleepy-plateau-42917.herokuapp.com/auth/status"
+  return fetch(URL, { method: 'GET', credentials: 'include' } )
+     .then( response => Promise.all([response, response.json()]))
+}
 function loginUser(formData) {
   const URL = "https://sleepy-plateau-42917.herokuapp.com/auth/login"
   return fetch(URL, { method: 'POST',
@@ -69,9 +75,17 @@ function fetchUserRoleName(role_id) {
      .then( response => Promise.all([response, response.json()]))
 }
 
-function fetchUsers(role_id) {
+function fetchUsers(params) {
+  const role_id = params.role_id ? params.role_id : 1
+  const sortBy = params.sortBy ? params.sortBy : 'first_name'
+  const startsWithField = params.startsWithField
+  const startsWithLetter = params.startsWithLetter
   const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/roles/" + role_id + "/users"
-  const URL_PARAMS = "?sortBy=first_name"
+  let URL_PARAMS = ''
+  sortBy ? URL_PARAMS += "?sortBy=" + sortBy: null
+  startsWithField ? URL_PARAMS += "&startsWithField=" + startsWithField : null
+  startsWithLetter ? URL_PARAMS += "&startsWithLetter=" + startsWithLetter : null
+  console.log(URL + URL_PARAMS)
   return fetch(URL + URL_PARAMS, { method: 'GET', credentials: 'include' } )
      .then( response => Promise.all([response, response.json()]))
 }
@@ -96,6 +110,30 @@ function deleteUsers(id) {
      .then( response => Promise.all([response, response.json()]))
 }
 
+export const checkUserLoggedInWithRedux = () => {
+  return dispatch => {
+    //dispatch(fetchPostsRequest()) Eventuall add this in
+    return checkUserLoggedIn().then(([response, data]) => {
+      if(response.status === 200 && data.loggedin){
+        dispatch(updateCurrentUserID(data.user.id))
+        return fetchUserPermissions(data.user.role_id).then(([response, permissions]) => {
+          if(response.status === 200){
+            permissions = permissions.data.map(permission => (permission.name))
+            dispatch(updateUserLoggedIn(true))
+            dispatch(updateCurrentUserPermissions(permissions))
+            dispatch(updateModalOpen(false))
+          }
+          else {
+            //dispatch(fetchPermissionsError())
+          }
+        })
+      }
+      else{
+        //dispatch(fetchPostsError())
+      }
+    })
+  }
+}
 export const loginUserWithRedux = (formData) => {
   return dispatch => {
     //dispatch(fetchPostsRequest()) Eventuall add this in
@@ -130,7 +168,8 @@ export const logoutUserWithRedux = () => {
         dispatch(updateProfileID(''))
         dispatch(updateProfileDataLoaded(false))
         dispatch(updateProfileData([]))
-        dispatch(updateDeleteID(''))
+        dispatch(updateCurrentRoleID(''))
+        dispatch(updateCurrentDeleteID(''))
         dispatch(updateUserLoggedIn(false))
         dispatch(updateAllUsers([]))
         dispatch(updateActiveModule('Home'))
@@ -144,10 +183,10 @@ export const logoutUserWithRedux = () => {
 
 export const fetchUsersWithRedux = params => {
     return dispatch => {
-      let role_id = params.role_id ? params.role_id : params
-      console.log(role_id)
+      console.log(params)
+      if (params.role_id) {dispatch(updateCurrentRoleID(params.role_id))}
       //dispatch(fetchPostsRequest()) Eventuall add this in
-      return fetchUsers(role_id).then(([response, users]) =>{
+      return fetchUsers(params).then(([response, users]) =>{
           if(response.status === 200){
           dispatch(updateAllUsers(users.data))
           dispatch(updateActiveView(params.module, params.view))
@@ -206,7 +245,7 @@ export const deleteUserWithRedux = user => {
     return deleteUsers(user).then(([response, userData]) =>{
         if(response.status === 200){
         dispatch(deleteUser(userData.data[0].id))
-        dispatch(updateDeleteID(0))
+        dispatch(updateCurrentDeleteID(0))
         dispatch(updateModalOpen(false))
       }
       else{

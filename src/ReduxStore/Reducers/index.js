@@ -30,8 +30,11 @@ export const session = (state=[], action ) => {
       case C.UPDATE_PROFILE_DATA_LOADED:
           state = {...state, currentProfileDataLoaded: action.payload }
           return state
-      case C.UPDATE_DELETE_ID:
-          state = {...state, currentDeleteID: action.payload.id }
+      case C.UPDATE_CURRENT_ROLE_ID:
+          state = {...state, currentRoleID: action.payload }
+          return state
+      case C.UPDATE_CURRENT_DELETE_ID:
+          state = {...state, currentDeleteID: action.payload }
           return state
       default:
           return state

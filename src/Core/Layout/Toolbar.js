@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { updateActiveModule } from '../../ReduxStore/Actions'
-import { Button, Divider, Icon, Grid, Typography } from 'material-ui'
+import { Button, Divider, Drawer, Hidden, Icon, Grid, List, Typography } from 'material-ui'
 
 
 const mapStateToProps = (state) => {
@@ -10,30 +10,64 @@ const mapStateToProps = (state) => {
 
 class Toolbar extends Component {
 
+    state = { mobileOpen: false, }
+    
+    handleDrawerToggle = () => { this.setState({ mobileOpen: !this.state.mobileOpen }); }
+
     render() {
-        return (
-            <Grid container style={{marginTop: 10}}>
-                <Grid item xl={12} lg={12} md={12} sm={4} xs={6} >
-                    <Typography variant='title' style={{color:"#ff6600"}}>
+
+        const drawer = (
+            <div>
+                <div style={{width: '225px'}}></div>
+                <Typography variant='title' style={{color:"#ff6600"}}>
                         <Icon style={{fontSize: 50, marginBottom:-10, paddingRight:20}}>supervisor_account</Icon>
                         Community
-                    </Typography>
-                    <Divider component="hr" style={{marginTop:10, height:2, backgroundColor:'white'}} />
-                </Grid>
-                <Grid item xl={12} lg={12} md={12} sm={4} xs={6} >
+                </Typography>
+                <Divider />
+                <List>
                     <Button variant="raised" size="large" 
                             onClick={(e) => this.props.dispatch(updateActiveModule("Home"))}>
-                        <Icon style={{fontSize: 100, color: "#ff6600"}}>home</Icon>
+                            <Icon style={{fontSize: 100, color: "#ff6600"}}>home</Icon>
                     </Button>
-                </Grid>
-                {this.props.session.loggedIn ? 
-                    <Grid item xl={12} lg={12} md={12} sm={4} xs={6}>
-                        <Button variant="raised" size="large" 
-                                onClick={(e) => this.props.dispatch(updateActiveModule("Directory"))}>
-                            <Icon style={{fontSize: 100, color: "#ff6600"}}>account_circle</Icon>
-                        </Button>
-                    </Grid> : 
-                null}
+                </List>
+                <Divider />
+                <List>
+                    {this.props.session.loggedIn ? 
+                        <Grid item xl={12} lg={12} md={12} sm={4} xs={6}>
+                            <Button variant="raised" size="large" 
+                                    onClick={(e) => this.props.dispatch(updateActiveModule("Directory"))}>
+                                <Icon style={{fontSize: 100, color: "#ff6600"}}>account_circle</Icon>
+                            </Button>
+                        </Grid> : 
+                    null}
+                </List>
+            </div>
+        )
+      
+        return (
+            <Grid container style={{marginTop: 10}}>
+                <Hidden mdUp>
+                    <Drawer
+                        variant="temporary"
+                        anchor='left'
+                        open={this.state.mobileOpen}
+                        onClose={this.handleDrawerToggle}
+                
+                        ModalProps={{
+                        keepMounted: true, // Better open performance on mobile.
+                        }}
+                    >
+                        {drawer}
+                    </Drawer>
+                </Hidden>
+                <Hidden smDown implementation="css">
+                    <Drawer
+                        variant="permanent"
+                        open
+                    >
+                        {drawer}
+                    </Drawer>
+                </Hidden>
             </Grid>
         )
     }
