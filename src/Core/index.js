@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { checkUserLoggedInWithRedux } from '../ReduxStore/Actions'
 import { Content, Menu, Navigation, Sidebar, Toolbar } from './Layout'
 import { SiteModal } from './Components'
-import { Grid, Paper } from 'material-ui'
+import { Grid } from 'material-ui'
 // import coreData from './config.json'
 
 const mapStateToProps = (state) => {
@@ -22,7 +22,7 @@ class Core extends Component {
     
         this.state = {
             displayMenu: true,
-            displaySiedbar: true,
+            displaySiedbar: false,
         }
     }
 
@@ -33,23 +33,15 @@ class Core extends Component {
       return (
             <Grid container>
                 <SiteModal />
-                <Grid item xl={2} lg={2} md={2} sm={12} xs={12} 
-                      style={{display:'flex', flexDirection: 'column', height:'100vh', 
-                              backgroundSize:'cover', backgroundColor:'#b3ffe6'}} >
-                    <Toolbar updateCurrentModule={this.updateCurrentModule} />
-                </Grid>
-                <Grid item xl={10} lg={10} md={10} sm={12} xs={12}>
+                <Toolbar updateCurrentModule={this.updateCurrentModule} />
+                <Grid item xl={12} lg={12} md={12} sm={12} xs={12} className="mainSiteContent" >
                     <Grid container>
                         <Grid item sm={12}>
-                            <Paper>
-                                <Navigation
-                                    currentModule = {this.props.module.activeModule}
-                                />
-                            </Paper>
+                            <Navigation currentModule = {this.props.module.activeModule} />
                         </Grid>
                         { displayMenu ? 
-                            <Grid item sm={2}>
-                                <Paper><Menu/></Paper>
+                            <Grid item xl={2} lg={2} md={3} sm={3} style={{padding:0, height: '100vh'}}>
+                                <Menu/>
                             </Grid> : null
                         }
                         <Grid item sm>
@@ -59,7 +51,7 @@ class Core extends Component {
                         </Grid>
                         { displaySiedbar ? 
                             <Grid item sm={2}>
-                                <Paper><Sidebar/></Paper>
+                                <Sidebar/>
                             </Grid> : null
                         }
                     </Grid>

@@ -87,11 +87,14 @@ class Profile extends Component {
 
     renderContent() {
         if (this.props.session.currentProfileDataLoaded) {
+            console.log(this.props.session.currentProfileData[0])
             let memberTypeEditPermission = 'UpdateAnyUser' + this.props.session.currentProfileData[0].role.replace(/\s/g, '')
             return <Grid container style={{marginTop:10}}>
                         <Grid item xl={4} lg={4} md={4} sm={6} xs={12} align="center" >
                             { this.props.session.currentProfileData[0].avatar_path ? 
-                                <Avatar alt={this.props.session.currentProfileData[0].first_name} src={this.props.session.currentProfileData[0].avatar_path} 
+                                <Avatar alt={this.props.session.currentProfileData[0].first_name} 
+                                        src={'https://sleepy-plateau-42917.herokuapp.com' + 
+                                             this.props.session.currentProfileData[0].avatar_path} 
                                         style={{width:200, height:200}}/> :
                                 <Avatar alt='No Avatar' src='/images/avatars/no_avatar.png'
                                         style={{width:200, height:200}} />}

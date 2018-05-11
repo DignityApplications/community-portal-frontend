@@ -89,11 +89,11 @@ function fetchUsers(params) {
   return fetch(URL + URL_PARAMS, { method: 'GET', credentials: 'include' } )
      .then( response => Promise.all([response, response.json()]))
 }
-function addUsers(user) {
+function addUsers(formData) {
   const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/users/"
-  return fetch(URL, { method: 'POST', headers: { 'Accept': 'application/json','Content-Type': 'application/json'}, 
+  return fetch(URL, { method: 'POST', headers: { 'Accept': 'application/json',}, 
                       credentials: 'include',
-                      body: JSON.stringify(user) } )
+                      body: formData } )
      .then( response => Promise.all([response, response.json()]) )
 }
 function updateUserFetch(id, updateInfo) {
@@ -198,10 +198,10 @@ export const fetchUsersWithRedux = params => {
     }
 }
 
-export const addUserWithRedux = user => {
+export const addUserWithRedux = formData => {
   return dispatch => {
     //dispatch(fetchPostsRequest()) Eventuall add this in
-    return addUsers(user).then(([response, userData]) =>{
+    return addUsers(formData).then(([response, userData]) =>{
         if(response.status === 201){
         dispatch(addUser(userData.data))
       }

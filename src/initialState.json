@@ -19,21 +19,21 @@
     },
     "navigation": {
         "Home": [
-            {"title": "Home Nav Link 1", "view": "TDB"},
-            {"title": "Home Nav Link 2", "view": "TDB"},
-            {"title": "Home Nav Link 3", "view": "TDB"}
+            {"title": "Home", "view": "TDB"},
+            {"title": "Help", "view": "TDB"},
+            {"title": "Mississippi", "view": "TDB"}
         ],
         "Directory": [
-            {"title": "Directory Nav Link 1", "view": "TDB"},
-            {"title": "Directory Nav Link 2", "view": "TDB"},
-            {"title": "Directory Nav Link 3", "view": "TDB"}
+            {"title": "Directory Nav 1", "view": "TDB"},
+            {"title": "Directory Nav 2", "view": "TDB"},
+            {"title": "Directory Nav 3", "view": "TDB"}
         ]
     },
     "menu": {
       "Home": [
-          {"title": "Home Menu Link 1", "view": "TDB"},
-          {"title": "Home Menu Link 2", "view": "TBD"},
-          {"title": "Home Menu Link 3", "view": "TBD"}
+          {"title": "Home Menu 1", "view": "TDB"},
+          {"title": "Home Menu 2", "view": "TBD"},
+          {"title": "Home Menu 3", "view": "TBD"}
       ],
       "Directory": [
           {"title": "Users Home", "view": "Users" },

@@ -36,18 +36,12 @@ class Users extends Component {
         return (
             <div>
                 <Grid container>
-                    <Grid item xl={3} lg={3} md={3} >
-                        <MenuList>
-                            <MenuItem style={this.state.startsWithField === 'first_name' ?{background:'lightblue'} : null}
-                                onClick={(e) => this.updateStartsWithField('first_name')}>First Name</MenuItem> 
-                            <MenuItem style={this.state.startsWithField === 'last_name' ?{background:'lightblue'} : null}
-                                onClick={(e) => this.updateStartsWithField('last_name')}>Last Name</MenuItem> 
-                        </MenuList>
-                    </Grid>
-                    <Grid item xl={9} lg={9} md={9} >
+                <h1>2 search boxes will go here</h1>
+                    {/* <Grid item xl={9} lg={9} md={9} sm={9} xs={9} >
                             <div>
                                 {this.state.sortingOptions.map( letter => {
-                                return <span style={{margin: 5, float: 'left', padding: 10, border: '1px solid #000', cursor: 'pointer'}}
+                                return <span style={{margin: 3, float: 'left', padding: 10, fontFamily:'Rambla', 
+                                                     textTransform:'uppercase', letterSpacing:2, cursor: 'pointer'}}
                                          key={letter}
                                          onClick={(e) => this.props.dispatch(
                                             fetchUsersWithRedux({role_id: this.props.session.currentRoleID, 
@@ -60,8 +54,17 @@ class Users extends Component {
                                 })}
                             </div>
                     </Grid>
+                    <Grid item xl={3} lg={3} md={3} sm={3} xs={3}>
+                        <MenuList>
+                            <MenuItem style={this.state.startsWithField === 'first_name' ?{
+                                background:'#fff'} : null}
+                                onClick={(e) => this.updateStartsWithField('first_name')}>First Name</MenuItem> 
+                            <MenuItem style={this.state.startsWithField === 'last_name' ?{
+                                background:'#fff'} : null}
+                                onClick={(e) => this.updateStartsWithField('last_name')}>Last Name</MenuItem> 
+                        </MenuList>
+                    </Grid> */}
                 </Grid>
-                <hr/>
                 <Grid container>
                     {this.props.users.map(data => ( <UserListItem key={data.id} id={data.id}
                                 avatar_path={data.avatar_path} first_name={data.first_name} last_name={data.last_name} />
