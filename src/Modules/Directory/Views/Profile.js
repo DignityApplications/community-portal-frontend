@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { updateUserWithRedux, updateProfileData, updateProfileDataRole, updateProfileDataLoaded } from '../../../ReduxStore/Actions'
 import { Avatar, Grid, Icon, IconButton, Paper, Typography } from 'material-ui'
-import { EditDateTextField, EditSelectField, EditTextArea, EditTextField } from '../Components'
+import { EditDateTextField, EditProfileImage, EditSelectField, EditTextArea, EditTextField } from '../Components'
 
 const mapStateToProps = (state) => {
     return { session: state.session }
@@ -67,9 +67,12 @@ class Profile extends Component {
 
     completeEditingField(fieldToEdit, fieldData) {
         console.log(fieldToEdit)
-        let updateInfo = {[fieldToEdit]: fieldData}
-        console.log(updateInfo)
-        this.props.dispatch(updateUserWithRedux(this.props.session.currentProfileID, updateInfo))
+        // let updateInfo = {[fieldToEdit]: fieldData}
+        // console.log(updateInfo)
+        var formData  = new FormData()
+        formData.append(fieldToEdit, fieldData)
+        console.log(formData)
+        this.props.dispatch(updateUserWithRedux(this.props.session.currentProfileID, formData))
         this.setState({editingField: ''})
     }
 
@@ -91,13 +94,22 @@ class Profile extends Component {
             let memberTypeEditPermission = 'UpdateAnyUser' + this.props.session.currentProfileData[0].role.replace(/\s/g, '')
             return <Grid container style={{marginTop:10}}>
                         <Grid item xl={4} lg={4} md={4} sm={6} xs={12} align="center" >
-                            { this.props.session.currentProfileData[0].avatar_path ? 
-                                <Avatar alt={this.props.session.currentProfileData[0].first_name} 
-                                        src={'https://sleepy-plateau-42917.herokuapp.com' + 
-                                             this.props.session.currentProfileData[0].avatar_path} 
-                                        style={{width:200, height:200}}/> :
-                                <Avatar alt='No Avatar' src='/images/avatars/no_avatar.png'
-                                        style={{width:200, height:200}} />}
+                            {(this.state.editingField === 'avatar_path') ? 
+                                <EditProfileImage
+                                    cancelEditingField={this.cancelEditingField}
+                                    completeEditingField={this.completeEditingField}
+                                    fieldToEdit='fileObject'
+                                    currentValue={this.props.session.currentProfileData[0].avatar_path} /> :
+                                        
+                                this.props.session.currentProfileData[0].avatar_path ? 
+                                    <Avatar alt={this.props.session.currentProfileData[0].first_name} 
+                                            src={'https://sleepy-plateau-42917.herokuapp.com' + 
+                                                this.props.session.currentProfileData[0].avatar_path} 
+                                            style={{width:200, height:200}}/> :
+                                    <Avatar alt='No Avatar' src='/images/avatars/no_avatar.png'
+                                            style={{width:200, height:200}} />
+                                }
+                            {this.addEditButton(memberTypeEditPermission, 'avatar_path')}
                                 <Typography variant="title" style={{marginTop:15}}>
                                     {(this.state.editingField === 'role_id') ? 
                                         <EditSelectField

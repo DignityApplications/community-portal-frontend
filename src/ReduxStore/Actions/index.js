@@ -80,11 +80,15 @@ function fetchUsers(params) {
   const sortBy = params.sortBy ? params.sortBy : 'first_name'
   const startsWithField = params.startsWithField
   const startsWithLetter = params.startsWithLetter
+  const searchFields = params.searchFields
+  const searchTerm = params.searchTerm
   const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/roles/" + role_id + "/users"
   let URL_PARAMS = ''
   sortBy ? URL_PARAMS += "?sortBy=" + sortBy: null
   startsWithField ? URL_PARAMS += "&startsWithField=" + startsWithField : null
   startsWithLetter ? URL_PARAMS += "&startsWithLetter=" + startsWithLetter : null
+  searchFields ? URL_PARAMS += "&searchFields=" + searchFields : null
+  searchTerm ? URL_PARAMS += "&searchTerm=" + searchTerm : null
   console.log(URL + URL_PARAMS)
   return fetch(URL + URL_PARAMS, { method: 'GET', credentials: 'include' } )
      .then( response => Promise.all([response, response.json()]))
@@ -96,11 +100,11 @@ function addUsers(formData) {
                       body: formData } )
      .then( response => Promise.all([response, response.json()]) )
 }
-function updateUserFetch(id, updateInfo) {
+function updateUserFetch(id, formData) {
   const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/users/" + id
-  return fetch(URL, { method: 'PUT', headers: { 'Accept': 'application/json','Content-Type': 'application/json'},
+  return fetch(URL, { method: 'PUT', headers: { 'Accept': 'application/json',},
                       credentials: 'include',
-                      body: JSON.stringify(updateInfo) } )
+                      body: formData } )
      .then( response => Promise.all([response, response.json()]))
 }
 function deleteUsers(id) {
@@ -212,11 +216,11 @@ export const addUserWithRedux = formData => {
   }
 }
 
-export const updateUserWithRedux = (id, updateInfo) => {
+export const updateUserWithRedux = (id, formData) => {
   return dispatch => {
     //dispatch(fetchPostsRequest()) Eventuall add this in
     dispatch(updateProfileDataLoaded(false))
-    return updateUserFetch(id, updateInfo).then(([response, userData]) =>{
+    return updateUserFetch(id, formData).then(([response, userData]) =>{
         if(response.status === 200){
           dispatch(updateProfileData(userData.data))
           dispatch(updateUser(userData.data))

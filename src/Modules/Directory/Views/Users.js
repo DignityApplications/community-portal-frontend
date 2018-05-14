@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { UserListItem } from '../Components'
 import { connect } from 'react-redux'
 import { fetchUsersWithRedux } from '../../../ReduxStore/Actions'
-import { AppBar, Button, Grid, Input, Tabs, Typography } from 'material-ui'
+import { AppBar, Button, Grid, Input, Tabs, TextField, Typography } from 'material-ui'
+import { FormControl } from 'material-ui/Form';
 import { MenuItem, MenuList } from 'material-ui/Menu'
 import { Tab } from 'material-ui/Tabs'
 
@@ -18,13 +19,25 @@ class Users extends Component {
         this.state = {
             sortingOptions: ['A','B','C','D','E','F','G','H','I','J','K','L',
                              'M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'],
-            startsWithField: 'first_name'
+            startsWithField: 'first_name',
+            searchTerm: ''
         }
     }
 
-    handleChange = (event, value) => {
-        this.setState({ value });
-      };
+    handleChange = name => event => { 
+        // if(this.state.searchField === 'first_name' && name === 'lastNameSearch') {
+        //     this.setState({ firstNameSearch: '' })
+        //     this.setState({ searchField: 'last_name'}) 
+        // } else if (this.state.searchField === 'last_name' && name === 'firstNameSearch') {
+        //     this.setState({ firstNameSearch: '' })
+        //     this.setState({ searchField: 'first_name'}) 
+        // }
+        this.setState({ [name]: event.target.value }) 
+        this.props.dispatch(fetchUsersWithRedux(
+            {role_id: this.props.session.currentRoleID, 
+                searchFields: 'first_name,last_name', 
+                searchTerm: event.target.value}))
+    }
 
     updateStartsWithField = field => {
         this.setState({startsWithField: field})
@@ -64,6 +77,14 @@ class Users extends Component {
                                 onClick={(e) => this.updateStartsWithField('last_name')}>Last Name</MenuItem> 
                         </MenuList>
                     </Grid> */}
+                    <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                        <FormControl fullWidth>
+                            <TextField id="searchTerm" label="Search Directory" margin="normal"
+                                    value={this.state.searchTerm} 
+                                    onChange={this.handleChange('searchTerm')}
+                                    />
+                        </FormControl>
+                    </Grid>
                 </Grid>
                 <Grid container>
                     {this.props.users.map(data => ( <UserListItem key={data.id} id={data.id}
