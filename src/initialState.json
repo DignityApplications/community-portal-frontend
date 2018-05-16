@@ -27,7 +27,10 @@
             {"title": "Directory Nav 1", "view": "TDB"},
             {"title": "Directory Nav 2", "view": "TDB"},
             {"title": "Directory Nav 3", "view": "TDB"}
-        ]
+        ],
+        "Events": [
+          {"title": "Events Nav 1", "view": "TDB"}
+      ]
     },
     "menu": {
       "Home": [
@@ -42,12 +45,16 @@
           {"title": "WebAdmin", "view": "WebAdmin", "role_id": 4, "requiredPermission": "SeeAnyUserWebAdmin" },
           {"title": "Guest", "view": "Guest", "role_id": 3, "requiredPermission": "SeeAnyUserGuest" },
           {"title": "Add User", "view": "AddUser"}
+      ],
+      "Events": [
+        {"title": "Events Menu 1", "view": "TDB"}
       ]
     },
     "view": {
       "activeView": [
         {"Module": "Home", "View": "Default"},
-        {"Module": "Directory", "View": "Users"}
+        {"Module": "Directory", "View": "Users"},
+        {"Module": "Events", "View": "Default"}
       ]
     }
 }  

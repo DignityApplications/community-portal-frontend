@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Typography } from 'material-ui'
 import Directory from '../../Modules/Directory'
+import Events from '../../Modules/Events'
 
 export default class Content extends Component
 {
@@ -17,7 +18,7 @@ export default class Content extends Component
             case 'Directory':
                 return <Directory />
             case 'Events':
-                return <Typography variant='headline'>Events.js</Typography>
+                return <Events />
             default:
                 return <Typography variant='display2'>Default: Content.js</Typography>
                 

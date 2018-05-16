@@ -52,7 +52,7 @@ class Toolbar extends Component {
                         </ListItemText>
                     </ListItem> 
                     <Divider style={{background:"#FFFFFF", height:2, width:'90%'}} component='hr' />
-                    <ListItem button >
+                    <ListItem button onClick={(e) => this.props.dispatch(updateActiveModule("Events"))}>
                         <ListItemIcon>
                             <Icon style={{color: "#FFFFFF"}}>event</Icon>
                         </ListItemIcon>
