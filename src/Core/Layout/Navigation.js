@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { LoggedIn } from '../Components'
-import { Button, Grid } from 'material-ui'
+import { Button, Grid } from '@material-ui/core'
 
 const mapStateToProps = (state) => {
     return { module: state.module, navigation: state.navigation }

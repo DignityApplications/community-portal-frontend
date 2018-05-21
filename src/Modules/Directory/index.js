@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchUsersWithRedux, updateAllUsers } from '../../ReduxStore/Actions'
-import { AddUser, Profile, Users } from './Views'
+import { AddUser, Home, Profile, Users } from './Views'
 
 const mapStateToProps = (state) => {
   return { session: state.session, menu: state.menu, users: state.users, view: state.view }
@@ -25,7 +24,7 @@ class Directory extends Component
             case 'Profile':
                 return <Profile/>
             default:
-                return <Users updateActiveView={this.updateActiveView}/>
+                return <Home />
                 
         }
     }

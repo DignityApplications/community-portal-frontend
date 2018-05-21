@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Grid, Input } from 'material-ui'
-import { FormControl } from 'material-ui/Form';
+import { Button, FormControl, Grid, Input } from '@material-ui/core'
 
 class EditProfileImage extends Component {
 
@@ -9,7 +8,7 @@ class EditProfileImage extends Component {
 
     handleFileUpload = file => { 
         var extension = file ? file.name.substr(file.name.length - 4) : ''
-        if (extension == '.jpg') {
+        if (extension === '.jpg') {
             this.setState({ fileName:file.name, fileObject:file, fileUploadWarning:'' }) 
         } else {
             this.setState({ fileUploadWarning: "Only '.jpg' files may be uploaded"})

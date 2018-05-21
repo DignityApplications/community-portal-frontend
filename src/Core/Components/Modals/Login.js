@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { loginUserWithRedux } from '../../../ReduxStore/Actions'
-import { Button, Icon, Input, TextField, Typography } from 'material-ui'
-import { FormControl } from 'material-ui/Form';
-import { InputLabel, InputAdornment } from 'material-ui/Input';
+import { Button, FormControl, Icon, Input, InputLabel, InputAdornment, TextField, Typography } from '@material-ui/core'
 
 const mapStateToProps = (state) => {
     return { session: state.session }

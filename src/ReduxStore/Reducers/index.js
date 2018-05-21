@@ -49,7 +49,7 @@ export const users = (state=[], action ) => {
           state = [ ...state.concat(action.payload.user) ]
           return state
       case C.UPDATE_USER:
-          state = state.map(user => user.id == action.payload.user[0].id ? action.payload.user[0] : user) 
+          state = state.map(user => user.id === action.payload.user[0].id ? action.payload.user[0] : user) 
           return state
       case C.DELETE_USER:
           state = state.filter(user => user.id !== action.payload.id) 

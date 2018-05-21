@@ -64,13 +64,11 @@ function logoutUser() {
 }
 function fetchUserPermissions(role_id) {
   const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/roles/" + role_id + "/permissions"
-  console.log(URL)
   return fetch(URL, { method: 'GET', credentials: 'include' } )
      .then( response => Promise.all([response, response.json()]))
 }
 function fetchUserRoleName(role_id) {
   const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/roles/" + role_id
-  console.log(URL)
   return fetch(URL, { method: 'GET', credentials: 'include' } )
      .then( response => Promise.all([response, response.json()]))
 }
@@ -84,12 +82,11 @@ function fetchUsers(params) {
   const searchTerm = params.searchTerm
   const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/roles/" + role_id + "/users"
   let URL_PARAMS = ''
-  sortBy ? URL_PARAMS += "?sortBy=" + sortBy: null
-  startsWithField ? URL_PARAMS += "&startsWithField=" + startsWithField : null
-  startsWithLetter ? URL_PARAMS += "&startsWithLetter=" + startsWithLetter : null
-  searchFields ? URL_PARAMS += "&searchFields=" + searchFields : null
-  searchTerm ? URL_PARAMS += "&searchTerm=" + searchTerm : null
-  console.log(URL + URL_PARAMS)
+  if(sortBy) URL_PARAMS += "?sortBy=" + sortBy
+  if(startsWithField) { URL_PARAMS += "&startsWithField=" + startsWithField }
+  if(startsWithLetter) { URL_PARAMS += "&startsWithLetter=" + startsWithLetter }
+  if(searchFields) { URL_PARAMS += "&searchFields=" + searchFields }
+  if(searchTerm) { URL_PARAMS += "&searchTerm=" + searchTerm }
   return fetch(URL + URL_PARAMS, { method: 'GET', credentials: 'include' } )
      .then( response => Promise.all([response, response.json()]))
 }
@@ -187,7 +184,6 @@ export const logoutUserWithRedux = () => {
 
 export const fetchUsersWithRedux = params => {
     return dispatch => {
-      console.log(params)
       if (params.role_id) {dispatch(updateCurrentRoleID(params.role_id))}
       //dispatch(fetchPostsRequest()) Eventuall add this in
       return fetchUsers(params).then(([response, users]) =>{

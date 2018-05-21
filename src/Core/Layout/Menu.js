@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { fetchUsersWithRedux, updateActiveView } from '../../ReduxStore/Actions'
-import { Divider, Icon, Typography } from 'material-ui'
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import { List, ListItem, ListItemText, Typography } from '@material-ui/core'
 
 const mapStateToProps = (state) => {
     return { session: state.session, module: state.module, menu: state.menu, view: state.view }

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { checkUserLoggedInWithRedux } from '../ReduxStore/Actions'
 import { Content, Menu, Navigation, Sidebar, Toolbar } from './Layout'
 import { SiteModal } from './Components'
-import { Grid } from 'material-ui'
+import { Grid } from '@material-ui/core'
 // import coreData from './config.json'
 
 const mapStateToProps = (state) => {

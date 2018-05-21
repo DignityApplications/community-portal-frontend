@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Grid, TextField } from 'material-ui'
-import { FormControl } from 'material-ui/Form';
+import { Button, FormControl, Grid, TextField } from '@material-ui/core'
 
 class EditDateTextField extends Component {
 

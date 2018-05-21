@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Typography } from 'material-ui'
+import { Typography } from '@material-ui/core'
 import Directory from '../../Modules/Directory'
 import Events from '../../Modules/Events'
 

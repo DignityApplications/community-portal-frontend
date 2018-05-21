@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { updateActiveModule } from '../../ReduxStore/Actions'
-import { Button, Divider, Drawer, Hidden, Icon, Grid, Typography } from 'material-ui'
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import { Divider, Drawer, Hidden, Icon, Grid, 
+         List, ListItem, ListItemIcon, ListItemText, Typography } from '@material-ui/core'
 
 
 const mapStateToProps = (state) => {

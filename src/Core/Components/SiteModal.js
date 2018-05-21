@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { updateModalOpen } from '../../ReduxStore/Actions'
 import { compose } from 'recompose'
 
-import { withStyles } from 'material-ui/styles';
-import { Modal, Typography } from 'material-ui';
+import { withStyles } from '@material-ui/core/styles';
+import { Modal, Typography } from '@material-ui/core';
 
 import{ DeleteUser, Login } from './Modals'
 

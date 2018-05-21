@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {  deleteUserWithRedux, updateModalOpen } from '../../../ReduxStore/Actions'
 import { connect } from 'react-redux'
 
-import { Button, Typography } from 'material-ui'
+import { Button, Typography } from '@material-ui/core'
 
 const mapStateToProps = (state) => {
     return { session: state.session }

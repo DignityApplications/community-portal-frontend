@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addUserWithRedux } from '../../../ReduxStore/Actions'
 
-import { Button, Grid, Input, Select, TextField, Typography } from 'material-ui'
-import { MenuItem } from 'material-ui/Menu';
-import { FormControl } from 'material-ui/Form';
+import { Button, FormControl, Grid, Input, MenuItem, Select, TextField, Typography } from '@material-ui/core'
 
 const mapStateToProps = (state) => {
     return { session: state.session }
@@ -25,7 +23,7 @@ class AddUser extends Component {
 
     handleFileUpload = file => { 
         var extension = file ? file.name.substr(file.name.length - 4) : ''
-        if (extension == '.jpg') {
+        if (extension === '.jpg') {
             this.setState({ fileName:file.name, fileObject:file, fileUploadWarning:'' }) 
         } else {
             this.setState({ fileUploadWarning: "Only '.jpg' files may be uploaded"})

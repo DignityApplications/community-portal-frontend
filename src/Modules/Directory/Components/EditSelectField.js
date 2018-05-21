@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Grid, Select, TextField } from 'material-ui'
-import { FormControl } from 'material-ui/Form';
-import { MenuItem } from 'material-ui/Menu';
+import { Button, FormControl, Grid, MenuItem, Select } from '@material-ui/core'
 
 class EditSelectField extends Component {
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { updateProfileID_and_ActiveView } from '../../../ReduxStore/Actions'
 import { connect } from 'react-redux'
 
-import { Avatar, Button, Divider, Grid, Icon, Paper, Typography } from 'material-ui'
+import { Avatar, Button, Divider, Grid, Paper, Typography } from '@material-ui/core'
 
 const mapStateToProps = (state) => {
     return { session: state.session }

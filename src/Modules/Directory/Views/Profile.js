@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { updateUserWithRedux, updateProfileData, updateProfileDataRole, updateProfileDataLoaded } from '../../../ReduxStore/Actions'
-import { Avatar, Grid, Icon, IconButton, Paper, Typography } from 'material-ui'
+import { Avatar, Grid, Icon, IconButton, Paper, Typography } from '@material-ui/core'
 import { EditDateTextField, EditProfileImage, EditSelectField, EditTextArea, EditTextField } from '../Components'
 
 const mapStateToProps = (state) => {
@@ -81,7 +81,7 @@ class Profile extends Component {
         if (this.state.editingField !== field && 
             (this.props.session.currentUserPermissions.includes(memberTypeEditPermission) === true ||
             (this.props.session.currentUserPermissions.includes('UpdateSelf') === true && 
-              this.props.session.currentUserID == this.props.session.currentProfileID))) {
+              this.props.session.currentUserID === this.props.session.currentProfileID))) {
                 return <IconButton color="secondary" aria-label="Edit" onClick={(e) => this.toggleEditingField(field)}>
                         <Icon>edit</Icon>
                        </IconButton>

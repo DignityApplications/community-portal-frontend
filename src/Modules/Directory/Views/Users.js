@@ -2,10 +2,7 @@ import React, { Component } from 'react'
 import { UserListItem } from '../Components'
 import { connect } from 'react-redux'
 import { fetchUsersWithRedux } from '../../../ReduxStore/Actions'
-import { AppBar, Button, Grid, Input, Tabs, TextField, Typography } from 'material-ui'
-import { FormControl } from 'material-ui/Form';
-import { MenuItem, MenuList } from 'material-ui/Menu'
-import { Tab } from 'material-ui/Tabs'
+import { FormControl, Grid, TextField } from '@material-ui/core'
 
 const mapStateToProps = (state) => {
     return { session: state.session, users: state.users }

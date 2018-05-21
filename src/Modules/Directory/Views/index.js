@@ -1,7 +1,8 @@
 import AddUser from './AddUser'
+import Home from './Home'
 import Profile from './Profile'
 import Users from './Users'
 
 export {
-    AddUser, Profile, Users
+    AddUser, Home, Profile, Users
 }
