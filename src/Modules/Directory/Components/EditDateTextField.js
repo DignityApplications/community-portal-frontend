@@ -9,7 +9,6 @@ class EditDateTextField extends Component {
     render() {
         return (
             <div>
-                {console.log(this.state.fieldData)}
                 <Grid container>
                     <Grid item xl={8} lg={7} md={6} sm={12} xs={12}>
                         <FormControl fullWidth>

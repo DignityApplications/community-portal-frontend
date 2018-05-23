@@ -8,12 +8,13 @@
       "currentUserID": "",
       "currentUserPermissions": [],
       "currentProfileID": 0,
-      "currentProfileData": [],
+      "currentProfileData": {},
       "currentProfileDataLoaded": false,
       "currentRoleID": 0,
       "currentDeleteID": 0
     },
     "users": [],
+    "events": [],
     "module": {
       "activeModule": "Home"
     },
@@ -39,7 +40,7 @@
           {"title": "Home Menu 3", "view": "TBD"}
       ],
       "Directory": [
-          {"title": "Users Home", "view": "Users" },
+          {"title": "Home", "view": "Users" },
           {"title": "Member", "view": "Member", "role_id": 1, "requiredPermission": "SeeAnyUserMember" },
           {"title": "Staff", "view": "Staff", "role_id": 2, "requiredPermission": "SeeAnyUserAdministrativeStaff" },
           {"title": "WebAdmin", "view": "WebAdmin", "role_id": 4, "requiredPermission": "SeeAnyUserWebAdmin" },
@@ -47,14 +48,16 @@
           {"title": "Add User", "view": "AddUser"}
       ],
       "Events": [
-        {"title": "Events Menu 1", "view": "TDB"}
+          {"title": "Home", "view": "Home"},
+          {"title": "Calendar", "view": "Calendar"},
+          {"title": "Add Event", "view": "AddEvent"}
       ]
     },
     "view": {
       "activeView": [
         {"Module": "Home", "View": "Default"},
         {"Module": "Directory", "View": "Users"},
-        {"Module": "Events", "View": "Default"}
+        {"Module": "Events", "View": "Home"}
       ]
     }
 }  

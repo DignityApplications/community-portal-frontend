@@ -19,13 +19,13 @@ export const session = (state=[], action ) => {
           state = {...state, currentUserPermissions: action.payload }
           return state
       case C.UPDATE_PROFILE_ID:
-          state = {...state, currentProfileID: action.payload.id }
+          state = {...state, currentProfileID: action.payload }
           return state
       case C.UPDATE_PROFILE_DATA:
-          state = {...state, currentProfileData: action.payload.user }
+          state = {...state, currentProfileData: action.payload }
           return state
       case C.UPDATE_PROFILE_DATA_ROLE:
-          state = {...state, currentProfileData: [ { ...state.currentProfileData[0], role: action.payload } ] }
+          state = {...state, currentProfileData: { ...state.currentProfileData, role: action.payload } }
           return state
       case C.UPDATE_PROFILE_DATA_LOADED:
           state = {...state, currentProfileDataLoaded: action.payload }
@@ -46,13 +46,31 @@ export const users = (state=[], action ) => {
       case C.UPDATE_ALL_USERS:
           return action.payload
       case C.ADD_USER:
-          state = [ ...state.concat(action.payload.user) ]
+          state = [ ...state.concat(action.payload) ]
           return state
       case C.UPDATE_USER:
-          state = state.map(user => user.id === action.payload.user[0].id ? action.payload.user[0] : user) 
+          state = state.map(user => user.id === action.payload.id ? action.payload : user) 
           return state
       case C.DELETE_USER:
           state = state.filter(user => user.id !== action.payload.id) 
+          return state
+      default:
+          return state
+    }
+}
+
+export const events = (state=[], action ) => {
+    switch(action.type) {
+      case C.UPDATE_ALL_EVENTS:
+          return action.payload
+      case C.ADD_EVENT:
+          state = [ ...state.concat(action.payload) ]
+          return state
+      case C.UPDATE_EVENT:
+          state = state.map(event => event.id === action.payload.id ? action.payload : event) 
+          return state
+      case C.DELETE_EVENT:
+          state = state.filter(event => event.id !== action.payload.id) 
           return state
       default:
           return state
@@ -107,5 +125,5 @@ export const view = (state=[], action ) => {
 }
 
 export default combineReducers({
-    session, users, module, navigation, menu, view
+    session, users, events, module, navigation, menu, view
 })

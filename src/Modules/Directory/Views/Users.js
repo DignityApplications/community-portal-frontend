@@ -14,21 +14,12 @@ class Users extends Component {
         super(props)
     
         this.state = {
-            sortingOptions: ['A','B','C','D','E','F','G','H','I','J','K','L',
-                             'M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'],
             startsWithField: 'first_name',
             searchTerm: ''
         }
     }
 
     handleChange = name => event => { 
-        // if(this.state.searchField === 'first_name' && name === 'lastNameSearch') {
-        //     this.setState({ firstNameSearch: '' })
-        //     this.setState({ searchField: 'last_name'}) 
-        // } else if (this.state.searchField === 'last_name' && name === 'firstNameSearch') {
-        //     this.setState({ firstNameSearch: '' })
-        //     this.setState({ searchField: 'first_name'}) 
-        // }
         this.setState({ [name]: event.target.value }) 
         this.props.dispatch(fetchUsersWithRedux(
             {role_id: this.props.session.currentRoleID, 
@@ -46,34 +37,7 @@ class Users extends Component {
         return (
             <div>
                 <Grid container>
-                <h1>2 search boxes will go here</h1>
-                    {/* <Grid item xl={9} lg={9} md={9} sm={9} xs={9} >
-                            <div>
-                                {this.state.sortingOptions.map( letter => {
-                                return <span style={{margin: 3, float: 'left', padding: 10, fontFamily:'Rambla', 
-                                                     textTransform:'uppercase', letterSpacing:2, cursor: 'pointer'}}
-                                         key={letter}
-                                         onClick={(e) => this.props.dispatch(
-                                            fetchUsersWithRedux({role_id: this.props.session.currentRoleID, 
-                                                                 sortBy: this.state.startsWithField, 
-                                                                 startsWithField: this.state.startsWithField, 
-                                                                 startsWithLetter: letter}))}> 
-                                         {letter}</span>
-                                       
-                                            
-                                })}
-                            </div>
-                    </Grid>
-                    <Grid item xl={3} lg={3} md={3} sm={3} xs={3}>
-                        <MenuList>
-                            <MenuItem style={this.state.startsWithField === 'first_name' ?{
-                                background:'#fff'} : null}
-                                onClick={(e) => this.updateStartsWithField('first_name')}>First Name</MenuItem> 
-                            <MenuItem style={this.state.startsWithField === 'last_name' ?{
-                                background:'#fff'} : null}
-                                onClick={(e) => this.updateStartsWithField('last_name')}>Last Name</MenuItem> 
-                        </MenuList>
-                    </Grid> */}
+                <h1>{this.prpos}</h1>
                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                         <FormControl fullWidth>
                             <TextField id="searchTerm" label="Search Directory" margin="normal"
@@ -83,7 +47,7 @@ class Users extends Component {
                         </FormControl>
                     </Grid>
                 </Grid>
-                <Grid container>
+                <Grid container spacing={8} >
                     {this.props.users.map(data => ( <UserListItem key={data.id} id={data.id}
                                 avatar_path={data.avatar_path} first_name={data.first_name} last_name={data.last_name} />
                     ))}

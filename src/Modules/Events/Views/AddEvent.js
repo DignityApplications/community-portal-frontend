@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 
-class HelloWorld extends Component {
+class AddEvent extends Component {
     render() {
         return (
             <div>
-                <h1>Directory Home</h1>
+                <h1>Add Event</h1>
             </div>
         )
     }
 }
 
-export default HelloWorld
+export default AddEvent

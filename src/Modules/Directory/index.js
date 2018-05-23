@@ -9,7 +9,7 @@ const mapStateToProps = (state) => {
 
 class Directory extends Component 
 {
-    renderModule(view) {
+    renderView(view) {
         switch(view) {
             case 'Member':
                 return <Users updateActiveView={this.updateActiveView}/>
@@ -32,7 +32,7 @@ class Directory extends Component
     render () {
         return (
             <div>
-                {this.renderModule(this.props.view.activeView[1].View)}
+                {this.renderView(this.props.view.activeView[1].View)}
             </div>
         )
     }

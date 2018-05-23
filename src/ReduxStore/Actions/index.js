@@ -6,18 +6,12 @@ export const updateModalOpen = modalOpen => { return { type: C.UPDATE_MODAL_OPEN
 export const updateModalComponent = modalComponent => { return { type: C.UPDATE_MODAL_COMPONENT, payload: modalComponent }}
 export const updateCurrentUserID = currentUserID => { return { type: C.UPDATE_CURRENT_USER_ID, payload: currentUserID }}
 export const updateCurrentUserPermissions = currentUserPermissions => { return { type: C.UPDATE_CURRENT_USER_PERMISSIONS, payload: currentUserPermissions }}
-export const updateProfileID = id => { return { type: C.UPDATE_PROFILE_ID, payload: {id} } }
-export const updateProfileData = user => { return { type: C.UPDATE_PROFILE_DATA, payload: {user} } }
+export const updateProfileID = id => { return { type: C.UPDATE_PROFILE_ID, payload: id } }
+export const updateProfileData = user => { return { type: C.UPDATE_PROFILE_DATA, payload: user } }
 export const updateProfileDataRole = roleName => { return { type: C.UPDATE_PROFILE_DATA_ROLE, payload: roleName } }
 export const updateProfileDataLoaded = loaded => { return { type: C.UPDATE_PROFILE_DATA_LOADED, payload: loaded } }
 export const updateCurrentRoleID = id => { return { type: C.UPDATE_CURRENT_ROLE_ID, payload: id } }
 export const updateCurrentDeleteID = id => { return { type: C.UPDATE_CURRENT_DELETE_ID, payload: id } }
-
-//ACTIONS FOR USER DATA
-export const updateAllUsers = users => { return { type: C.UPDATE_ALL_USERS, payload: users }}
-export const addUser = user => { return { type: C.ADD_USER, payload: {user} }}
-export const updateUser = user => { return { type: C.UPDATE_USER, payload: {user} }}
-export const deleteUser = id => { return { type: C.DELETE_USER, payload: {id} }}
 
 //ACTIONS FOR MODULE DATA
 export const updateActiveModule = activeModule => { return { type: C.UPDATE_ACTIVE_MODULE, payload: {activeModule} } }
@@ -43,6 +37,23 @@ export const updateProfileID_and_ActiveView = (id, module, activeView) => (
     dispatch(updateActiveView(module, activeView))
   }
 )
+
+
+function fetchUserPermissions(role_id) {
+  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/roles/" + role_id + "/permissions"
+  return fetch(URL, { method: 'GET', credentials: 'include' } )
+     .then( response => Promise.all([response, response.json()]))
+}
+function fetchUserRoleName(role_id) {
+  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/roles/" + role_id
+  return fetch(URL, { method: 'GET', credentials: 'include' } )
+     .then( response => Promise.all([response, response.json()]))
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////// ACTIONS FOR LOGIN/LOGOUT /////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+
 function checkUserLoggedIn() {
   const URL = "https://sleepy-plateau-42917.herokuapp.com/auth/status"
   return fetch(URL, { method: 'GET', credentials: 'include' } )
@@ -60,54 +71,6 @@ function loginUser(formData) {
 function logoutUser() {
   const URL = "https://sleepy-plateau-42917.herokuapp.com/auth/logout"
   return fetch(URL, { method: 'GET', credentials: 'include' } )
-     .then( response => Promise.all([response, response.json()]))
-}
-function fetchUserPermissions(role_id) {
-  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/roles/" + role_id + "/permissions"
-  return fetch(URL, { method: 'GET', credentials: 'include' } )
-     .then( response => Promise.all([response, response.json()]))
-}
-function fetchUserRoleName(role_id) {
-  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/roles/" + role_id
-  return fetch(URL, { method: 'GET', credentials: 'include' } )
-     .then( response => Promise.all([response, response.json()]))
-}
-
-function fetchUsers(params) {
-  const role_id = params.role_id ? params.role_id : 1
-  const sortBy = params.sortBy ? params.sortBy : 'first_name'
-  const startsWithField = params.startsWithField
-  const startsWithLetter = params.startsWithLetter
-  const searchFields = params.searchFields
-  const searchTerm = params.searchTerm
-  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/roles/" + role_id + "/users"
-  let URL_PARAMS = ''
-  if(sortBy) URL_PARAMS += "?sortBy=" + sortBy
-  if(startsWithField) { URL_PARAMS += "&startsWithField=" + startsWithField }
-  if(startsWithLetter) { URL_PARAMS += "&startsWithLetter=" + startsWithLetter }
-  if(searchFields) { URL_PARAMS += "&searchFields=" + searchFields }
-  if(searchTerm) { URL_PARAMS += "&searchTerm=" + searchTerm }
-  return fetch(URL + URL_PARAMS, { method: 'GET', credentials: 'include' } )
-     .then( response => Promise.all([response, response.json()]))
-}
-function addUsers(formData) {
-  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/users/"
-  return fetch(URL, { method: 'POST', headers: { 'Accept': 'application/json',}, 
-                      credentials: 'include',
-                      body: formData } )
-     .then( response => Promise.all([response, response.json()]) )
-}
-function updateUserFetch(id, formData) {
-  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/users/" + id
-  return fetch(URL, { method: 'PUT', headers: { 'Accept': 'application/json',},
-                      credentials: 'include',
-                      body: formData } )
-     .then( response => Promise.all([response, response.json()]))
-}
-function deleteUsers(id) {
-  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/users/" + id
-  return fetch(URL, { method: 'DELETE', headers: { 'Accept': 'application/json','Content-Type': 'application/json'},
-                      credentials: 'include' } )
      .then( response => Promise.all([response, response.json()]))
 }
 
@@ -182,6 +145,52 @@ export const logoutUserWithRedux = () => {
   }
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////// ACTIONS FOR USERS DATA //////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+export const updateAllUsers = users => { return { type: C.UPDATE_ALL_USERS, payload: users }}
+export const addUserToStore = user => { return { type: C.ADD_USER, payload: user }}
+export const updateUser = user => { return { type: C.UPDATE_USER, payload: user }}
+export const deleteUser = id => { return { type: C.DELETE_USER, payload: id }}
+
+function fetchUsers(params) {
+  const role_id = params.role_id ? params.role_id : 1
+  const sortBy = params.sortBy ? params.sortBy : 'first_name'
+  const startsWithField = params.startsWithField
+  const startsWithLetter = params.startsWithLetter
+  const searchFields = params.searchFields
+  const searchTerm = params.searchTerm
+  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/roles/" + role_id + "/users"
+  let URL_PARAMS = ''
+  if(sortBy) URL_PARAMS += "?sortBy=" + sortBy
+  if(startsWithField) { URL_PARAMS += "&startsWithField=" + startsWithField }
+  if(startsWithLetter) { URL_PARAMS += "&startsWithLetter=" + startsWithLetter }
+  if(searchFields) { URL_PARAMS += "&searchFields=" + searchFields }
+  if(searchTerm) { URL_PARAMS += "&searchTerm=" + searchTerm }
+  return fetch(URL + URL_PARAMS, { method: 'GET', credentials: 'include' } )
+     .then( response => Promise.all([response, response.json()]))
+}
+function addUser(formData) {
+  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/users/"
+  return fetch(URL, { method: 'POST', headers: { 'Accept': 'application/json',}, 
+                      credentials: 'include',
+                      body: formData } )
+     .then( response => Promise.all([response, response.json()]) )
+}
+function updateUserFetch(id, formData) {
+  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/users/" + id
+  return fetch(URL, { method: 'PUT', headers: { 'Accept': 'application/json',},
+                      credentials: 'include',
+                      body: formData } )
+     .then( response => Promise.all([response, response.json()]))
+}
+function deleteUsers(id) {
+  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/users/" + id
+  return fetch(URL, { method: 'DELETE', headers: { 'Accept': 'application/json','Content-Type': 'application/json'},
+                      credentials: 'include' } )
+     .then( response => Promise.all([response, response.json()]))
+}
+
 export const fetchUsersWithRedux = params => {
     return dispatch => {
       if (params.role_id) {dispatch(updateCurrentRoleID(params.role_id))}
@@ -197,13 +206,12 @@ export const fetchUsersWithRedux = params => {
       })
     }
 }
-
 export const addUserWithRedux = formData => {
   return dispatch => {
     //dispatch(fetchPostsRequest()) Eventuall add this in
-    return addUsers(formData).then(([response, userData]) =>{
+    return addUser(formData).then(([response, userData]) =>{
         if(response.status === 201){
-        dispatch(addUser(userData.data))
+        dispatch(addUserToStore(userData.data[0]))
       }
       else{
         //dispatch(fetchPostsError())
@@ -211,15 +219,14 @@ export const addUserWithRedux = formData => {
     })
   }
 }
-
 export const updateUserWithRedux = (id, formData) => {
   return dispatch => {
     //dispatch(fetchPostsRequest()) Eventuall add this in
     dispatch(updateProfileDataLoaded(false))
     return updateUserFetch(id, formData).then(([response, userData]) =>{
         if(response.status === 200){
-          dispatch(updateProfileData(userData.data))
-          dispatch(updateUser(userData.data))
+          dispatch(updateProfileData(userData.data[0]))
+          dispatch(updateUser(userData.data[0]))
           let role_id = userData.data[0].role_id
           return fetchUserRoleName(role_id).then(([response, userData]) =>{
             if(response.status === 200){
@@ -238,7 +245,6 @@ export const updateUserWithRedux = (id, formData) => {
     })
   }
 }
-
 export const deleteUserWithRedux = user => {
   return dispatch => {
     //dispatch(fetchPostsRequest()) Eventuall add this in
@@ -249,6 +255,41 @@ export const deleteUserWithRedux = user => {
         dispatch(updateModalOpen(false))
       }
       else{
+        //dispatch(fetchPostsError())
+      }
+    })
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////// ACTIONS FOR EVENTS DATA /////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+export const updateAllEvents = events => { return { type: C.UPDATE_ALL_EVENTS, payload: events } }
+export const addEvent = event => { return { type: C.ADD_EVENT, payload: event }}
+export const updateEvent = event => { return { type: C.UPDATE_EVNET, payload: event }}
+export const deleteEvent = id => { return { type: C.DELETE_EVENT, payload: id }}
+
+function fetchEvents() {
+  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/events/"
+  return fetch(URL, { method: 'GET', credentials: 'include' } )
+     .then( response => Promise.all([response, response.json()]))
+}
+export const fetchEventsWithRedux = () => {
+  return dispatch => {
+    //dispatch(fetchPostsRequest()) Eventuall add this in
+    return fetchEvents().then(([response, events]) =>{
+        if(response.status === 200){
+        var allEvents = events.data.map(event =>
+          {
+            event.begin = Date(event.begin)
+            event.end = Date(event.end)
+            var customEvent = {id: event.id, title: event.name, start: event.begin, end: event.end}
+            return customEvent
+          }  
+        )
+        dispatch(updateAllEvents(allEvents))
+      }
+      else {
         //dispatch(fetchPostsError())
       }
     })

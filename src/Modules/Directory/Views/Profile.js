@@ -25,8 +25,8 @@ class Profile extends Component {
         return fetch(URL, { method: 'GET', credentials: 'include' } )
             .then( response => response.json() )
             .then( user => {
-                this.props.dispatch(updateProfileData(user.data)) 
-                const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/roles/" + this.props.session.currentProfileData[0].role_id
+                this.props.dispatch(updateProfileData(user.data[0])) 
+                const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/roles/" + this.props.session.currentProfileData.role_id
                 return fetch(URL, { method: 'GET', credentials: 'include' } )
                     .then( response => response.json() )
                     .then( permission => { 
@@ -66,12 +66,8 @@ class Profile extends Component {
     }
 
     completeEditingField(fieldToEdit, fieldData) {
-        console.log(fieldToEdit)
-        // let updateInfo = {[fieldToEdit]: fieldData}
-        // console.log(updateInfo)
         var formData  = new FormData()
         formData.append(fieldToEdit, fieldData)
-        console.log(formData)
         this.props.dispatch(updateUserWithRedux(this.props.session.currentProfileID, formData))
         this.setState({editingField: ''})
     }
@@ -90,8 +86,7 @@ class Profile extends Component {
 
     renderContent() {
         if (this.props.session.currentProfileDataLoaded) {
-            console.log(this.props.session.currentProfileData[0])
-            let memberTypeEditPermission = 'UpdateAnyUser' + this.props.session.currentProfileData[0].role.replace(/\s/g, '')
+            let memberTypeEditPermission = 'UpdateAnyUser' + this.props.session.currentProfileData.role.replace(/\s/g, '')
             return <Grid container style={{marginTop:10}}>
                         <Grid item xl={4} lg={4} md={4} sm={6} xs={12} align="center" >
                             {(this.state.editingField === 'avatar_path') ? 
@@ -99,12 +94,12 @@ class Profile extends Component {
                                     cancelEditingField={this.cancelEditingField}
                                     completeEditingField={this.completeEditingField}
                                     fieldToEdit='fileObject'
-                                    currentValue={this.props.session.currentProfileData[0].avatar_path} /> :
+                                    currentValue={this.props.session.currentProfileData.avatar_path} /> :
                                         
-                                this.props.session.currentProfileData[0].avatar_path ? 
-                                    <Avatar alt={this.props.session.currentProfileData[0].first_name} 
+                                this.props.session.currentProfileData.avatar_path ? 
+                                    <Avatar alt={this.props.session.currentProfileData.first_name} 
                                             src={'https://sleepy-plateau-42917.herokuapp.com' + 
-                                                this.props.session.currentProfileData[0].avatar_path} 
+                                                this.props.session.currentProfileData.avatar_path} 
                                             style={{width:200, height:200}}/> :
                                     <Avatar alt='No Avatar' src='/images/avatars/no_avatar.png'
                                             style={{width:200, height:200}} />
@@ -116,9 +111,9 @@ class Profile extends Component {
                                             cancelEditingField={this.cancelEditingField}
                                             completeEditingField={this.completeEditingField}
                                             fieldToEdit='role_id' 
-                                            currentRole={this.props.session.currentProfileData[0].role}
-                                            currentValue={this.props.session.currentProfileData[0].role_id} /> :
-                                        <span>{this.props.session.currentProfileData[0].role}</span>
+                                            currentRole={this.props.session.currentProfileData.role}
+                                            currentValue={this.props.session.currentProfileData.role_id} /> :
+                                        <span>{this.props.session.currentProfileData.role}</span>
                                     }
                                     {this.addEditButton(memberTypeEditPermission, 'role_id')}
                                     <br/>
@@ -129,8 +124,8 @@ class Profile extends Component {
                                             cancelEditingField={this.cancelEditingField}
                                             completeEditingField={this.completeEditingField}
                                             fieldToEdit='date_of_birth' 
-                                            currentValue={this.props.session.currentProfileData[0].date_of_birth} /> :
-                                        <span>{this.formatBirthday(this.props.session.currentProfileData[0].date_of_birth)}</span>
+                                            currentValue={this.props.session.currentProfileData.date_of_birth} /> :
+                                        <span>{this.formatBirthday(this.props.session.currentProfileData.date_of_birth)}</span>
                                     }
                                     {this.addEditButton(memberTypeEditPermission, 'date_of_birth')}
                                 </Typography>
@@ -138,7 +133,7 @@ class Profile extends Component {
                     
                         <Grid item xl={8} lg={8} md={8} sm={6} xs={12} style={{textAlign: 'left'}}>
                             <Typography variant="display2" style={{textDecoration:'underline'}}>
-                                {this.props.session.currentProfileData[0].first_name} {this.props.session.currentProfileData[0].last_name}
+                                {this.props.session.currentProfileData.first_name} {this.props.session.currentProfileData.last_name}
                             </Typography>
                             <Typography variant="title" style={{marginTop:15}}>
                                 <span>Cell: </span>
@@ -147,8 +142,8 @@ class Profile extends Component {
                                         cancelEditingField={this.cancelEditingField}
                                         completeEditingField={this.completeEditingField}
                                         fieldToEdit='cell_phone_number' 
-                                        currentValue={this.props.session.currentProfileData[0].cell_phone_number} /> :
-                                    <a href={`tel:${this.props.session.currentProfileData[0].cell_phone_number}`}>{this.props.session.currentProfileData[0].cell_phone_number}</a>
+                                        currentValue={this.props.session.currentProfileData.cell_phone_number} /> :
+                                    <a href={`tel:${this.props.session.currentProfileData.cell_phone_number}`}>{this.props.session.currentProfileData.cell_phone_number}</a>
                                     
                                 }
                                 {this.addEditButton(memberTypeEditPermission, 'cell_phone_number')}
@@ -162,8 +157,8 @@ class Profile extends Component {
                                         cancelEditingField={this.cancelEditingField}
                                         completeEditingField={this.completeEditingField}
                                         fieldToEdit='home_phone_number' 
-                                        currentValue={this.props.session.currentProfileData[0].home_phone_number} /> :
-                                    <a href={`tel:${this.props.session.currentProfileData[0].home_phone_number}`}>{this.props.session.currentProfileData[0].home_phone_number}</a>
+                                        currentValue={this.props.session.currentProfileData.home_phone_number} /> :
+                                    <a href={`tel:${this.props.session.currentProfileData.home_phone_number}`}>{this.props.session.currentProfileData.home_phone_number}</a>
                                     
                                 }
                                 {this.addEditButton(memberTypeEditPermission, 'home_phone_number')}
@@ -177,8 +172,8 @@ class Profile extends Component {
                                         cancelEditingField={this.cancelEditingField}
                                         completeEditingField={this.completeEditingField}
                                         fieldToEdit='email' 
-                                        currentValue={this.props.session.currentProfileData[0].email} /> :
-                                    <a href={`mailto:${this.props.session.currentProfileData[0].email}`}>{this.props.session.currentProfileData[0].email}</a>
+                                        currentValue={this.props.session.currentProfileData.email} /> :
+                                    <a href={`mailto:${this.props.session.currentProfileData.email}`}>{this.props.session.currentProfileData.email}</a>
                                     
                                 }
                                 {this.addEditButton(memberTypeEditPermission, 'email')}
@@ -192,9 +187,9 @@ class Profile extends Component {
                                         cancelEditingField={this.cancelEditingField}
                                         completeEditingField={this.completeEditingField}
                                         fieldToEdit='current_address' 
-                                        currentValue={this.props.session.currentProfileData[0].current_address} /> :
-                                    <a href={this.formatAddressURL(this.props.session.currentProfileData[0].current_address)} target="_blank">
-                                        {this.props.session.currentProfileData[0].current_address}</a>
+                                        currentValue={this.props.session.currentProfileData.current_address} /> :
+                                    <a href={this.formatAddressURL(this.props.session.currentProfileData.current_address)} target="_blank">
+                                        {this.props.session.currentProfileData.current_address}</a>
                                     
                                 }
                                 {this.addEditButton(memberTypeEditPermission, 'current_address')}
@@ -212,8 +207,8 @@ class Profile extends Component {
                                             cancelEditingField={this.cancelEditingField}
                                             completeEditingField={this.completeEditingField}
                                             fieldToEdit='bio' 
-                                            currentValue={this.props.session.currentProfileData[0].bio} /> :
-                                        <span>{this.props.session.currentProfileData[0].bio}</span>
+                                            currentValue={this.props.session.currentProfileData.bio} /> :
+                                        <span>{this.props.session.currentProfileData.bio}</span>
                                         
                                     }
                                     {this.addEditButton(memberTypeEditPermission, 'bio')}
