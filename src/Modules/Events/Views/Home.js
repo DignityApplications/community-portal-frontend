@@ -6,7 +6,7 @@ class Home extends Component {
                 <li>ID: {event.id}</li>
                 <li>Name: {event.name}</li>
                 <li>Description: {event.description}</li>
-                <li>Begin: {event.begin}</li>
+                <li>Begin: {event.start}</li>
                 <li>End: {event.end}</li>
                 <li>Location: {event.location}</li>
                 <li>Creator: {event.creator}</li>

@@ -1,47 +1,36 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
-}
-
 body {
-  background-color: #fbf4d0;
+  background-color: #FFF;
   -webkit-font-smoothing: antialiased;
 }
 .mainMenu {
   padding: 0 !important;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-@media screen and (min-width: 960px) {
+/* @media screen and (min-width: 960px) {
   .mainSiteContent {
     margin-left: 225px !important;
     padding-right: 225px !important; 
   }
+} */
+
+.toolbarItem {
+  color: #FFF !important;
+  background-color: rgb(36, 48, 94) !important;
+}
+.toolbarItem .material-icons {
+  color: #FFF !important;
+}
+.toolbarItem p {
+  color: #FFF !important;
 }
 
-.MuiDrawer-paperAnchorDockedLeft-116 {
-  background-color:#F76C6C !important;
-  border-right: none !important;
+.activeToolbarItem {
+  color: rgb(36, 48, 94) !important;
+  background-color: #FFF !important
+}
+.activeToolbarItem .material-icons {
+  color: rgb(36, 48, 94) !important;
+}
+.activeToolbarItem p {
+  color: rgb(36, 48, 94) !important;
 }

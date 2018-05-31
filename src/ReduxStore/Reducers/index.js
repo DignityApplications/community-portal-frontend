@@ -36,6 +36,9 @@ export const session = (state=[], action ) => {
       case C.UPDATE_CURRENT_DELETE_ID:
           state = {...state, currentDeleteID: action.payload }
           return state
+      case C.UPDATE_CURRENT_EVENT:
+          state = {...state, currentEvent: action.payload }
+          return state
       default:
           return state
     }

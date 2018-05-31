@@ -12,6 +12,7 @@ export const updateProfileDataRole = roleName => { return { type: C.UPDATE_PROFI
 export const updateProfileDataLoaded = loaded => { return { type: C.UPDATE_PROFILE_DATA_LOADED, payload: loaded } }
 export const updateCurrentRoleID = id => { return { type: C.UPDATE_CURRENT_ROLE_ID, payload: id } }
 export const updateCurrentDeleteID = id => { return { type: C.UPDATE_CURRENT_DELETE_ID, payload: id } }
+export const updateCurrentEvent = event => { return {type: C.UPDATE_CURRENT_EVENT, payload: event } }
 
 //ACTIONS FOR MODULE DATA
 export const updateActiveModule = activeModule => { return { type: C.UPDATE_ACTIVE_MODULE, payload: {activeModule} } }
@@ -23,9 +24,11 @@ export const updateActiveMenu = menu => { return { type: C.UPDATE_ACTIVE_MENU, p
 export const updateActiveView = (module, activeView) => { return { type: C.UPDATE_ACTIVE_VIEW, payload: {module, activeView} } }
 
 //MULTI-ACTIONS
-export const updateModalOpen_and_ModalComponent = ( component, id ) => (
+export const updateModalOpen_and_ModalComponent = ( component, data ) => (
   dispatch => {
-    if ( id ) {dispatch(updateCurrentDeleteID(id))}
+    if ( data ) console.log(data)
+    if ( data && data.deleteID ) {dispatch(updateCurrentDeleteID(data.deleteID))}
+    if ( data && data.title ) {dispatch(updateCurrentEvent(data))}
     dispatch(updateModalComponent(component))
     dispatch(updateModalOpen(true))
   }
@@ -278,16 +281,8 @@ export const fetchEventsWithRedux = () => {
   return dispatch => {
     //dispatch(fetchPostsRequest()) Eventuall add this in
     return fetchEvents().then(([response, events]) =>{
-        if(response.status === 200){
-        var allEvents = events.data.map(event =>
-          {
-            event.begin = Date(event.begin)
-            event.end = Date(event.end)
-            var customEvent = {id: event.id, title: event.name, start: event.begin, end: event.end}
-            return customEvent
-          }  
-        )
-        dispatch(updateAllEvents(allEvents))
+      if(response.status === 200){
+        dispatch(updateAllEvents(events.data))
       }
       else {
         //dispatch(fetchPostsError())

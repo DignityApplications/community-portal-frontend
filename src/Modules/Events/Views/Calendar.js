@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { updateModalOpen_and_ModalComponent } from '../../../ReduxStore/Actions'
 import BigCalendar from 'react-big-calendar'
 import moment from 'moment'
 
@@ -118,20 +119,45 @@ const events = [
 
 class Events extends Component 
 {
+    state = {
+        convertedEvents: []
+    }
+
+    componentWillMount() {
+        var tempCovertedEvents = this.props.events.map(event => 
+            {
+                event.start = new Date(event.start)
+                event.end = new Date(event.end)
+                event.allDay = event.all_day
+                return event
+            }
+        )
+        this.setState({convertedEvents: tempCovertedEvents})
+    }
+
+    renderOnSelect = (e) => {
+      alert('hit' + JSON.stringify(e));
+    }
+
     render () {
+        var myEvents = [this.props.events[0]]
         return (
             <div>
-                <h1>EVENTS YAY</h1>
+                {console.log(this.state.convertedEvents)}
                 <BigCalendar
-                     events={events}
-                    // events={this.props.events}
+                    // events={events}
+                    events={this.state.convertedEvents}
                     views={allViews}
-                    step={60}
+                    step={15}
+                    timeslots={8}
+                    onSelectEvent={(e) => this.props.dispatch(updateModalOpen_and_ModalComponent('eventDetails', e))}
+                    //onSelectEvent={(e) => this.renderOnSelect(e)}
+                    popup
                     showMultiDayTimes
-                    // defaultDate={new Date(2018, 4, 22)}
-                     defaultDate={new Date(2015, 3, 1)}
+                    defaultDate={new Date(2018, 4, 22)}
+                    // defaultDate={new Date(2015, 3, 1)}
 
-                    style={{background:'white'}}
+                    style={{background:'white', margin:25}}
                 />
             </div>
         )

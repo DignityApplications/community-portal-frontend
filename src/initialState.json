@@ -11,7 +11,8 @@
       "currentProfileData": {},
       "currentProfileDataLoaded": false,
       "currentRoleID": 0,
-      "currentDeleteID": 0
+      "currentDeleteID": 0,
+      "currentEvent": {}
     },
     "users": [],
     "events": [],

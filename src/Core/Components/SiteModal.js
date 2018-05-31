@@ -6,7 +6,7 @@ import { compose } from 'recompose'
 import { withStyles } from '@material-ui/core/styles';
 import { Modal, Typography } from '@material-ui/core';
 
-import{ DeleteUser, Login } from './Modals'
+import{ DeleteUser, EventDetails, Login } from './Modals'
 
 const mapStateToProps = (state) => {
   return { session: state.session }
@@ -43,6 +43,8 @@ class SiteModal extends Component {
     switch (component) {
       case 'deleteUser':
         return <DeleteUser />
+      case 'eventDetails':
+        return <EventDetails />
       case 'login':
         return <Login />
       default:

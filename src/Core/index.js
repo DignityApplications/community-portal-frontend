@@ -33,8 +33,10 @@ class Core extends Component {
       return (
             <Grid container>
                 <SiteModal />
-                <Toolbar updateCurrentModule={this.updateCurrentModule} />
-                <Grid item xl={12} lg={12} md={12} sm={12} xs={12} className="mainSiteContent" >
+                <Grid item xl={1} lg={1} md={2} sm={2} xs={2} style={{backgroundColor:'rgb(36, 48, 94)', height:'100vh'}}>
+                    <Toolbar updateCurrentModule={this.updateCurrentModule} />
+                </Grid>
+                <Grid item xl={11} lg={11} md={10} sm={10} xs={10} className="mainSiteContent" >
                     <Grid container>
                         <Grid item sm={12}>
                             <Navigation currentModule = {this.props.module.activeModule} />
