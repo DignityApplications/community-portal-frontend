@@ -17,7 +17,7 @@ class Events extends Component  {
     renderView(view) {
         switch(view) {
             case 'Calendar':
-                return <Calandar events={this.props.events}/>
+                return <Calandar/>
             case 'AddEvent':
                 return <AddEvent/>
             default:

@@ -21,8 +21,7 @@ class Menu extends Component {
                             return  <ListItem key={link.title} 
                                               button onClick={(e) => this.props.dispatch(fetchUsersWithRedux(data))}>
                                         <ListItemText>
-                                            <Typography style={{color:"rgba(0,0,0,.7)", fontFamily:'Rambla', 
-                                                    textTransform:'uppercase', letterSpacing:2 }}>
+                                            <Typography>
                                                 {link.title} 
                                             </Typography>
                                         </ListItemText>
@@ -32,8 +31,7 @@ class Menu extends Component {
                             return  <ListItem key={link.title}
                                         button onClick={(e) => this.props.dispatch(updateActiveView(this.props.module.activeModule, link.view))}>
                                         <ListItemText>
-                                            <Typography style={{color:"rgba(0,0,0,.7)", fontFamily:'Rambla', 
-                                                    textTransform:'uppercase', letterSpacing:2 }}>
+                                            <Typography >
                                                 {link.title} 
                                             </Typography>
                                         </ListItemText>

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { updateUserWithRedux, updateProfileData, updateProfileDataRole, updateProfileDataLoaded } from '../../../ReduxStore/Actions'
 import { Avatar, Grid, Icon, IconButton, Paper, Typography } from '@material-ui/core'
-import { EditDateTextField, EditProfileImage, EditSelectField, EditTextArea, EditTextField } from '../Components'
+import { EditDateTextField, EditProfileImage, EditSelectField, EditTextArea, EditTextField } from '../../../Core/Components/FormEditElements'
 
 const mapStateToProps = (state) => {
     return { session: state.session }

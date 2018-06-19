@@ -73,7 +73,7 @@ export const events = (state=[], action ) => {
           state = state.map(event => event.id === action.payload.id ? action.payload : event) 
           return state
       case C.DELETE_EVENT:
-          state = state.filter(event => event.id !== action.payload.id) 
+          state = state.filter(event => event.id !== action.payload) 
           return state
       default:
           return state

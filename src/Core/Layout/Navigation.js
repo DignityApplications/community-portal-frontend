@@ -18,9 +18,7 @@ class Navigation extends Component {
                     {
                         this.props.navigation[this.props.module.activeModule].map( (link) => {
                             //Eventually the code below will return a custom Navigation Component
-                            return <Button key={link.title} 
-                                          style={{fontFamily:'Rambla',letterSpacing:3,
-                                                  fontWeight: 900, fontSize: '18px'}}>
+                            return <Button key={link.title} >
                                           {link.title}</Button> 
                         })
                     }

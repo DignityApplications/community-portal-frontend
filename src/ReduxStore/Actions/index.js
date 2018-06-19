@@ -26,7 +26,6 @@ export const updateActiveView = (module, activeView) => { return { type: C.UPDAT
 //MULTI-ACTIONS
 export const updateModalOpen_and_ModalComponent = ( component, data ) => (
   dispatch => {
-    if ( data ) console.log(data)
     if ( data && data.deleteID ) {dispatch(updateCurrentDeleteID(data.deleteID))}
     if ( data && data.title ) {dispatch(updateCurrentEvent(data))}
     dispatch(updateModalComponent(component))
@@ -173,26 +172,6 @@ function fetchUsers(params) {
   return fetch(URL + URL_PARAMS, { method: 'GET', credentials: 'include' } )
      .then( response => Promise.all([response, response.json()]))
 }
-function addUser(formData) {
-  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/users/"
-  return fetch(URL, { method: 'POST', headers: { 'Accept': 'application/json',}, 
-                      credentials: 'include',
-                      body: formData } )
-     .then( response => Promise.all([response, response.json()]) )
-}
-function updateUserFetch(id, formData) {
-  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/users/" + id
-  return fetch(URL, { method: 'PUT', headers: { 'Accept': 'application/json',},
-                      credentials: 'include',
-                      body: formData } )
-     .then( response => Promise.all([response, response.json()]))
-}
-function deleteUsers(id) {
-  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/users/" + id
-  return fetch(URL, { method: 'DELETE', headers: { 'Accept': 'application/json','Content-Type': 'application/json'},
-                      credentials: 'include' } )
-     .then( response => Promise.all([response, response.json()]))
-}
 
 export const fetchUsersWithRedux = params => {
     return dispatch => {
@@ -209,6 +188,14 @@ export const fetchUsersWithRedux = params => {
       })
     }
 }
+
+function addUser(formData) {
+  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/users/"
+  return fetch(URL, { method: 'POST', headers: { 'Accept': 'application/json',}, 
+                      credentials: 'include',
+                      body: formData } )
+     .then( response => Promise.all([response, response.json()]) )
+}
 export const addUserWithRedux = formData => {
   return dispatch => {
     //dispatch(fetchPostsRequest()) Eventuall add this in
@@ -221,6 +208,14 @@ export const addUserWithRedux = formData => {
       }
     })
   }
+}
+
+function updateUserFetch(id, formData) {
+  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/users/" + id
+  return fetch(URL, { method: 'PUT', headers: { 'Accept': 'application/json',},
+                      credentials: 'include',
+                      body: formData } )
+     .then( response => Promise.all([response, response.json()]))
 }
 export const updateUserWithRedux = (id, formData) => {
   return dispatch => {
@@ -248,6 +243,13 @@ export const updateUserWithRedux = (id, formData) => {
     })
   }
 }
+
+function deleteUsers(id) {
+  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/users/" + id
+  return fetch(URL, { method: 'DELETE', headers: { 'Accept': 'application/json','Content-Type': 'application/json'},
+                      credentials: 'include' } )
+     .then( response => Promise.all([response, response.json()]))
+}
 export const deleteUserWithRedux = user => {
   return dispatch => {
     //dispatch(fetchPostsRequest()) Eventuall add this in
@@ -268,9 +270,9 @@ export const deleteUserWithRedux = user => {
 ////////////////////////////////// ACTIONS FOR EVENTS DATA /////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////
 export const updateAllEvents = events => { return { type: C.UPDATE_ALL_EVENTS, payload: events } }
-export const addEvent = event => { return { type: C.ADD_EVENT, payload: event }}
-export const updateEvent = event => { return { type: C.UPDATE_EVNET, payload: event }}
-export const deleteEvent = id => { return { type: C.DELETE_EVENT, payload: id }}
+export const addEventToStore = event => { return { type: C.ADD_EVENT, payload: event }}
+export const updateEventInStore = event => { return { type: C.UPDATE_EVENT, payload: event }}
+export const deleteEventFromStore = id => { return { type: C.DELETE_EVENT, payload: id }}
 
 function fetchEvents() {
   const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/events/"
@@ -285,6 +287,73 @@ export const fetchEventsWithRedux = () => {
         dispatch(updateAllEvents(events.data))
       }
       else {
+        //dispatch(fetchPostsError())
+      }
+    })
+  }
+}
+
+function addEvent(formData) {
+  console.log(formData)
+  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/events/"
+  return fetch(URL, { method: 'POST', headers: { 'Accept': 'application/json','Content-Type': 'application/json'},  
+                      credentials: 'include',
+                      body: JSON.stringify(formData) } )
+     .then( response => Promise.all([response, response.json()]))
+}
+export const addEventWithRedux = (formData) => {
+  return dispatch => {
+    //dispatch(fetchPostsRequest()) Eventuall add this in
+    return addEvent(formData).then(([response, event]) =>{
+      if(response.status === 201){
+        dispatch(addEventToStore(event.data[0]))
+      }
+      else {
+        console.log(event)
+        //dispatch(fetchPostsError())
+      }
+    })
+  }
+}
+function updateEvent(id, formData) {
+  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/events/" + id
+  return fetch(URL, { method: 'PUT', headers: { 'Accept': 'application/json','Content-Type': 'application/json'},  
+                      credentials: 'include',
+                      body: JSON.stringify(formData) } )
+     .then( response => Promise.all([response, response.json()]))
+}
+export const updateEventWithRedux = (id, formData) => {
+  return dispatch => {
+    //dispatch(fetchPostsRequest()) Eventuall add this in
+    return updateEvent(id, formData).then(([response, event]) =>{
+      if(response.status === 200){
+        dispatch(updateCurrentEvent(event.data[0]))
+        dispatch(updateEventInStore(event.data[0]))
+      }
+      else {
+        console.log(event)
+        //dispatch(fetchPostsError())
+      }
+    })
+  }
+}
+
+function deleteEvent(id) {
+  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/events/" + id
+  return fetch(URL, { method: 'DELETE', headers: { 'Accept': 'application/json','Content-Type': 'application/json'},
+                      credentials: 'include' } )
+     .then( response => Promise.all([response, response.json()]))
+}
+export const deleteEventWithRedux = eventID => {
+  return dispatch => {
+    //dispatch(fetchPostsRequest()) Eventuall add this in
+    return deleteEvent(eventID).then(([response, event]) =>{
+        if(response.status === 200){
+        dispatch(deleteEventFromStore(event.data[0].id))
+        dispatch(updateModalOpen(false))
+        dispatch(updateCurrentEvent(""))
+      }
+      else{
         //dispatch(fetchPostsError())
       }
     })
