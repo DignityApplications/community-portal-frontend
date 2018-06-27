@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { addEventWithRedux } from '../../../ReduxStore/Actions'
 
@@ -15,7 +15,7 @@ const mapStateToProps = (state) => {
 class AddEvent extends Component {
 
     state = { title: "", description: "", reservation_start: null, reservation_end: null, location: "", 
-              reservable: false, reservation_limit: "", all_day: false  }
+              reservable: false, reservation_limit: "", allow_guests: false, all_day: false  }
 
     handleCheck = name => event => { this.setState({ [name]: event.target.checked }) }
     handleChange = name => event => { this.setState({ [name]: event.target.value }) }
@@ -23,7 +23,7 @@ class AddEvent extends Component {
     handleEndDateTimeChange = (date) => { this.setState({ reservation_end: date }) }
 
     handleSubmit = () => { 
-        var { title, description, reservation_start, reservation_end, location, reservable, reservation_limit, all_day } = this.state
+        var { title, description, reservation_start, reservation_end, location, reservable, reservation_limit, allow_guests, all_day } = this.state
         if (all_day) { 
             console.log('hit')
             reservation_start = moment(reservation_start).startOf('day')
@@ -44,13 +44,14 @@ class AddEvent extends Component {
                 end: reservation_end,
                 location: location,
                 reservable: reservable,
+                // allow_guests: allow_guests,
                 reservation_limit: reservation_limit
             }
 
             this.props.dispatch(addEventWithRedux(formData))
 
             this.setState({ title: '', description: '', reservation_start: null, reservation_end: null, location: "", 
-                            reservable: false, reservation_limit: "", all_day: false})
+                            reservable: false, reservation_limit: "", allow_guests: false, all_day: false})
         }
     }
 
@@ -81,17 +82,19 @@ class AddEvent extends Component {
         }
     }
 
-    renderReservationLimit = () => {
+    renderAdditionalReservationFields = () => {
         if (this.state.reservable) {
             return (
-                <Grid container>
-                    <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                        <FormControl >
-                            <TextField required id="reservation_limit" label="Reservation Limit" value={this.state.reservation_limit} 
-                                    type="number" onChange={this.handleChange('reservation_limit')}/>
-                        </FormControl>
-                    </Grid>
-                </Grid>
+                <Fragment>
+                    <FormControl fullWidth>
+                        <TextField required id="reservation_limit" label="Reservation Limit" value={this.state.reservation_limit} 
+                                type="number" onChange={this.handleChange('reservation_limit')}/>
+                    </FormControl>
+                    <FormControlLabel
+                        control={ <Switch checked={this.state.allow_guests} onChange={this.handleCheck('allow_guests')}
+                                            value="Allow Guests" color="primary" /> 
+                                } label="Allow Guests" />
+                </Fragment>
             )
         } 
     }
@@ -127,7 +130,7 @@ class AddEvent extends Component {
                             control={ <Switch checked={this.state.reservable} onChange={this.handleCheck('reservable')}
                                               value="Reservable" color="primary" /> 
                                     } label="Reservable" />
-                        {this.renderReservationLimit()}
+                        {this.renderAdditionalReservationFields()}
 
                         <FormControl fullWidth>
                             <TextField id="location" label="Location" value={this.state.location} 
