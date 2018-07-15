@@ -6,6 +6,7 @@ export const updateModalOpen = modalOpen => { return { type: C.UPDATE_MODAL_OPEN
 export const updateModalComponent = modalComponent => { return { type: C.UPDATE_MODAL_COMPONENT, payload: modalComponent }}
 export const updateCurrentUserID = currentUserID => { return { type: C.UPDATE_CURRENT_USER_ID, payload: currentUserID }}
 export const updateCurrentUserPermissions = currentUserPermissions => { return { type: C.UPDATE_CURRENT_USER_PERMISSIONS, payload: currentUserPermissions }}
+export const updateCurrentUserEventReservations = currentUserEventReservations => { return { type: C.UPDATE_CURRENT_USER_EVENT_RESERVATIONS, payload: currentUserEventReservations }}
 export const updateProfileID = id => { return { type: C.UPDATE_PROFILE_ID, payload: id } }
 export const updateProfileData = user => { return { type: C.UPDATE_PROFILE_DATA, payload: user } }
 export const updateProfileDataRole = roleName => { return { type: C.UPDATE_PROFILE_DATA_ROLE, payload: roleName } }
@@ -24,10 +25,23 @@ export const updateActiveMenu = menu => { return { type: C.UPDATE_ACTIVE_MENU, p
 export const updateActiveView = (module, activeView) => { return { type: C.UPDATE_ACTIVE_VIEW, payload: {module, activeView} } }
 
 //MULTI-ACTIONS
-export const updateModalOpen_and_ModalComponent = ( component, data ) => (
+export const updateModalOpen_and_ModalComponent = ( component, data, user_id ) => (
   dispatch => {
     if ( data && data.deleteID ) {dispatch(updateCurrentDeleteID(data.deleteID))}
-    if ( data && data.title ) {dispatch(updateCurrentEvent(data))}
+    if ( data && data.title ) {
+      dispatch(updateCurrentEvent(data))
+      //fetch all reservations and then do...
+      return fetchUserEventReservations(user_id).then(([response, reservations]) => {
+        if(response.status === 200){
+          dispatch(updateCurrentUserEventReservations(reservations.data))
+          dispatch(updateModalComponent(component))
+          dispatch(updateModalOpen(true))
+        }
+        else {
+          //dispatch(fetchPermissionsError())
+        }
+      })
+    }
     dispatch(updateModalComponent(component))
     dispatch(updateModalOpen(true))
   }
@@ -40,9 +54,13 @@ export const updateProfileID_and_ActiveView = (id, module, activeView) => (
   }
 )
 
-
 function fetchUserPermissions(role_id) {
   const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/roles/" + role_id + "/permissions"
+  return fetch(URL, { method: 'GET', credentials: 'include' } )
+     .then( response => Promise.all([response, response.json()]))
+}
+function fetchUserEventReservations(id) {
+  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/users/" + id + "/event_reservations"
   return fetch(URL, { method: 'GET', credentials: 'include' } )
      .then( response => Promise.all([response, response.json()]))
 }
@@ -349,9 +367,79 @@ export const deleteEventWithRedux = eventID => {
     //dispatch(fetchPostsRequest()) Eventuall add this in
     return deleteEvent(eventID).then(([response, event]) =>{
         if(response.status === 200){
+          console.log('Deleting Event: ' + event.data[0].id)
         dispatch(deleteEventFromStore(event.data[0].id))
         dispatch(updateModalOpen(false))
         dispatch(updateCurrentEvent(""))
+      }
+      else{
+        //dispatch(fetchPostsError())
+        console.log(event)
+      }
+    })
+  }
+}
+
+//ACTIONS FOR EVENT RESERVATIONS
+export const addCurrentUserEventReservationToStore = reservation => { return { type: C.ADD_CURRENT_USER_EVENT_RESERVATION, payload: reservation }}
+export const updateCurrentUserEventReservationInStore = reservation => { return { type: C.UPDATE_CURRENT_USER_EVENT_RESERVATION, payload: reservation }}
+export const deleteCurrentUserEventReservationFromStore = id => { return { type: C.DELETE_CURRENT_USER_EVENT_RESERVATION, payload: id }}
+
+function addReservation(formData) {
+  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/event_reservations/"
+  return fetch(URL, { method: 'POST', headers: { 'Accept': 'application/json','Content-Type': 'application/json'},  
+                      credentials: 'include',
+                      body: JSON.stringify(formData) } )
+     .then( response => Promise.all([response, response.json()]))
+}
+export const addReservationtWithRedux = (formData) => {
+  console.log(formData)
+  return dispatch => {
+    //dispatch(fetchPostsRequest()) Eventuall add this in
+    return addReservation(formData).then(([response, reservation]) =>{
+      if(response.status === 201){
+        dispatch(addCurrentUserEventReservationToStore(reservation.data[0]))
+      }
+      else {
+        //dispatch(fetchReservationError())
+      }
+    })
+  }
+}
+
+function updateReservation(id, formData) {
+  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/event_reservations/" + id
+  return fetch(URL, { method: 'PUT', headers: { 'Accept': 'application/json','Content-Type': 'application/json'},  
+                      credentials: 'include',
+                      body: JSON.stringify(formData) } )
+     .then( response => Promise.all([response, response.json()]))
+}
+export const updateReservationWithRedux = (id, formData) => {
+  return dispatch => {
+    //dispatch(fetchPostsRequest()) Eventuall add this in
+    return updateReservation(id, formData).then(([response, reservation]) =>{
+      if(response.status === 200){
+        dispatch(updateCurrentUserEventReservationInStore(reservation.data[0]))
+      }
+      else {
+        //dispatch(fetchPostsError())
+      }
+    })
+  }
+}
+
+function deleteReservation(id) {
+  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/event_reservations/" + id
+  return fetch(URL, { method: 'DELETE', headers: { 'Accept': 'application/json','Content-Type': 'application/json'},
+                      credentials: 'include' } )
+     .then( response => Promise.all([response, response.json()]))
+}
+export const deleteReservationWithRedux = eventID => {
+  return dispatch => {
+    //dispatch(fetchPostsRequest()) Eventuall add this in
+    return deleteReservation(eventID).then(([response, reservation]) =>{
+        if(response.status === 200){
+        dispatch(deleteCurrentUserEventReservationFromStore(reservation.data[0].id))
       }
       else{
         //dispatch(fetchPostsError())

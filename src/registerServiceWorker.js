@@ -55,9 +55,9 @@ export default function register() {
 function registerValidSW(swUrl) {
   navigator.serviceWorker
     .register(swUrl)
-    .then(registration => {
-      registration.onupdatefound = () => {
-        const installingWorker = registration.installing;
+    .then(reservation => {
+      reservation.onupdatefound = () => {
+        const installingWorker = reservation.installing;
         installingWorker.onstatechange = () => {
           if (installingWorker.state === 'installed') {
             if (navigator.serviceWorker.controller) {
@@ -77,7 +77,7 @@ function registerValidSW(swUrl) {
       };
     })
     .catch(error => {
-      console.error('Error during service worker registration:', error);
+      console.error('Error during service worker reservation:', error);
     });
 }
 
@@ -91,8 +91,8 @@ function checkValidServiceWorker(swUrl) {
         response.headers.get('content-type').indexOf('javascript') === -1
       ) {
         // No service worker found. Probably a different app. Reload the page.
-        navigator.serviceWorker.ready.then(registration => {
-          registration.unregister().then(() => {
+        navigator.serviceWorker.ready.then(reservation => {
+          reservation.unregister().then(() => {
             window.location.reload();
           });
         });
@@ -110,8 +110,8 @@ function checkValidServiceWorker(swUrl) {
 
 export function unregister() {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.ready.then(registration => {
-      registration.unregister();
+    navigator.serviceWorker.ready.then(reservation => {
+      reservation.unregister();
     });
   }
 }

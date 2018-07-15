@@ -1818,10 +1818,10 @@ it may take up to 24 hours for the cache to be invalidated.
 although to facilitate local testing, that policy
 [does not apply to `localhost`](http://stackoverflow.com/questions/34160509/options-for-testing-service-workers-via-http/34161385#34161385).
 If your production web server does not support HTTPS, then the service worker
-registration will fail, but the rest of your web app will remain functional.
+reservation will fail, but the rest of your web app will remain functional.
 
 1. Service workers are [not currently supported](https://jakearchibald.github.io/isserviceworkerready/)
-in all web browsers. Service worker registration [won't be attempted](src/registerServiceWorker.js)
+in all web browsers. Service worker reservation [won't be attempted](src/registerServiceWorker.js)
 on browsers that lack support.
 
 1. The service worker is only enabled in the [production environment](#deployment),

@@ -7,6 +7,7 @@
       },
       "currentUserID": "",
       "currentUserPermissions": [],
+      "currentUserEventReservations": [],
       "currentProfileID": 0,
       "currentProfileData": {},
       "currentProfileDataLoaded": false,

@@ -59,7 +59,7 @@ class EditEventDateAndTime extends Component {
                 </Grid>
                 <Grid item xl={12} lg={12} md={12} sm={12} xs={12} style={{marginTop: 10}}>
                     <Button variant="raised" color="primary" 
-                            onClick={(e) => this.props.completeEditingField(this.props.all_day, this.state.reservation_start, this.props.reservation_end)}>Update</Button>
+                            onClick={(e) => this.props.completeEditingField(this.state.all_day, this.state.reservation_start, this.props.reservation_end)}>Update</Button>
                     <Button variant="raised" color="secondary" onClick={(e) => this.props.cancelEditingField()}>Cancel</Button>
                 </Grid>
             </Grid>

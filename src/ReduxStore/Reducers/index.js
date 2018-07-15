@@ -3,44 +3,58 @@ import { combineReducers } from 'redux'
 
 export const session = (state=[], action ) => {
     switch(action.type) {
-      case C.UPDATE_USER_LOGGEDIN:
-          state = {...state, loggedIn: action.payload.loggedIn }
-          return state
-      case C.UPDATE_MODAL_OPEN:
-          state = {...state, modal: { ...state.modal, open: action.payload} }
-          return state
-      case C.UPDATE_MODAL_COMPONENT:
-          state = {...state, modal: { ...state.modal, component: action.payload} }
-          return state
-      case C.UPDATE_CURRENT_USER_ID:
-          state = {...state, currentUserID: action.payload }
-          return state
-      case C.UPDATE_CURRENT_USER_PERMISSIONS:
-          state = {...state, currentUserPermissions: action.payload }
-          return state
-      case C.UPDATE_PROFILE_ID:
-          state = {...state, currentProfileID: action.payload }
-          return state
-      case C.UPDATE_PROFILE_DATA:
-          state = {...state, currentProfileData: action.payload }
-          return state
-      case C.UPDATE_PROFILE_DATA_ROLE:
-          state = {...state, currentProfileData: { ...state.currentProfileData, role: action.payload } }
-          return state
-      case C.UPDATE_PROFILE_DATA_LOADED:
-          state = {...state, currentProfileDataLoaded: action.payload }
-          return state
-      case C.UPDATE_CURRENT_ROLE_ID:
-          state = {...state, currentRoleID: action.payload }
-          return state
-      case C.UPDATE_CURRENT_DELETE_ID:
-          state = {...state, currentDeleteID: action.payload }
-          return state
-      case C.UPDATE_CURRENT_EVENT:
-          state = {...state, currentEvent: action.payload }
-          return state
-      default:
-          return state
+        case C.UPDATE_USER_LOGGEDIN:
+            state = {...state, loggedIn: action.payload.loggedIn }
+            return state
+        case C.UPDATE_MODAL_OPEN:
+            state = {...state, modal: { ...state.modal, open: action.payload} }
+            return state
+        case C.UPDATE_MODAL_COMPONENT:
+            state = {...state, modal: { ...state.modal, component: action.payload} }
+            return state
+        case C.UPDATE_CURRENT_USER_ID:
+            state = {...state, currentUserID: action.payload }
+            return state
+        case C.UPDATE_CURRENT_USER_PERMISSIONS:
+            state = {...state, currentUserPermissions: action.payload }
+            return state
+
+        case C.UPDATE_CURRENT_USER_EVENT_RESERVATIONS:
+            state = {...state, currentUserEventReservations: action.payload }
+            return state
+        case C.ADD_CURRENT_USER_EVENT_RESERVATION:
+            state = {...state, currentUserEventReservations: [ ...state.currentUserEventReservations.concat(action.payload) ] }
+            return state
+        case C.UPDATE_CURRENT_USER_EVENT_RESERVATION:
+            state = {...state, currentUserEventReservations: state.currentUserEventReservations.map(reservation => reservation.id === action.payload.id ? action.payload : reservation) }
+            return state
+        case C.DELETE_CURRENT_USER_EVENT_RESERVATION:
+            state = {...state, currentUserEventReservations: state.currentUserEventReservations.filter(reservation => reservation.id !== action.payload) }
+            return state
+
+        case C.UPDATE_PROFILE_ID:
+            state = {...state, currentProfileID: action.payload }
+            return state
+        case C.UPDATE_PROFILE_DATA:
+            state = {...state, currentProfileData: action.payload }
+            return state
+        case C.UPDATE_PROFILE_DATA_ROLE:
+            state = {...state, currentProfileData: { ...state.currentProfileData, role: action.payload } }
+            return state
+        case C.UPDATE_PROFILE_DATA_LOADED:
+            state = {...state, currentProfileDataLoaded: action.payload }
+            return state
+        case C.UPDATE_CURRENT_ROLE_ID:
+            state = {...state, currentRoleID: action.payload }
+            return state
+        case C.UPDATE_CURRENT_DELETE_ID:
+            state = {...state, currentDeleteID: action.payload }
+            return state
+        case C.UPDATE_CURRENT_EVENT:
+            state = {...state, currentEvent: action.payload }
+            return state
+        default:
+            return state
     }
 }
 

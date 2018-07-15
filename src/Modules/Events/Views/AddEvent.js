@@ -44,7 +44,7 @@ class AddEvent extends Component {
                 end: reservation_end,
                 location: location,
                 reservable: reservable,
-                // allow_guests: allow_guests,
+                allow_guests: allow_guests,
                 reservation_limit: reservation_limit
             }
 
@@ -87,7 +87,7 @@ class AddEvent extends Component {
             return (
                 <Fragment>
                     <FormControl fullWidth>
-                        <TextField required id="reservation_limit" label="Reservation Limit" value={this.state.reservation_limit} 
+                        <TextField id="reservation_limit" label="Reservation Limit" value={this.state.reservation_limit} 
                                 type="number" onChange={this.handleChange('reservation_limit')}/>
                     </FormControl>
                     <FormControlLabel

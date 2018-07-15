@@ -38,11 +38,11 @@ class Events extends Component
                     step={15}
                     timeslots={8}
                     onSelectSlot={(e) => console.log(e)}
-                    onSelectEvent={(e) => this.props.dispatch(updateModalOpen_and_ModalComponent('eventDetails', e))}
+                    onSelectEvent={(e) => this.props.dispatch(updateModalOpen_and_ModalComponent('eventDetails', e, this.props.session.currentUserID))}
                     //onSelectEvent={(e) => this.renderOnSelect(e)}
                     popup
                     showMultiDayTimes
-                    defaultDate={new Date(2018, 5, 4)}
+                    defaultDate={new Date(2018, 6, 4)}
                     // defaultDate={new Date(2015, 3, 1)}
 
                     style={{background:'white', margin:25}}
