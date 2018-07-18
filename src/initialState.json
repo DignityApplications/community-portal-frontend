@@ -5,6 +5,10 @@
         "open": false,
         "component": "login"
       },
+      "snackBar": {
+        "open": false,
+        "content": ""
+      },
       "currentUserID": "",
       "currentUserPermissions": [],
       "currentUserEventReservations": [],
@@ -18,10 +22,10 @@
     "users": [],
     "events": [],
     "module": {
-      "activeModule": "Home"
+      "activeModule": "Community"
     },
     "navigation": {
-        "Home": [
+        "Community": [
             {"title": "Home", "view": "TDB"},
             {"title": "Help", "view": "TDB"},
             {"title": "Mississippi", "view": "TDB"}
@@ -36,10 +40,10 @@
       ]
     },
     "menu": {
-      "Home": [
-          {"title": "Home Menu 1", "view": "TDB"},
-          {"title": "Home Menu 2", "view": "TBD"},
-          {"title": "Home Menu 3", "view": "TBD"}
+      "Community": [
+          {"title": "Community Menu 1", "view": "TDB"},
+          {"title": "Community Menu 2", "view": "TBD"},
+          {"title": "Community Menu 3", "view": "TBD"}
       ],
       "Directory": [
           {"title": "Home", "view": "Users" },
@@ -57,7 +61,7 @@
     },
     "view": {
       "activeView": [
-        {"Module": "Home", "View": "Default"},
+        {"Module": "Community", "View": "Default"},
         {"Module": "Directory", "View": "Users"},
         {"Module": "Events", "View": "Home"}
       ]

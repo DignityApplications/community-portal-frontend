@@ -4,6 +4,8 @@ import C from '../Constants'
 export const updateUserLoggedIn = loggedIn => { return { type: C.UPDATE_USER_LOGGEDIN, payload: {loggedIn} }}
 export const updateModalOpen = modalOpen => { return { type: C.UPDATE_MODAL_OPEN, payload: modalOpen }}
 export const updateModalComponent = modalComponent => { return { type: C.UPDATE_MODAL_COMPONENT, payload: modalComponent }}
+export const updateSnackBarOpen = snackBarOpen => { return { type: C.UPDATE_SNACKBAR_OPEN, payload: snackBarOpen }}
+export const updateSnackBarContent = snackBarContent => { return { type: C.UPDATE_SNACKBAR_CONTENT, payload: snackBarContent }}
 export const updateCurrentUserID = currentUserID => { return { type: C.UPDATE_CURRENT_USER_ID, payload: currentUserID }}
 export const updateCurrentUserPermissions = currentUserPermissions => { return { type: C.UPDATE_CURRENT_USER_PERMISSIONS, payload: currentUserPermissions }}
 export const updateCurrentUserEventReservations = currentUserEventReservations => { return { type: C.UPDATE_CURRENT_USER_EVENT_RESERVATIONS, payload: currentUserEventReservations }}

@@ -12,6 +12,12 @@ export const session = (state=[], action ) => {
         case C.UPDATE_MODAL_COMPONENT:
             state = {...state, modal: { ...state.modal, component: action.payload} }
             return state
+        case C.UPDATE_SNACKBAR_OPEN:
+            state = {...state, snackBar: { ...state.snackBar, open: action.payload} }
+            return state
+        case C.UPDATE_SNACKBAR_CONTENT:
+            state = {...state, snackBar: { ...state.snackBar, content: action.payload} }
+            return state
         case C.UPDATE_CURRENT_USER_ID:
             state = {...state, currentUserID: action.payload }
             return state

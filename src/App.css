@@ -10,16 +10,20 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0 !important;
 }
 
-/* @media screen and (min-width: 960px) {
-  .mainSiteContent {
-    margin-left: 225px !important;
-    padding-right: 225px !important; 
-  }
-} */
+
+ /* Light Pallet:
+ Main color: #0096cc
+ 
+ */
+
+  /* Dark Pallet:
+ Main color: #0096cc
+ 
+ */
 
 .toolbarItem {
   color: #FFF !important;
-  background-color: rgb(36, 48, 94) !important;
+  background-color: #0096cc !important;
 }
 .toolbarItem .material-icons {
   color: #FFF !important;
@@ -29,12 +33,49 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .activeToolbarItem {
-  color: rgb(36, 48, 94) !important;
+  color: #0096cc !important;
   background-color: #FFF !important
 }
 .activeToolbarItem .material-icons {
-  color: rgb(36, 48, 94) !important;
+  color: #0096cc !important;
 }
 .activeToolbarItem p {
-  color: rgb(36, 48, 94) !important;
+  color: #0096cc !important;
+}
+
+.mainSiteToolBar {
+  font-weight: 600 !important;
+  background: #0096cc !important;
+  height: 100vh !important;
+}
+.mainSiteToolBar .toolbarItem p,
+.mainSiteToolBar .activeToolbarItem p {
+  font-weight: 600 !important;
+}
+
+.mainSiteMenu {
+  font-weight: 600 !important;
+  background: #FFF;
+  box-shadow: 3px 0 10px -3px #d6d6d6;
+  z-index: 1;
+}
+.mainSiteMenu .menuListItem {
+  font-weight: 600 !important;
+  padding: 6px !important;
+  margin-left: -10px !important;
+}
+.activeMenuListItem {
+  font-weight: 600 !important;
+  border-radius: 4px !important;
+  padding: 6px !important;
+  margin-left: -10px !important;
+  color: #FFF !important;
+  background: #0096cc !important;
+}
+
+.mainSiteContent {
+  height: 100vh;
+  overflow: scroll;
+  background: #eee !important;
+  padding: 20px;
 }

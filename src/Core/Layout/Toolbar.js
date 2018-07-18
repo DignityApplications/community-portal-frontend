@@ -4,6 +4,8 @@ import { updateActiveModule } from '../../ReduxStore/Actions'
 import { Divider, Hidden, Icon, Grid, 
          List, ListItem, ListItemIcon, ListItemText, Typography } from '@material-ui/core'
 
+import { LoggedIn } from '../Components'
+
 
 const mapStateToProps = (state) => {
     return { module: state.module, session: state.session }
@@ -16,26 +18,33 @@ class Toolbar extends Component {
         return (
             <Grid container>
                 <Grid item xl={12} lg={12} md={12} sm={12} xs={12} align={'center'}> 
-                    <Icon style={{fontSize: 100, color:'#FFF'}}>supervisor_account</Icon>
+
+                    <Icon style={{fontSize: 100, color:'#FFF'}}>store</Icon>
                     <List component="nav" >
-                        <Divider style={{background:"#FFFFFF", height:2,}} component='hr' />
-                        <ListItem button onClick={(e) => this.props.dispatch(updateActiveModule("Home"))} disableGutters
-                                  className={this.props.module.activeModule === 'Home' ? 'activeToolbarItem' : 'toolbarItem'} >
+                        <ListItem button onClick={(e) => this.props.dispatch(updateActiveModule("Events"))} disableGutters
+                                  className={this.props.module.activeModule === 'Account' ? 'activeToolbarItem' : 'toolbarItem'}>
                             <ListItemText align='center'>
-                                <Icon style={{fontSize:50}}>home</Icon><br/>
-                                <Typography>Home</Typography>
+                                <Icon style={{fontSize:50}}>account_circle</Icon><br/>
+                                <Typography>Events</Typography>
                             </ListItemText>
                         </ListItem>
-                        <Divider style={{background:"#FFFFFF", height:2}} component='hr' />
-                        {this.props.session.loggedIn ? <div>
+
+                        <ListItem button onClick={(e) => this.props.dispatch(updateActiveModule("Community"))} disableGutters
+                                  className={this.props.module.activeModule === 'Community' ? 'activeToolbarItem' : 'toolbarItem'} >
+                            <ListItemText align='center'>
+                                <Icon style={{fontSize:50}}>home</Icon><br/>
+                                <Typography>Community</Typography>
+                            </ListItemText>
+                        </ListItem>
+                        
                         <ListItem button onClick={(e) => this.props.dispatch(updateActiveModule("Directory"))} disableGutters
                                   className={this.props.module.activeModule === 'Directory' ? 'activeToolbarItem' : 'toolbarItem'}>
                             <ListItemText align='center'>
-                                <Icon style={{fontSize:50}}>account_circle</Icon><br/>
+                                <Icon style={{fontSize:50}}>supervisor_account</Icon><br/>
                                 <Typography>Directory</Typography>
                             </ListItemText>
                         </ListItem> 
-                        <Divider style={{background:"#FFFFFF", height:2,}} component='hr' /> 
+
                         <ListItem button onClick={(e) => this.props.dispatch(updateActiveModule("Events"))} disableGutters
                                   className={this.props.module.activeModule === 'Events' ? 'activeToolbarItem' : 'toolbarItem'}>
                             <ListItemText align='center'>
@@ -43,7 +52,7 @@ class Toolbar extends Component {
                                 <Typography>Events</Typography>
                             </ListItemText>
                         </ListItem>
-                        <Divider style={{background:"#FFFFFF", height:2}} component='hr' />
+
                         <ListItem button disableGutters
                                   className={this.props.module.activeModule === 'Dining' ? 'activeToolbarItem' : 'toolbarItem'}>
                             <ListItemText align='center'>
@@ -51,10 +60,10 @@ class Toolbar extends Component {
                                 <Typography>Dining</Typography>
                             </ListItemText>
                         </ListItem> 
-                        <Divider style={{background:"#FFFFFF", height:2}} component='hr' /></div>
-                        : 
-                        null}
+
                     </List>
+
+                    <LoggedIn /> 
                 </Grid>
             </Grid>
         )

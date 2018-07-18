@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { updateEventWithRedux, deleteEventWithRedux, addReservationtWithRedux, 
-         updateReservationWithRedux, deleteReservationWithRedux } from '../../../ReduxStore/Actions'
+         updateReservationWithRedux, deleteReservationWithRedux,
+         updateSnackBarContent, updateSnackBarOpen } from '../../../ReduxStore/Actions'
 import { EditEventDateAndTime, EditTextArea, EditTextField } from '../FormEditElements'
 import { Button, Divider, FormControl, Grid, Icon, IconButton, InputLabel, MenuItem, 
          Select, Typography } from '@material-ui/core'
@@ -32,6 +33,8 @@ class HelloWorld extends Component {
     completeEditingField(fieldToEdit, fieldData) {
         var formData = { [fieldToEdit]: fieldData} 
         this.props.dispatch(updateEventWithRedux(this.props.session.currentEvent.id, formData))
+        this.props.dispatch(updateSnackBarContent("Event Information Saved!"))
+        this.props.dispatch(updateSnackBarOpen(true))
         this.setState({editingField: ''})
     }
     completeEditingEventDateAndTimeField(all_day, reservation_start, reservation_end) {
@@ -40,6 +43,8 @@ class HelloWorld extends Component {
         console.log(formData)
         console.log(this.props.session.currentEvent.id)
         this.props.dispatch(updateEventWithRedux(this.props.session.currentEvent.id, formData))
+        this.props.dispatch(updateSnackBarContent("Event Date and Time Saved!"))
+        this.props.dispatch(updateSnackBarOpen(true))
         this.setState({editingField: ''})
     }
 
@@ -65,6 +70,8 @@ class HelloWorld extends Component {
         var result = window.confirm(`Are you sure you would like to delete event: ${this.props.session.currentEvent.title}`);
         if (result) {
             this.props.dispatch(deleteEventWithRedux(this.props.session.currentEvent.id))
+            this.props.dispatch(updateSnackBarContent("Event Removed"))
+            this.props.dispatch(updateSnackBarOpen(true))
         }
     }
 
@@ -73,6 +80,8 @@ class HelloWorld extends Component {
         attendees = parseInt(attendees) + 1
         var formData = { attendees }
         this.props.dispatch(updateReservationWithRedux(reservation_id, formData))
+        this.props.dispatch(updateSnackBarContent("Event Reservation Updated!"))
+        this.props.dispatch(updateSnackBarOpen(true))
         this.setState({selectingGuests: false})
     }
 
