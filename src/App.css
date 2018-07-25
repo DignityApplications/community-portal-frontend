@@ -52,6 +52,10 @@ h1, h2, h3, h4, h5, h6 {
 .mainSiteToolBar .activeToolbarItem p {
   font-weight: 600 !important;
 }
+.mainSiteToolBar .toolbarItem div,
+.mainSiteToolBar .activeToolbarItem div {
+  padding: 0 !important;
+}
 
 .mainSiteMenu {
   font-weight: 600 !important;
