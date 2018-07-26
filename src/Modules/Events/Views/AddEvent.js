@@ -4,7 +4,7 @@ import { addEventWithRedux } from '../../../ReduxStore/Actions'
 
 import { DatePicker, DateTimePicker } from 'material-ui-pickers';
 import { Button, FormControlLabel, FormControl, Grid, InputLabel, MenuItem, Select, Switch, 
-         TextField, Typography } from '@material-ui/core'
+         Paper, TextField, Typography } from '@material-ui/core'
 import moment from 'moment'
 
 const mapStateToProps = (state) => {
@@ -104,43 +104,45 @@ class AddEvent extends Component {
         return (
             <div>
                 <Grid container>
-                    <Grid item xl={2} lg={2} md={1} sm={1}></Grid>
-                    <Grid item xl={8} lg={8} md={11} sm={11} xs={12}>
-                        <Typography variant="display2">
-                            Add New Event
-                        </Typography>
-                        <FormControl fullWidth>
-                            <TextField required id="title" label="Title" value={this.state.title} 
-                                       onChange={this.handleChange('title')}/>
-                        </FormControl>
-                        <FormControl fullWidth>
-                            <TextField id={this.props.description} label="Description" multiline rows="4"
-                                value={this.state.description} onChange={this.handleChange('description')}/>
-                        </FormControl>
+                    <Grid item xl={1} lg={1} md={1} sm={1}></Grid>
+                    <Grid item xl={10} lg={10} md={10} sm={10} xs={10}>
+                        <Paper style={{padding: 25}}>
+                            <Typography variant="display2">
+                                Add New Event
+                            </Typography>
+                            <FormControl fullWidth>
+                                <TextField required id="title" label="Title" value={this.state.title} 
+                                        onChange={this.handleChange('title')}/>
+                            </FormControl>
+                            <FormControl fullWidth>
+                                <TextField id={this.props.description} label="Description" multiline rows="4"
+                                    value={this.state.description} onChange={this.handleChange('description')}/>
+                            </FormControl>
 
-                        <FormControlLabel
-                            control={
-                                <Switch checked={this.state.all_day} onChange={this.handleCheck('all_day')}
-                                value="All Day" color="primary" />
-                            } label="All Day Event" />
-                        
-                        {this.renderSelectTime()}
+                            <FormControlLabel
+                                control={
+                                    <Switch checked={this.state.all_day} onChange={this.handleCheck('all_day')}
+                                    value="All Day" color="primary" />
+                                } label="All Day Event" />
+                            
+                            {this.renderSelectTime()}
 
-                        <FormControlLabel
-                            control={ <Switch checked={this.state.reservable} onChange={this.handleCheck('reservable')}
-                                              value="Reservable" color="primary" /> 
-                                    } label="Reservable" />
-                        {this.renderAdditionalReservationFields()}
+                            <FormControlLabel
+                                control={ <Switch checked={this.state.reservable} onChange={this.handleCheck('reservable')}
+                                                value="Reservable" color="primary" /> 
+                                        } label="Reservable" />
+                            {this.renderAdditionalReservationFields()}
 
-                        <FormControl fullWidth>
-                            <TextField id="location" label="Location" value={this.state.location} 
-                                       onChange={this.handleChange('location')}/>
-                        </FormControl>
+                            <FormControl fullWidth>
+                                <TextField id="location" label="Location" value={this.state.location} 
+                                        onChange={this.handleChange('location')}/>
+                            </FormControl>
 
-                        <Button type="submit" variant="raised" color="secondary" onClick={this.handleSubmit}
-                                    style={{fontSize: 20, marginTop:15 }}>Add Event</Button>
+                            <Button type="submit" variant="raised" color="secondary" onClick={this.handleSubmit}
+                                        style={{fontSize: 20, marginTop:15 }}>Add Event</Button>
+                        </Paper>
                     </Grid>
-                    <Grid item xl={2} lg={2} md={1} sm={1}></Grid>
+                    <Grid item xl={1} lg={1} md={1} sm={1}></Grid>
                 </Grid>
             </div>
         )

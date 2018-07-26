@@ -11,9 +11,9 @@ class LoggedIn extends Component {
 
     render() {
         return (
-            <Typography varient='headline' style={{float:'right', padding: 5}}>
+            <Typography varient='headline' style={{padding: 5}}>
                 {this.props.session.loggedIn ? 
-                    <Button variant="raised" color='secondary' 
+                    <Button variant="raised" style={{background: "#FF2C00", color: "#FFF", fontWeight: "bolder"}} 
                             onClick={(e) => this.props.dispatch(logoutUserWithRedux())} >
                             Logout </Button> :
                     <Button variant="raised" color='primary' 

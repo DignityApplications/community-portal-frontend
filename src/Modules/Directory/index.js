@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { fetchUsersWithRedux } from '../../ReduxStore/Actions'
 import { AddUser, Home, Profile, Users } from './Views'
 
 const mapStateToProps = (state) => {
@@ -9,6 +10,10 @@ const mapStateToProps = (state) => {
 
 class Directory extends Component 
 {
+    componentWillMount() {
+        let data = { role_id: 1}
+        this.props.dispatch(fetchUsersWithRedux(data))
+    }
     renderView(view) {
         switch(view) {
             case 'Member':

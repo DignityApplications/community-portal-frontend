@@ -20,12 +20,15 @@ class Toolbar extends Component {
                 <Grid item xl={12} lg={12} md={12} sm={12} xs={12} align={'center'}> 
 
                     <Icon style={{fontSize: 100, color:'#FFF'}}>store</Icon>
+
+                    <Divider style={{ width: "90%", backgroundColor: "#FFF"}}/>
+
                     <List component="nav" >
                         <ListItem button onClick={(e) => this.props.dispatch(updateActiveModule("Events"))} disableGutters
                                   className={this.props.module.activeModule === 'Account' ? 'activeToolbarItem' : 'toolbarItem'}>
                             <ListItemText align='center'>
                                 <Icon style={{fontSize:50}}>account_circle</Icon><br/>
-                                <Typography>Events</Typography>
+                                <Typography>My Account</Typography>
                             </ListItemText>
                         </ListItem>
 

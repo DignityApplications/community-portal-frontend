@@ -57,6 +57,10 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0 !important;
 }
 
+.subMenuList {
+  margin-top: 125px !important;
+}
+
 .mainSiteMenu {
   font-weight: 600 !important;
   background: #FFF;
@@ -82,4 +86,15 @@ h1, h2, h3, h4, h5, h6 {
   overflow: scroll;
   background: #eee !important;
   padding: 20px;
+}
+
+/* Calander CSS. Change to inline or class when time */
+.rbc-event {
+ background: #FF8500 !important;
+ font-weight: bolder !important;
+}
+.rbc-show-more {
+  color: #0096cc !important;
+  font-size:  20px !important;
+  font-weight: bolder;
 }

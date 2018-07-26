@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addUserWithRedux } from '../../../ReduxStore/Actions'
 
-import { Button, FormControl, Grid, Input, MenuItem, Select, TextField, Typography } from '@material-ui/core'
+import { Button, FormControl, Grid, Input, MenuItem, Select, Paper, TextField, Typography } from '@material-ui/core'
 
 const mapStateToProps = (state) => {
     return { session: state.session }
@@ -56,13 +56,13 @@ class AddUser extends Component {
       
     render(){
         return (
-            <div>
-                <Typography variant="display2">
-                    Add User Form
-                </Typography>
-                <Grid container>
-                    <Grid item xl={2} lg={2} md={1} sm={1}></Grid>
-                    <Grid item xl={8} lg={8} md={11} sm={11} xs={12}>
+            <Grid container>
+                <Grid item xl={1} lg={1} md={1} sm={1}></Grid>
+                <Grid item xl={10} lg={10} md={10} sm={10} xs={10}>
+                    <Paper style={{padding: 25}}>
+                        <Typography variant="display2">
+                            Add User Form
+                        </Typography>
                         <FormControl fullWidth>
                             <TextField required id="first_name" label="First Name" margin="normal"
                                     value={this.state.first_name} onChange={this.handleChange('first_name')}/>
@@ -97,10 +97,10 @@ class AddUser extends Component {
                         </FormControl>
                         <Button type="submit" variant="raised" color="secondary" onClick={this.handleSubmit}
                                     style={{fontSize: 20, margin: 15}}>Add User</Button>
-                    </Grid>
-                    <Grid item xl={2} lg={2} md={1} sm={1}></Grid>
+                    </Paper>
                 </Grid>
-            </div>
+                <Grid item xl={1} lg={1} md={1} sm={1}></Grid>
+            </Grid>
         )
     }
 }

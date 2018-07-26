@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { UserListItem } from '../Components'
 import { connect } from 'react-redux'
 import { fetchUsersWithRedux } from '../../../ReduxStore/Actions'
-import { FormControl, Grid, Paper, TextField } from '@material-ui/core'
+import { FormControl, Grid, Paper, TextField, Typography } from '@material-ui/core'
 
 const mapStateToProps = (state) => {
-    return { session: state.session, users: state.users }
+    return { session: state.session, users: state.users, view: state.view}
   }
 
 class Users extends Component {
@@ -36,10 +36,12 @@ class Users extends Component {
     render() {
         return (
             <div>
-                <Grid container>
-                <h1>{this.prpos}</h1>
-                    <Grid item xl={12} lg={12} md={12} sm={12} xs={12} style={{padding:"1% 2%"}}>
+                <Grid container style={{padding:"1% 2%"}}>
+                    <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                         <Paper elevation={4} style={{padding: "10px 10px"}}>
+                            <Typography variant="display1">
+                                {this.props.view.activeView[1].View} Directory
+                            </Typography>
                             <FormControl fullWidth>
                                 <TextField id="searchTerm" label="Search Directory" margin="normal"
                                         value={this.state.searchTerm} 

@@ -78,7 +78,8 @@ class Profile extends Component {
             (this.props.session.currentUserPermissions.includes(memberTypeEditPermission) === true ||
             (this.props.session.currentUserPermissions.includes('UpdateSelf') === true && 
               this.props.session.currentUserID === this.props.session.currentProfileID))) {
-                return <IconButton color="secondary" aria-label="Edit" onClick={(e) => this.toggleEditingField(field)}>
+                return <IconButton  style={{color: "#FF2C00"}}
+                                    aria-label="Edit" onClick={(e) => this.toggleEditingField(field)}>
                         <Icon>edit</Icon>
                        </IconButton>
         } 

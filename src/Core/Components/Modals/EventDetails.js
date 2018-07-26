@@ -51,7 +51,7 @@ class HelloWorld extends Component {
     addEditButton(field) {
         if (this.state.editingField !== field && 
             (this.props.session.currentUserPermissions.includes('UpdateEvents') === true) ) {
-                return  <IconButton color="secondary" aria-label="Edit" onClick={(e) => this.toggleEditingField(field)}>
+                return  <IconButton style={{color: "#FF2C00"}} aria-label="Edit" onClick={(e) => this.toggleEditingField(field)}>
                             <Icon>edit</Icon>
                         </IconButton>
         } 
@@ -200,7 +200,7 @@ class HelloWorld extends Component {
         return (
             <Grid container align='center'>
                 <Grid item xl={12} lg={12} md={12} sm={12} xs={12} >
-                    <Typography variant="display2" style={{margin:'10px 0',color:'rgb(36, 48, 94)'}}>
+                    <Typography variant="display2" style={{margin:'10px 0',color:'#0096cc'}}>
                         {(this.state.editingField === 'title') ? <div>
                             Title:
                             <EditTextField  

@@ -11,7 +11,7 @@ class Menu extends Component {
 
     render() {
         return (
-              <List>
+              <List className="subMenuList">
                 {console.log('Menu Reloaded')}
                 {
                     this.props.menu[this.props.module.activeModule].map( (link) => {
