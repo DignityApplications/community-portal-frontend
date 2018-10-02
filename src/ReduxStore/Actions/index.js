@@ -66,11 +66,6 @@ function fetchUserEventReservations(id) {
   return fetch(URL, { method: 'GET', credentials: 'include' } )
      .then( response => Promise.all([response, response.json()]))
 }
-function fetchUserRoleName(role_id) {
-  const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/roles/" + role_id
-  return fetch(URL, { method: 'GET', credentials: 'include' } )
-     .then( response => Promise.all([response, response.json()]))
-}
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////// ACTIONS FOR LOGIN/LOGOUT /////////////////////////////////
@@ -158,7 +153,7 @@ export const logoutUserWithRedux = () => {
         dispatch(updateCurrentDeleteID(''))
         dispatch(updateUserLoggedIn(false))
         dispatch(updateAllUsers([]))
-        dispatch(updateActiveModule('Home'))
+        dispatch(updateActiveModule('Community'))
       }
       else {
         //dispatch(fetchPostsError())
@@ -245,17 +240,7 @@ export const updateUserWithRedux = (id, formData) => {
         if(response.status === 200){
           dispatch(updateProfileData(userData.data[0]))
           dispatch(updateUser(userData.data[0]))
-          let role_id = userData.data[0].role_id
-          return fetchUserRoleName(role_id).then(([response, userData]) =>{
-            if(response.status === 200){
-              let roleName = userData.data[0].name
-              dispatch(updateProfileDataRole(roleName))
-              dispatch(updateProfileDataLoaded(true))
-            }
-            else {
-              //dispatch(fetchPermissionsError())
-            }
-          })
+          dispatch(updateProfileDataLoaded(true))
       }
       else{
         //dispatch(fetchPostsError())

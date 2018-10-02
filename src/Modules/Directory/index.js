@@ -11,8 +11,11 @@ const mapStateToProps = (state) => {
 class Directory extends Component 
 {
     componentWillMount() {
-        let data = { role_id: 1}
-        this.props.dispatch(fetchUsersWithRedux(data))
+        // We want to initally fetch all of the members but not on future hits of the directory
+        if (this.props.view.activeView[1].View === 'Member') {
+            let data = { role_id: 1}
+            this.props.dispatch(fetchUsersWithRedux(data))
+        }
     }
     renderView(view) {
         switch(view) {

@@ -20,6 +20,8 @@ class HelloWorld extends Component {
         this.state = { 
             editingField: '',
             selectingGuests: false,
+            manageReservations: false,
+            eventReservations: []
         }
 
         this.cancelEditingField = this.cancelEditingField.bind(this)
@@ -196,6 +198,25 @@ class HelloWorld extends Component {
         }
     }
 
+
+    fetchReservations = eventID => {
+        const URL = "https://sleepy-plateau-42917.herokuapp.com/api/v1/events/" + eventID + "/event_reservations"
+        fetch(URL, { method: 'GET',  credentials: 'include' })
+        .then(async(response) => { 
+            let reservations = await response.json() 
+            console.log('Fetched: ' + JSON.stringify(reservations.data))
+            this.setState({eventReservations: reservations.data}) 
+        })
+    }
+
+    renderManageReservations = () => {
+        return (
+            this.state.eventReservations.map(reservation => {
+                return <h3 key={reservation.id}>{reservation.first_name} {reservation.last_name} </h3>
+            } )
+        )
+    }
+
     render() {
         return (
             <Grid container align='center'>
@@ -296,6 +317,24 @@ class HelloWorld extends Component {
                     }
 
                     {this.props.session.currentEvent.reservable && this.renderReservationArea()}
+
+                    {this.props.session.currentEvent.reservable && 
+                     this.props.session.currentUserPermissions.includes('UpdateAllEventReservations') &&
+                     this.state.manageReservations === false &&
+                     <Button variant="raised" onClick={(e) => 
+                        {
+                            this.fetchReservations(this.props.session.currentEvent.id)
+                            this.setState({manageReservations: true})
+                        }
+                     
+                     }>
+                        Manage Reservations
+                     </Button>
+                    }
+
+                    {this.state.manageReservations === true && this.renderManageReservations()}
+
+    
 
                     {this.props.session.currentUserPermissions.includes('DeleteEvents') && this.renderDeleteButton()}
                     

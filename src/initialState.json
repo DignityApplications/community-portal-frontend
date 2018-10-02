@@ -55,7 +55,8 @@
       ],
       "Events": [
           {"title": "Calendar", "view": "Calendar"},
-          {"title": "Add Event", "view": "AddEvent"}
+          {"title": "Add Event", "view": "AddEvent"},
+          {"title": "Reservations", "view": "Reservations"}
       ]
     },
     "view": {

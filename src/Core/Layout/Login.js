@@ -48,6 +48,7 @@ class LoggedIn extends Component {
                                         id="adornment-password" required
                                         type={this.state.showPassword ? 'text' : 'password'}
                                         value={this.state.password} onChange={this.handleChange('password')}
+                                        onKeyPress={(ev) => { if (ev.key === 'Enter') { this.handleSubmit() } }}
                                         endAdornment={
                                         <InputAdornment position="end">
                                             <Icon aria-label="Toggle password visibility" onClick={this.handleClickShowPassword}
