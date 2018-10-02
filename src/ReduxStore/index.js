@@ -6,5 +6,9 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 //Middleware can be added here
 
 export default (initialState={}) => {
-	return applyMiddleware(thunk)(createStore)(appReducer, initialState, composeWithDevTools())
+	if (process.env.NODE_ENV !== 'production') {
+		return applyMiddleware(thunk)(createStore)(appReducer, initialState, composeWithDevTools())
+	} else {
+		return applyMiddleware(thunk)(createStore)(appReducer, initialState)
+	}
 }
