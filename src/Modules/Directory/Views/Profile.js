@@ -83,125 +83,125 @@ class Profile extends Component {
     renderContent() {
         if (this.props.session.currentProfileDataLoaded) {
             let memberTypeEditPermission = 'UpdateAnyUser' + this.props.session.currentProfileData.role.name.replace(/\s/g, '')
-            return <Grid container style={{marginTop:10}}>
-                    <Paper elevation={4} style={{padding: 25}}>
-                    <Grid container style={{marginTop:10}}>
+            return  <Grid container style={{marginTop:10}}>
                         <Grid item xl={4} lg={4} md={4} sm={6} xs={12} align="center" >
-                            {(this.state.editingField === 'avatar_path') ? 
-                                <EditProfileImage
-                                    cancelEditingField={this.cancelEditingField}
-                                    completeEditingField={this.completeEditingField}
-                                    fieldToEdit='fileObject'
-                                    currentValue={this.props.session.currentProfileData.avatar_path} /> :
-                                        
-                                this.props.session.currentProfileData.avatar_path ? 
-                                    <Avatar alt={this.props.session.currentProfileData.first_name} 
-                                            src={'https://sleepy-plateau-42917.herokuapp.com' + 
-                                                this.props.session.currentProfileData.avatar_path} 
-                                            style={{width:200, height:200}}/> :
-                                    <Avatar alt='No Avatar' src='/images/avatars/no_avatar.png'
-                                            style={{width:200, height:200}} />
-                                }
-                            {this.addEditButton(memberTypeEditPermission, 'avatar_path')}
-                                <Typography variant="title" style={{marginTop:15}}>
-                                    {(this.state.editingField === 'role_id') ? 
-                                        <EditSelectField
+                            <Paper elevation={4} style={{padding: 25, marginRight:10}}>
+                                {(this.state.editingField === 'avatar_path') ? 
+                                    <EditProfileImage
+                                        cancelEditingField={this.cancelEditingField}
+                                        completeEditingField={this.completeEditingField}
+                                        fieldToEdit='fileObject'
+                                        currentValue={this.props.session.currentProfileData.avatar_path} /> :
+                                            
+                                    this.props.session.currentProfileData.avatar_path ? 
+                                        <Avatar alt={this.props.session.currentProfileData.first_name} 
+                                                src={'https://sleepy-plateau-42917.herokuapp.com' + 
+                                                    this.props.session.currentProfileData.avatar_path} 
+                                                style={{width:200, height:200}}/> :
+                                        <Avatar alt='No Avatar' src='/images/avatars/no_avatar.png'
+                                                style={{width:200, height:200}} />
+                                    }
+                                {this.addEditButton(memberTypeEditPermission, 'avatar_path')}
+                                    <Typography variant="title" style={{marginTop:15}}>
+                                        {(this.state.editingField === 'role_id') ? 
+                                            <EditSelectField
+                                                cancelEditingField={this.cancelEditingField}
+                                                completeEditingField={this.completeEditingField}
+                                                fieldToEdit='role_id' 
+                                                currentRole={this.props.session.currentProfileData.role.name}
+                                                currentValue={this.props.session.currentProfileData.role.id} /> :
+                                            <span>{this.props.session.currentProfileData.role.name}</span>
+                                        }
+                                        {this.addEditButton(memberTypeEditPermission, 'role_id')}
+                                        <br/>
+                                    </Typography>
+                                    <Typography variant="title" style={{marginTop:15}}>
+                                        {(this.state.editingField === 'date_of_birth') ? 
+                                            <EditDateTextField
+                                                cancelEditingField={this.cancelEditingField}
+                                                completeEditingField={this.completeEditingField}
+                                                fieldToEdit='date_of_birth' 
+                                                currentValue={this.props.session.currentProfileData.date_of_birth} /> :
+                                            <span>{this.formatBirthday(this.props.session.currentProfileData.date_of_birth)}</span>
+                                        }
+                                        {this.addEditButton(memberTypeEditPermission, 'date_of_birth')}
+                                    </Typography>
+
+                                <Typography variant="title">
+                                {this.props.session.currentProfileData.first_name} {this.props.session.currentProfileData.last_name}
+                                </Typography>
+
+                                <Divider />
+
+                                <Typography variant="subheading" align="left">
+                                    <Icon style={{margin: "5px 5px -5px 0"}}>phone_iphone</Icon>
+                                    {(this.state.editingField === 'cell_phone_number') ? 
+                                        <EditTextField  
                                             cancelEditingField={this.cancelEditingField}
                                             completeEditingField={this.completeEditingField}
-                                            fieldToEdit='role_id' 
-                                            currentRole={this.props.session.currentProfileData.role.name}
-                                            currentValue={this.props.session.currentProfileData.role.id} /> :
-                                        <span>{this.props.session.currentProfileData.role.name}</span>
+                                            fieldToEdit='cell_phone_number' 
+                                            currentValue={this.props.session.currentProfileData.cell_phone_number} /> :
+                                        <a href={`tel:${this.props.session.currentProfileData.cell_phone_number}`}>{this.props.session.currentProfileData.cell_phone_number}</a>
+                                        
                                     }
-                                    {this.addEditButton(memberTypeEditPermission, 'role_id')}
+                                    {this.addEditButton(memberTypeEditPermission, 'cell_phone_number')}
                                     <br/>
                                 </Typography>
-                                <Typography variant="title" style={{marginTop:15}}>
-                                    {(this.state.editingField === 'date_of_birth') ? 
-                                        <EditDateTextField
+
+                                <Typography variant="subheading" align="left">
+                                    <Icon style={{margin: "5px 5px -5px 0"}}>phone</Icon>
+                                    {(this.state.editingField === 'home_phone_number') ? 
+                                        <EditTextField  
                                             cancelEditingField={this.cancelEditingField}
                                             completeEditingField={this.completeEditingField}
-                                            fieldToEdit='date_of_birth' 
-                                            currentValue={this.props.session.currentProfileData.date_of_birth} /> :
-                                        <span>{this.formatBirthday(this.props.session.currentProfileData.date_of_birth)}</span>
+                                            fieldToEdit='home_phone_number' 
+                                            currentValue={this.props.session.currentProfileData.home_phone_number} /> :
+                                        <a href={`tel:${this.props.session.currentProfileData.home_phone_number}`}>{this.props.session.currentProfileData.home_phone_number}</a>
+                                        
                                     }
-                                    {this.addEditButton(memberTypeEditPermission, 'date_of_birth')}
+                                    {this.addEditButton(memberTypeEditPermission, 'home_phone_number')}
+                                    <br/>
                                 </Typography>
+
+                                <Typography variant="subheading" align="left" >
+                                    <Icon style={{margin: "5px 5px -5px 0"}}>email</Icon>
+                                    {(this.state.editingField === 'email') ? 
+                                        <EditTextField  
+                                            cancelEditingField={this.cancelEditingField}
+                                            completeEditingField={this.completeEditingField}
+                                            fieldToEdit='email' 
+                                            currentValue={this.props.session.currentProfileData.email} /> :
+                                        <a href={`mailto:${this.props.session.currentProfileData.email}`}>{this.props.session.currentProfileData.email}</a>
+                                        
+                                    }
+                                    {this.addEditButton(memberTypeEditPermission, 'email')}
+                                    <br/>
+                                </Typography>
+
+                                <Typography variant="subheading" align="left">
+                                    <Icon style={{margin: "5px 5px -5px 0"}}>location_on</Icon>
+                                    {(this.state.editingField === 'current_address') ? 
+                                        <EditTextField  
+                                            cancelEditingField={this.cancelEditingField}
+                                            completeEditingField={this.completeEditingField}
+                                            fieldToEdit='current_address' 
+                                            currentValue={this.props.session.currentProfileData.current_address} /> :
+                                        <a href={this.formatAddressURL(this.props.session.currentProfileData.current_address)} target="_blank">
+                                            {this.props.session.currentProfileData.current_address}</a>
+                                        
+                                    }
+                                    {this.addEditButton(memberTypeEditPermission, 'current_address')}
+                                    <br/>
+                                </Typography>
+                            </Paper>
                         </Grid>
-                    
-                        <Grid item xl={8} lg={8} md={8} sm={6} xs={12} style={{textAlign: 'left'}}>
-                            <Typography variant="display2" style={{textDecoration:'underline'}}>
-                                {this.props.session.currentProfileData.first_name} {this.props.session.currentProfileData.last_name}
+                    <Grid item xl={8} lg={8} md={8} sm={6} xs={12} style={{textAlign: 'left'}}>
+                        <Paper elevation={4} style={{padding: 25, marginLeft: 10}}>
+                            <Typography variant="title" style={{marginTop: 10, marginBottom: 10}}>
+                                Summary
                             </Typography>
-                            <Typography variant="title" style={{marginTop:15}}>
-                                <span>Cell: </span>
-                                {(this.state.editingField === 'cell_phone_number') ? 
-                                    <EditTextField  
-                                        cancelEditingField={this.cancelEditingField}
-                                        completeEditingField={this.completeEditingField}
-                                        fieldToEdit='cell_phone_number' 
-                                        currentValue={this.props.session.currentProfileData.cell_phone_number} /> :
-                                    <a href={`tel:${this.props.session.currentProfileData.cell_phone_number}`}>{this.props.session.currentProfileData.cell_phone_number}</a>
-                                    
-                                }
-                                {this.addEditButton(memberTypeEditPermission, 'cell_phone_number')}
-                                <br/>
-                            </Typography>
-
-                            <Typography variant="title" style={{marginTop:15}}>
-                                <span>Home: </span>
-                                {(this.state.editingField === 'home_phone_number') ? 
-                                    <EditTextField  
-                                        cancelEditingField={this.cancelEditingField}
-                                        completeEditingField={this.completeEditingField}
-                                        fieldToEdit='home_phone_number' 
-                                        currentValue={this.props.session.currentProfileData.home_phone_number} /> :
-                                    <a href={`tel:${this.props.session.currentProfileData.home_phone_number}`}>{this.props.session.currentProfileData.home_phone_number}</a>
-                                    
-                                }
-                                {this.addEditButton(memberTypeEditPermission, 'home_phone_number')}
-                                <br/>
-                            </Typography>
-
-                            <Typography variant="title" style={{marginTop:15}}>
-                                <span>Email: </span>
-                                {(this.state.editingField === 'email') ? 
-                                    <EditTextField  
-                                        cancelEditingField={this.cancelEditingField}
-                                        completeEditingField={this.completeEditingField}
-                                        fieldToEdit='email' 
-                                        currentValue={this.props.session.currentProfileData.email} /> :
-                                    <a href={`mailto:${this.props.session.currentProfileData.email}`}>{this.props.session.currentProfileData.email}</a>
-                                    
-                                }
-                                {this.addEditButton(memberTypeEditPermission, 'email')}
-                                <br/>
-                            </Typography>
-
-                            <Typography variant="title" style={{marginTop:15}}>
-                                <span>Address: </span>
-                                {(this.state.editingField === 'current_address') ? 
-                                    <EditTextField  
-                                        cancelEditingField={this.cancelEditingField}
-                                        completeEditingField={this.completeEditingField}
-                                        fieldToEdit='current_address' 
-                                        currentValue={this.props.session.currentProfileData.current_address} /> :
-                                    <a href={this.formatAddressURL(this.props.session.currentProfileData.current_address)} target="_blank">
-                                        {this.props.session.currentProfileData.current_address}</a>
-                                    
-                                }
-                                {this.addEditButton(memberTypeEditPermission, 'current_address')}
-                                <br/>
-                            </Typography>
-                        </Grid>
-
-                        
-
-                        <Grid item xl={1} lg={1} md={1}></Grid>
-                        <Grid item xl={10} lg={10} md={10} sm={12} xs={12}>
                             <Divider />
-                            <Typography variant="title" style={{marginTop:15}}>
-                                <span>About: </span>
+                            <Typography variant="title" style={{marginTop:10}}>
                                 {(this.state.editingField === 'bio') ? 
                                     <EditTextArea
                                         cancelEditingField={this.cancelEditingField}
@@ -212,12 +212,10 @@ class Profile extends Component {
                                     
                                 }
                                 {this.addEditButton(memberTypeEditPermission, 'bio')}
-                            </Typography>            
-                        </Grid>
-                        <Grid item xl={1} lg={1} md={1}></Grid>
-                        </Grid>
-                    </Paper>
-                  </Grid>
+                            </Typography>      
+                        </Paper>  
+                    </Grid>
+                </Grid>
         }
     }
 
